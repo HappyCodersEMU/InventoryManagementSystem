@@ -1,0 +1,2 @@
+register page is added
+now it is working
