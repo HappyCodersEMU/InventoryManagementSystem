@@ -1,11 +1,18 @@
-import React from 'react'
+import React, {useState} from  'react'
+import {BrowserRouter as Router} from 'react-router-dom'
+import {useRoutes} from "./routes";
 
 function App() {
-  return (
-    <div>
-      <h1>Hello World</h1>
-    </div>
-  );
+
+    const routes = useRoutes(true)
+
+    return (
+        <Router>
+            <div>
+                {routes}
+            </div>
+        </Router>
+    )
 }
 
 export default App
