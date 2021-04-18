@@ -1,39 +1,38 @@
 const { Router } = require('express')
 const router = Router()
-const jwt = require('jsonwebtoken');
-const mongoose = require("mongoose");
-
-const User = require("../models/user");
+const jwt = require('jsonwebtoken')
+const mongoose = require('mongoose')
+const bcrypt = require('bcryptjs')
+const User = require('../models/user')
 
 // /api/auth/register
-router.post('/register', (req, res) => {
-    const user = new User({
-        _id: new mongoose.Types.ObjectId(),
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password,
-        role: req.body.role
-    });
+router.post('/register', async (req, res) => {
 
-    user.save()
-        .then((result) => {
-            res.status(201).json({
-                message: "User created",
-                createdUser: {
-                    _id: result._id,
-                    email: result.email,
-                    name: result.name,
-                    password: result.password,
-                    role: result.role,
-                },
-            });
+    try {
+        const {email, name, surname, password} = req.body
+        const checkCandidate = await User.findOne({email})
+        console.log(email, name, surname, password)
+        if (checkCandidate) {
+            return res.status(400).json({message: 'This e-mail already in use'})
+        }
+        const hashedPassword = await bcrypt.hash(password, 12)
+        const user = new User({
+            email,
+            name,
+            surname,
+            password
         })
-        .catch((err) => {
-            console.log(err);
-            res.status(500).json({
-                error: err,
-            });
-        });
+
+        try {
+            await user.save()
+        } catch (e) {}
+        res.status(201).json({message: 'User has been created'})
+
+    } catch (e) {
+        console.log(e)
+        res.status(500).json({ message: 'Something went wrong, try again' })
+    }
+
 })
 
 
