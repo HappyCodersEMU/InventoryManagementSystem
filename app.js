@@ -9,9 +9,10 @@ require("dotenv").config();
 
 
 try {
-  
+
   // Routes
   const productRoutes = require("./api/routes/products");
+  const authRoutes = require("./api/routes/auth");
 
 
   mongoose.connect(
@@ -25,6 +26,8 @@ try {
 
   // Run logging middleware before other routes
   app.use(morgan("dev"));
+  app.use(bodyParser.urlencoded({ extended: false })); // see docs
+  app.use(bodyParser.json());
 
   // CORS
   app.use((req, res, next) => {
@@ -45,6 +48,7 @@ try {
 
   // Routes which should handle requests
   app.use("/api/products", productRoutes);
+  app.use("/api/auth", authRoutes);
 
 
 
