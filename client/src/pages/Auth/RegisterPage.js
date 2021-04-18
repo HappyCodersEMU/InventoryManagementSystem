@@ -1,7 +1,9 @@
 import React, {useState} from 'react'
+import {useHttp} from "../../hooks/http.hook";
 
 export const RegisterPage = () => {
 
+    const { loading, request, error, clearError } = useHttp()
     const [form, setForm] = useState({
         email: '',
         name: '',
@@ -15,14 +17,7 @@ export const RegisterPage = () => {
 
     const registerHandler = async () => {
         try {
-            const url = 'api/auth/register'
-            const method = 'POST'
-            const body = JSON.stringify({...form})
-            const headers = {}
-            headers['content-type'] = 'application/json'
-
-            const response = await fetch(url, { method, body, headers })
-            const data = await response.json()
+            const data = await request('/api/auth/register', 'POST', {...form})
         } catch (e) {}
     }
 
@@ -35,7 +30,7 @@ export const RegisterPage = () => {
                             Sign Up
                         </div>
                         <div className="login-input-group">
-                            <label className="login-input-label" for="email">e-mail</label>
+                            <label className="login-input-label" htmlFor="email">e-mail</label>
                             <input className="login-input-field"
                                    placeholder="Enter email"
                                    name="email"
