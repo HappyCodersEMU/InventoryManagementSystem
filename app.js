@@ -10,9 +10,11 @@ require("dotenv").config();
 
 try {
 
+  app.use(express.json({ extended: true }))
   // Routes
   const productRoutes = require("./api/routes/products");
   const authRoutes = require("./api/routes/auth");
+
 
 
   mongoose.connect(

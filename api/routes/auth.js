@@ -1,88 +1,105 @@
 const { Router } = require('express')
 const router = Router()
-const jwt = require('jsonwebtoken');
-const mongoose = require("mongoose");
-
-const User = require("../models/user");
+const jwt = require('jsonwebtoken')
+const mongoose = require('mongoose')
+const bcrypt = require('bcryptjs')
+const User = require('../models/user')
 
 // /api/auth/register
-router.post('/register', (req, res) => {
-    const user = new User({
-        _id: new mongoose.Types.ObjectId(),
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password,
-        role: req.body.role
-    });
+router.post('/register', async (req, res) => {
 
-    user.save()
-        .then((result) => {
-            res.status(201).json({
-                message: "User created",
-                createdUser: {
-                    _id: result._id,
-                    email: result.email,
-                    name: result.name,
-                    password: result.password,
-                    role: result.role,
-                },
-            });
+    try {
+        const {email, name, surname, password} = req.body
+        const checkCandidate = await User.findOne({email})
+        if (checkCandidate) {
+            return res.status(400).json({message: 'This e-mail already in use'})
+        }
+        const hashedPassword = await bcrypt.hash(password, 12)
+        const user = new User({
+            email,
+            name,
+            surname,
+            password: hashedPassword
         })
-        .catch((err) => {
-            console.log(err);
-            res.status(500).json({
-                error: err,
-            });
-        });
+
+        await user.save()
+
+        res.status(201).json({message: 'User has been created'})
+
+    } catch (e) {
+        console.log(e)
+        res.status(500).json({ message: 'Something went wrong, try again' })
+    }
+
 })
 
-
-router.post('/testToken', verifyToken, (req, res) => {
-    jwt.verify(req.token, 'secretkey', (err, authData) => {
-        if (err) {
-            res.sendStatus(403);
-        } else {
-            res.json({
-                message: 'Post created...',
-                authData
-            });
-        }
-    });
-});
 
 // /api/auth/login
-router.get('/login', (req, res) => {
-    // Mock user
-    const user = {
-        id: 1,
-        username: 'Dovud',
-        email: 'dinomov@gmail.com'
-    }
+router.post(
+    '/login',
+    // [
+    //     check('email', 'Enter correct email').normalizeEmail().isEmail(),
+    // ],
+    async (req, res) => {
+        try {
+            // const errors = validationResult(req)
+            // if (!errors.isEmpty()) {
+            //     return res.status(400).json({ errors: errors.array(), message: 'Wrong data'})
+            // }
+            const {email, password} = req.body
+            const user = await User.findOne({ email })
+            if (!user) {
+                return res.status(400).json({ message: "User not found"})
+            }
+            const isMatch = await bcrypt.compare(password, user.password)
+            if (!isMatch) {
+                return res.status(400).json({ message: "Wrong password, try again" })
+            }
+            const token = jwt.sign(
+                { userId: user.id },
+                'jwtSecret',
+                { expiresIn: '1h' }
+            )
 
-    jwt.sign({ user }, 'secretkey', { expiresIn: '24h' }, (err, token) => {
-        res.json({
-            token
-        });
-    });
-})
+            res.json({ token, userId: user.id })
+
+        } catch (e) {
+            res.status(500).json({ message: 'Something went wrong, try again' })
+        }
+    })
 
 
-function verifyToken (req, res, next) {
-    const bearerHeader = req.headers['authorization'];
-    // Check if bearer is undefined
-    if (typeof bearerHeader !== 'undefined') {
-        // Split at the space
-        const bearer = bearerHeader.split(' ');
-        // Get token from array
-        const bearerToken = bearer[1];
-        // Set the token
-        req.token = bearerToken;
-        // Next middleware
-        next();
-    } else {
-        res.sendStatus(403);
-    }
-}
+
+// router.post('/testToken', verifyToken, (req, res) => {
+//     jwt.verify(req.token, 'secretkey', (err, authData) => {
+//         if (err) {
+//             res.sendStatus(403);
+//         } else {
+//             res.json({
+//                 message: 'Post created...',
+//                 authData
+//             });
+//         }
+//     });
+// });
+//
+//
+// function verifyToken (req, res, next) {
+//     const bearerHeader = req.headers['authorization'];
+//     // Check if bearer is undefined
+//     if (typeof bearerHeader !== 'undefined') {
+//         // Split at the space
+//         const bearer = bearerHeader.split(' ');
+//         // Get token from array
+//         const bearerToken = bearer[1];
+//         // Set the token
+//         req.token = bearerToken;
+//         // Next middleware
+//         next();
+//     } else {
+//         res.sendStatus(403);
+//     }
+// }
 
 
 module.exports = router;
