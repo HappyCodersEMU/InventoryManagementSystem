@@ -11,7 +11,6 @@ router.post('/register', async (req, res) => {
     try {
         const {email, name, surname, password} = req.body
         const checkCandidate = await User.findOne({email})
-        console.log(email, name, surname, password)
         if (checkCandidate) {
             return res.status(400).json({message: 'This e-mail already in use'})
         }
@@ -20,12 +19,11 @@ router.post('/register', async (req, res) => {
             email,
             name,
             surname,
-            password
+            password: hashedPassword
         })
 
-        try {
-            await user.save()
-        } catch (e) {}
+        await user.save()
+
         res.status(201).json({message: 'User has been created'})
 
     } catch (e) {
