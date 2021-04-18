@@ -9,6 +9,10 @@ require("dotenv").config();
 
 
 try {
+  
+  // Routes
+  const productRoutes = require("./api/routes/products");
+
 
   mongoose.connect(
     process.env.MONGODB_URI,
@@ -39,7 +43,10 @@ try {
     next();
   });
 
- 
+  // Routes which should handle requests
+  app.use("/api/products", productRoutes);
+
+
 
 
   // Serve static assets if in production
