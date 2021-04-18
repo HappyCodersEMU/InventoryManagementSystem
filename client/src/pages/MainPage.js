@@ -19,11 +19,7 @@ export const MainPage = () => {
                     </div>
                 </header>
                 <div className="container">
-                    <div className="column">
-                    </div>
                     <div className="main">
-                    </div>
-                    <div className="column">
                     </div>
                 </div>
             </div>

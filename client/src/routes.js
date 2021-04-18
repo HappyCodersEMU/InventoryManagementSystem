@@ -22,5 +22,13 @@ export const useRoutes = isAuthenticated => {
             </Switch>
         )
     }
+    return (
+        <Switch>
+            <Route path="/main">
+                <MainPage />
+            </Route>
+            <Redirect to="/main" />
+        </Switch>
+    )
 
 }
