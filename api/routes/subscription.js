@@ -42,11 +42,11 @@ router.get('/', async (req, res) => {
 
 router.get('/search', async (req, res) => {
     try {
-        const params = req.query
-        
+        const name = req.query.name
+
         // TODO: make case-insensative search 
         const data = await Subscription.
-            find({ name: params.name }).
+            find({ name }).
             select("_id name transPerMonth numProducts numMembers").exec()
 
         res.status(201).json(data)
