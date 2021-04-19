@@ -1,7 +1,6 @@
 const { Router } = require('express')
 const router = Router()
 const mongoose = require('mongoose')
-const url = require('url');
 
 const Subscription = require('../models/subscription')
 
@@ -30,7 +29,8 @@ router.post('/', async (req, res) => {
 
 router.get('/', async (req, res) => {
     try {
-        const data = await Subscription.find().select("_id name transPerMonth numProducts numMembers").exec()
+        const data = await Subscription.find().
+            select("_id name transPerMonth numProducts numMembers").exec()
 
         res.status(201).json(data)
     } catch (e) {
@@ -39,12 +39,28 @@ router.get('/', async (req, res) => {
     }
 })
 
+
 router.get('/search', async (req, res) => {
     try {
         const params = req.query
-
+        
+        // TODO: make case-insensative search 
         const data = await Subscription.
             find({ name: params.name }).
+            select("_id name transPerMonth numProducts numMembers").exec()
+
+        res.status(201).json(data)
+    } catch (e) {
+        console.log(e)
+        res.status(500).json({ message: 'Something went wrong, try again' })
+    }
+})
+
+
+router.get('/:id', async (req, res) => {
+    try {
+        const data = await Subscription.
+            findById(req.params.id).
             select("_id name transPerMonth numProducts numMembers").exec()
 
         res.status(201).json(data)
