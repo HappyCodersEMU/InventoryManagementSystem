@@ -27,3 +27,32 @@ router.post('/', async (req, res) => {
         res.status(500).json({ message: 'Something went wrong, try again' })
     }
 })
+
+router.get('/', async (req, res) => {
+    try {
+        const data = await Subscription.find().select("_id name transPerMonth numProducts numMembers").exec()
+
+        res.status(201).json(data)
+    } catch (e) {
+        console.log(e)
+        res.status(500).json({ message: 'Something went wrong, try again' })
+    }
+})
+
+router.get('/search', async (req, res) => {
+    try {
+        const params = req.query
+
+        const data = await Subscription.
+            find({ name: params.name }).
+            select("_id name transPerMonth numProducts numMembers").exec()
+
+        res.status(201).json(data)
+    } catch (e) {
+        console.log(e)
+        res.status(500).json({ message: 'Something went wrong, try again' })
+    }
+})
+
+
+module.exports = router;
