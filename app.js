@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 const morgan = require("morgan"); // Middleware for logs
-const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const path = require("path");
 
@@ -14,6 +13,8 @@ try {
   // Routes
   const productRoutes = require("./api/routes/products");
   const authRoutes = require("./api/routes/auth");
+  const companyRoutes = require("./api/routes/company");
+  const subscriptionRoutes = require("./api/routes/subscription");
 
 
 
@@ -28,8 +29,6 @@ try {
 
   // Run logging middleware before other routes
   app.use(morgan("dev"));
-  app.use(bodyParser.urlencoded({ extended: false })); // see docs
-  app.use(bodyParser.json());
 
   // CORS
   app.use((req, res, next) => {
@@ -51,6 +50,8 @@ try {
   // Routes which should handle requests
   app.use("/api/products", productRoutes);
   app.use("/api/auth", authRoutes);
+  app.use("/api/company", companyRoutes);
+  app.use("/api/subscription", subscriptionRoutes);
 
 
 
