@@ -1,3 +1,4 @@
+const {check, validationResult} = require('express-validator')
 const { Router } = require('express')
 const router = Router()
 const jwt = require('jsonwebtoken')
@@ -5,11 +6,29 @@ const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 const User = require('../models/user')
 
+
 // /api/auth/register
-router.post('/register', async (req, res) => {
+router.post('/register',
+    [
+        check('email', 'Wrong email').isEmail(),
+        check('name', 'Enter name').notEmpty(),
+        check('surname', 'Enter surname').notEmpty(),
+        check('password', 'Minimum 6 symbols').isLength({min: 6})
+    ],
+    async (req, res) => {
 
     try {
-        const {email, name, surname, password} = req.body
+
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array(), message: 'Incorrect data'})
+        }
+        const {email, name, surname, password, conPassword} = req.body
+
+        if (password !== conPassword) {
+            return res.status(400).json({message: 'Password mismatch'})
+        }
+
         const checkCandidate = await User.findOne({email})
         if (checkCandidate) {
             return res.status(400).json({message: 'This e-mail already in use'})
@@ -23,8 +42,7 @@ router.post('/register', async (req, res) => {
         })
 
         await user.save()
-
-        res.status(201).json({message: 'User has been created'})
+        res.status(201).json({message: 'User has been created', status: 'created'})
 
     } catch (e) {
         console.log(e)
@@ -37,15 +55,15 @@ router.post('/register', async (req, res) => {
 // /api/auth/login
 router.post(
     '/login',
-    // [
-    //     check('email', 'Enter correct email').normalizeEmail().isEmail(),
-    // ],
+    [
+        check('email', 'Enter correct email').normalizeEmail().isEmail(),
+    ],
     async (req, res) => {
         try {
-            // const errors = validationResult(req)
-            // if (!errors.isEmpty()) {
-            //     return res.status(400).json({ errors: errors.array(), message: 'Wrong data'})
-            // }
+            const errors = validationResult(req)
+            if (!errors.isEmpty()) {
+                return res.status(400).json({ errors: errors.array(), message: 'Incorrect data'})
+            }
             const {email, password} = req.body
             const user = await User.findOne({ email })
             if (!user) {

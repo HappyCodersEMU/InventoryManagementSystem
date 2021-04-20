@@ -1,14 +1,24 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import {useHttp} from '../../hooks/http.hook';
 import {AuthContext} from '../../context/auth.context';
+import {useMessage} from "../../hooks/message.hook";
 
 export const LoginPage = () => {
     const auth = useContext(AuthContext)
-    const { loading, request, error, clearError } = useHttp()
+    const { loading, request, message, clearMessage } = useHttp()
     const [form, setForm] = useState({
         email: '',
         password: ''
     })
+
+    const alertMessage = useMessage()
+
+    useEffect(() => {
+        if (message) {
+            alertMessage(message, document.querySelector('.errorHandler'))
+        }
+        clearMessage()
+    }, [message, alertMessage, clearMessage])
 
     const changeHandler = event => {
         setForm({...form, [event.target.name]: event.target.value })
@@ -27,7 +37,7 @@ export const LoginPage = () => {
                 <div className="login-container">
                     <div className="login-box">
                         <div className="login-logo-box">
-                            Sign Up
+                            Log In
                         </div>
                         <div className="login-input-group">
                             <label className="login-input-label" htmlFor="email">e-mail</label>
@@ -49,10 +59,10 @@ export const LoginPage = () => {
                                    onChange={changeHandler}
                             />
                         </div>
-
+                        <div className="errorHandler"></div>
                         <div className="login-input-group">
-                            <button className="login-button" onClick={loginHandler} >
-                                Sing Up</button>
+                            <button className="login-button" disabled={loading} onClick={loginHandler} >
+                                Log In</button>
                         </div>
                     </div>
                 </div>

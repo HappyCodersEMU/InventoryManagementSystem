@@ -1,15 +1,26 @@
-import React, {useState} from 'react'
-import {useHttp} from "../../hooks/http.hook";
+import React, {useEffect, useState} from 'react'
+import {useHttp} from "../../hooks/http.hook"
+import {useMessage} from "../../hooks/message.hook"
 
 export const RegisterPage = () => {
 
-    const { loading, request, error, clearError } = useHttp()
+    const { loading, request, message, clearMessage } = useHttp()
     const [form, setForm] = useState({
         email: '',
         name: '',
         surname: '',
-        password: ''
+        password: '',
+        conPassword: ''
     })
+
+    const alertMessage = useMessage()
+
+    useEffect(() => {
+        if (message) {
+            alertMessage(message, document.querySelector('.errorHandler'))
+        }
+        clearMessage()
+    }, [message, alertMessage, clearMessage])
 
     const changeHandler = event => {
         setForm({...form, [event.target.name]: event.target.value })
@@ -20,6 +31,7 @@ export const RegisterPage = () => {
             const data = await request('/api/auth/register', 'POST', {...form})
         } catch (e) {}
     }
+
 
     return (
         <div>
@@ -73,10 +85,12 @@ export const RegisterPage = () => {
                                    name="conPassword"
                                    id="conPassword"
                                    type="password"
+                                   onChange={changeHandler}
                             />
                         </div>
+                        <div className="errorHandler"></div>
                         <div className="login-input-group">
-                            <button className="login-button" onClick={registerHandler} >
+                            <button className="login-button" disabled={loading} onClick={registerHandler} >
                                 Sing Up</button>
                         </div>
                     </div>
