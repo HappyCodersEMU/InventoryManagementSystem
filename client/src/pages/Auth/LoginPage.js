@@ -31,6 +31,7 @@ export const LoginPage = () => {
         } catch (e) {}
     }
 
+
     return (
         <div>
             <div className="login-background">

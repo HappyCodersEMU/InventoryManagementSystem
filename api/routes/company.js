@@ -2,17 +2,18 @@ const { Router } = require('express')
 const router = Router()
 
 const Company = require('../models/company')
+const Subscription = require('../models/subscription')
 
 router.post('/', async (req, res) => {
-    try {
-        const { name, subscriptionID } = req.body
 
+    try {
+        const { companyName, planName } = req.body
+        const plan = await Subscription.findOne({ name: planName })
         const company = new Company({
-            name,
-            subscriptionID: subscriptionID
+            name: companyName,
+            subscriptionID: plan.get('_id')
         })
         await company.save()
-
         res.status(201).json({ message: 'Company has been added' })
 
     } catch (e) {
@@ -25,7 +26,6 @@ router.post('/', async (req, res) => {
 router.get('/', async (req, res) => {
     try {
         const data = await Company.find().select("_id name subscriptionID").populate('subscriptionID', '-__v').exec()
-
         res.status(201).json(data)
     } catch (e) {
         console.log(e)

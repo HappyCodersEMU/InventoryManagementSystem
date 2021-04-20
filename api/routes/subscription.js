@@ -6,11 +6,12 @@ const Subscription = require('../models/subscription')
 
 router.post('/', async (req, res) => {
     try {
-        const { transPerMonth, numProducts, numMembers, description, name } = req.body
+        const { transPerMonth, numProducts, numMembers, description, price, name } = req.body
 
         const subscription = new Subscription({
             _id: new mongoose.Types.ObjectId(),
             name,
+            price,
             description,
             transPerMonth,
             numProducts,
