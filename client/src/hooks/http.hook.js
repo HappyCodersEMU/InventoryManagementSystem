@@ -18,7 +18,7 @@ export const useHttp = () => {
             const data = await response.json()
 
             setMessage(data)
-            if (data.status) {
+            if (data.status === 'created') {
                 window.location.href = '/login'
             }
             setLoading(false)

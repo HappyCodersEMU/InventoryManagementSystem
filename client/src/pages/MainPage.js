@@ -1,10 +1,8 @@
 import React, {useContext} from 'react'
 import stylesheet from '../stylesheet.css'
 import {AuthContext} from "../context/auth.context";
-import {useHttp} from "../hooks/http.hook";
 
 export const MainPage = () => {
-    const { loading, request, error, clearError } = useHttp()
     const auth = useContext(AuthContext)
 
     const logoutHandler = async () => {
@@ -12,7 +10,6 @@ export const MainPage = () => {
             auth.logout()
         } catch (e) {}
     }
-
 
     return (
         <div>
