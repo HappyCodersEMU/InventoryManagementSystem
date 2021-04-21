@@ -21,8 +21,9 @@ router.post('/register',
 
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array(), message: 'Incorrect data'})
+            return res.status(400).json({ errors: errors.array(), message: errors.array()[0].msg})
         }
+
         const {email, name, surname, password, conPassword} = req.body
 
         if (password !== conPassword) {
@@ -56,13 +57,13 @@ router.post('/register',
 router.post(
     '/login',
     [
-        check('email', 'Enter correct email').normalizeEmail().isEmail(),
+        check('email', 'Invalid email').normalizeEmail().isEmail(),
     ],
     async (req, res) => {
         try {
             const errors = validationResult(req)
             if (!errors.isEmpty()) {
-                return res.status(400).json({ errors: errors.array(), message: 'Incorrect data'})
+                return res.status(400).json({ errors: errors.array(), message: errors.array()[0].msg})
             }
             const {email, password} = req.body
             const user = await User.findOne({ email })
@@ -71,7 +72,7 @@ router.post(
             }
             const isMatch = await bcrypt.compare(password, user.password)
             if (!isMatch) {
-                return res.status(400).json({ message: "Wrong password, try again" })
+                return res.status(400).json({ message: "Password or email is incorrect" })
             }
             const token = jwt.sign(
                 { userId: user.id },
