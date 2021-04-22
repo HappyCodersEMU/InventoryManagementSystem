@@ -1,11 +1,12 @@
-import React, {useEffect, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import {useHttp} from "../hooks/http.hook";
-import {load} from "dotenv";
 import {Loader} from "./components/Loader";
+import {AuthContext} from "../context/auth.context";
 
-export const OrganizationPage = () => {
+export const OrganizationCreatePage = () => {
 
-    const {loading, request, message, clearMessage} = useHttp()
+    const auth = useContext(AuthContext)
+    const {loading, request} = useHttp()
     const [dataState, setDataState] = useState(null)
     const [data, setData] = useState(null)
     const [companyName, setCompanyName] = useState('')
@@ -29,10 +30,20 @@ export const OrganizationPage = () => {
     const createCompanyHandler = async (event) => {
         try {
             const planName = event.target.getAttribute('value')
-            const req = await request('/api/company', 'POST', {companyName, planName})
-        } catch (e) {
+            if (companyName.length < 3) {
+                console.log("Length of company name should be more then 3 symbols")
+                return
+            }
+            const userId = auth.userId
+            const req = await request('/api/company/create', 'POST', {companyName, planName, userId})
+            auth.setUserCompanyState(req.hasCompany)
+        } catch (e) {}
+    }
 
-        }
+    const logoutHandler = async () => {
+        try {
+            auth.logout()
+        } catch (e) {}
     }
 
     if (!dataState) {
@@ -98,9 +109,9 @@ export const OrganizationPage = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="organization-enroll-box">
-
-                    </div>
+                    <button onClick={logoutHandler}>
+                        Log out
+                    </button>
                 </div>
             </div>
         </div>

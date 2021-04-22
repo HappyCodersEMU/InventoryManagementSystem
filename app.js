@@ -15,8 +15,7 @@ try {
   const authRoutes = require("./api/routes/auth");
   const companyRoutes = require("./api/routes/company");
   const subscriptionRoutes = require("./api/routes/subscription");
-
-
+  const roleRoutes = require("./api/routes/role");
 
   mongoose.connect(
     process.env.MONGODB_URI,
@@ -52,8 +51,7 @@ try {
   app.use("/api/auth", authRoutes);
   app.use("/api/company", companyRoutes);
   app.use("/api/subscription", subscriptionRoutes);
-
-
+  app.use("/api/role", roleRoutes);
 
 
   // Serve static assets if in production

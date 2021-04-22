@@ -3,16 +3,26 @@ import {useState, useCallback, useEffect} from 'react'
 const storageName = 'userData'
 
 export const useAuth = () => {
-    const [token, setToken] = useState(null)
     const [ready, setReady] = useState(null)
+    const [token, setToken] = useState(null)
     const [userId, setUserId] = useState(null)
+    const [hasCompany, setHasCompany] = useState(null)
 
-    const login = useCallback((jwtToken, id) => {
+    const login = useCallback((jwtToken, id, hasCompanyState) => {
         setToken(jwtToken)
         setUserId(id)
+        setHasCompany(hasCompanyState)
 
         localStorage.setItem(storageName, JSON.stringify({
-            userId: id, token: jwtToken
+            userId: id, token: jwtToken, hasCompany: hasCompany
+        }))
+    }, [])
+
+    const setUserCompanyState = useCallback((hasCompanyState) => {
+        setHasCompany(hasCompanyState)
+
+        localStorage.setItem(storageName, JSON.stringify({
+            hasCompany: hasCompany
         }))
     }, [])
 
@@ -30,5 +40,5 @@ export const useAuth = () => {
         setReady(true)
     }, [login])
 
-    return { login, logout, token, userId, ready }
+    return { login, logout, token, userId, ready, hasCompany, setUserCompanyState }
 }

@@ -3,12 +3,12 @@ import {Route, Switch, Redirect} from "react-router-dom";
 import {AccountPage} from "./pages/AccountPage";
 import {MainPage} from "./pages/MainPage";
 import {DetailPage} from "./pages/DetailPage";
-import {OrganizationPage} from "./pages/OrganizationPage";
+import {OrganizationCreatePage} from "./pages/OrganizationCreatePage";
 import {LoginPage} from "./pages/Auth/LoginPage";
 import {RegisterPage} from "./pages/Auth/RegisterPage";
 
 
-export const useRoutes = isAuthenticated => {
+export const useRoutes = (isAuthenticated, hasCompany) => {
     if (!isAuthenticated) {
         return (
             <Switch>
@@ -22,13 +22,20 @@ export const useRoutes = isAuthenticated => {
             </Switch>
         )
     }
+    if (!hasCompany) {
+        return (
+            <Switch>
+                <Route path="/organization/create" exact>
+                    <OrganizationCreatePage />
+                </Route>
+                <Redirect to="/organization/create" />
+            </Switch>
+        )
+    }
     return (
         <Switch>
             <Route path="/main" exact>
                 <MainPage />
-            </Route>
-            <Route path="/organization/create" exact>
-                <OrganizationPage />
             </Route>
             <Redirect to="/main" />
         </Switch>
