@@ -27,7 +27,7 @@ router.post('/register',
         const {email, name, surname, password, conPassword} = req.body
 
         if (password !== conPassword) {
-            return res.status(400).json({message: 'Password mismatch'})
+            return res.status(400).json({message: 'Passwords do not match'})
         }
 
         const checkCandidate = await User.findOne({email})
@@ -57,7 +57,7 @@ router.post('/register',
 router.post(
     '/login',
     [
-        check('email', 'Invalid email').normalizeEmail().isEmail(),
+        check('email', 'Password or email is incorrect').normalizeEmail().isEmail(),
     ],
     async (req, res) => {
         try {

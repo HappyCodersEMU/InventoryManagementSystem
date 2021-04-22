@@ -1,7 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react'
 import {useHttp} from '../../hooks/http.hook';
 import {AuthContext} from '../../context/auth.context';
-import {useMessage} from "../../hooks/message.hook";
 
 export const LoginPage = () => {
     const auth = useContext(AuthContext)
@@ -11,14 +10,14 @@ export const LoginPage = () => {
         password: ''
     })
 
-    const alertMessage = useMessage()
+    const [errMsg, setErrMsg] = useState('')
 
     useEffect(() => {
         if (message) {
-            alertMessage(message, document.querySelector('.errorHandler'))
+            setErrMsg(message.message)
         }
         clearMessage()
-    }, [message, alertMessage, clearMessage])
+    }, [message, clearMessage])
 
     const changeHandler = event => {
         setForm({...form, [event.target.name]: event.target.value })
@@ -60,7 +59,7 @@ export const LoginPage = () => {
                                    onChange={changeHandler}
                             />
                         </div>
-                        <div className="errorHandler"></div>
+                        <div className="errorHandler">{errMsg}</div>
                         <div className="login-input-group">
                             <button className="login-button" disabled={loading} onClick={loginHandler} >
                                 Log In</button>
