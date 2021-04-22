@@ -26,7 +26,7 @@ export const LoginPage = () => {
     const loginHandler = async () => {
         try {
             const data = await request('/api/auth/login', 'POST', {...form})
-            auth.login(data.token, data.userId)
+            auth.login(data.token, data.userId, data.hasCompany)
         } catch (e) {}
     }
 
@@ -63,6 +63,9 @@ export const LoginPage = () => {
                         <div className="login-input-group">
                             <button className="login-button" disabled={loading} onClick={loginHandler} >
                                 Log In</button>
+                        </div>
+                        <div>
+                            <span>Don't have an account?<a href="/register">Create!</a></span>
                         </div>
                     </div>
                 </div>

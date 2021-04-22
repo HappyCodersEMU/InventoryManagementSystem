@@ -27,7 +27,7 @@ router.post('/create', async (req, res) => {
         await company.save()
         await user.save()
         await member.save()
-        res.status(201).json({ message: 'Company and Initial Admin have been added' })
+        res.status(201).json({ message: 'Company and Initial Admin have been added', hasCompany: user.hasCompany })
     } catch (e) {
         console.log(e)
         res.status(500).json({ message: 'Something went wrong, try again' })

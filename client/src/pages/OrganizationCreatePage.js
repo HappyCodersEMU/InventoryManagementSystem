@@ -3,7 +3,7 @@ import {useHttp} from "../hooks/http.hook";
 import {Loader} from "./components/Loader";
 import {AuthContext} from "../context/auth.context";
 
-export const OrganizationPage = () => {
+export const OrganizationCreatePage = () => {
 
     const auth = useContext(AuthContext)
     const {loading, request} = useHttp()
@@ -36,6 +36,13 @@ export const OrganizationPage = () => {
             }
             const userId = auth.userId
             const req = await request('/api/company/create', 'POST', {companyName, planName, userId})
+            auth.setUserCompanyState(req.hasCompany)
+        } catch (e) {}
+    }
+
+    const logoutHandler = async () => {
+        try {
+            auth.logout()
         } catch (e) {}
     }
 
@@ -102,6 +109,9 @@ export const OrganizationPage = () => {
                             </div>
                         </div>
                     </div>
+                    <button onClick={logoutHandler}>
+                        Log out
+                    </button>
                 </div>
             </div>
         </div>

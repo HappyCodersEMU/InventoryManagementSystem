@@ -103,6 +103,9 @@ export const RegisterPage = () => {
                             <button className="login-button" disabled={loading} onClick={registerHandler} >
                                 Sing Up</button>
                         </div>
+                        <div>
+                            <span>Already have an account?<a href="/login">Log In!</a></span>
+                        </div>
                     </div>
                 </div>
             </div>
