@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { useHttp } from "../../hooks/http.hook"
-import { useMessage } from "../../hooks/message.hook"
 
 export const RegisterPage = () => {
 
@@ -12,17 +11,15 @@ export const RegisterPage = () => {
         password: '',
         conPassword: ''
     })
+
     const [errMsg, setErrMsg] = useState('')
-    const alertMessage = useMessage()
 
     useEffect(() => {
         if (message) {
             setErrMsg(message.message)
         }
-        alertMessage(errMsg, document.querySelector('.errorHandler'))
-
         clearMessage()
-    }, [message, alertMessage, clearMessage])
+    }, [message, clearMessage])
 
     const changeHandler = event => {
         setForm({ ...form, [event.target.name]: event.target.value })
