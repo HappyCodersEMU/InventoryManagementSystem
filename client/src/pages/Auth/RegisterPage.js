@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react'
-import {useHttp} from "../../hooks/http.hook"
-import {useMessage} from "../../hooks/message.hook"
+import React, { useEffect, useState } from 'react'
+import { useHttp } from "../../hooks/http.hook"
+import { useMessage } from "../../hooks/message.hook"
 
 export const RegisterPage = () => {
 
@@ -12,24 +12,34 @@ export const RegisterPage = () => {
         password: '',
         conPassword: ''
     })
-
+    const [errMsg, setErrMsg] = useState('')
     const alertMessage = useMessage()
 
     useEffect(() => {
         if (message) {
-            alertMessage(message, document.querySelector('.errorHandler'))
+            setErrMsg(message.message)
         }
+        alertMessage(errMsg, document.querySelector('.errorHandler'))
+
         clearMessage()
     }, [message, alertMessage, clearMessage])
 
     const changeHandler = event => {
-        setForm({...form, [event.target.name]: event.target.value })
+        setForm({ ...form, [event.target.name]: event.target.value })
+    }
+
+    const confirmPassword = event => {
+        if (event.target.value != form.password) {
+            setErrMsg('Passwords do not match')
+            return
+        }
+        setErrMsg('')
     }
 
     const registerHandler = async () => {
         try {
-            const data = await request('/api/auth/register', 'POST', {...form})
-        } catch (e) {}
+            const data = await request('/api/auth/register', 'POST', { ...form })
+        } catch (e) { }
     }
 
 
@@ -44,51 +54,54 @@ export const RegisterPage = () => {
                         <div className="login-input-group">
                             <label className="login-input-label" htmlFor="email">e-mail</label>
                             <input className="login-input-field"
-                                   placeholder="Enter email"
-                                   name="email"
-                                   id="email"
-                                   onChange={changeHandler}
+                                placeholder="Enter email"
+                                name="email"
+                                id="email"
+                                onChange={changeHandler}
                             />
                         </div>
                         <div className="login-input-group">
                             <label className="login-input-label" htmlFor="name">name</label>
                             <input className="login-input-field"
-                                   placeholder="Enter name"
-                                   id="name"
-                                   name="name"
-                                   onChange={changeHandler}
+                                placeholder="Enter name"
+                                id="name"
+                                name="name"
+                                onChange={changeHandler}
                             />
                         </div>
                         <div className="login-input-group">
                             <label className="login-input-label" htmlFor="surname">surname</label>
                             <input className="login-input-field"
-                                   placeholder="Enter surname"
-                                   name="surname"
-                                   id="surname"
-                                   onChange={changeHandler}
+                                placeholder="Enter surname"
+                                name="surname"
+                                id="surname"
+                                onChange={changeHandler}
                             />
                         </div>
                         <div className="login-input-group">
                             <label className="login-input-label" htmlFor="password">password</label>
                             <input className="login-input-field"
-                                   placeholder="Enter password"
-                                   name="password"
-                                   type="password"
-                                   id="password"
-                                   onChange={changeHandler}
+                                placeholder="Enter password"
+                                name="password"
+                                type="password"
+                                id="password"
+                                onChange={changeHandler}
                             />
                         </div>
                         <div className="login-input-group">
                             <label className="login-input-label" htmlFor="conPassword">confirm password</label>
                             <input className="login-input-field"
-                                   placeholder="Confirm password"
-                                   name="conPassword"
-                                   id="conPassword"
-                                   type="password"
-                                   onChange={changeHandler}
+                                placeholder="Confirm password"
+                                name="conPassword"
+                                id="conPassword"
+                                type="password"
+                                onChange={(e) => {
+                                    changeHandler(e)
+                                    confirmPassword(e)
+                                }}
                             />
                         </div>
-                        <div className="errorHandler"></div>
+                        <div className="errorHandler">{errMsg}</div>
                         <div className="login-input-group">
                             <button className="login-button" disabled={loading} onClick={registerHandler} >
                                 Sing Up</button>
