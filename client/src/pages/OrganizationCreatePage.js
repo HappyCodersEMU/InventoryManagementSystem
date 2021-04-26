@@ -12,7 +12,7 @@ export const OrganizationCreatePage = () => {
     const [companyName, setCompanyName] = useState('')
 
     const getData = async () => {
-        const temp = await request('/api/subscription', 'GET')
+        const temp = await request('/api/subscriptions', 'GET')
         setData(temp)
     }
 
@@ -35,7 +35,7 @@ export const OrganizationCreatePage = () => {
                 return
             }
             const userId = auth.userId
-            const req = await request('/api/company/create', 'POST', {companyName, planName, userId})
+            const req = await request('/api/companies', 'POST', {companyName, planName, userId})
             auth.setUserCompanyState(req.hasCompany)
         } catch (e) {}
     }

@@ -4,18 +4,14 @@ const morgan = require("morgan"); // Middleware for logs
 const mongoose = require("mongoose");
 const path = require("path");
 
+const router = require("./api/routes/routes");
+
 require("dotenv").config();
 
 
 try {
 
   app.use(express.json({ extended: true }))
-  // Routes
-  const productRoutes = require("./api/routes/products");
-  const authRoutes = require("./api/routes/auth");
-  const companyRoutes = require("./api/routes/company");
-  const subscriptionRoutes = require("./api/routes/subscription");
-  const roleRoutes = require("./api/routes/role");
 
   mongoose.connect(
     process.env.MONGODB_URI,
@@ -46,12 +42,8 @@ try {
     next();
   });
 
-  // Routes which should handle requests
-  app.use("/api/products", productRoutes);
-  app.use("/api/auth", authRoutes);
-  app.use("/api/company", companyRoutes);
-  app.use("/api/subscription", subscriptionRoutes);
-  app.use("/api/role", roleRoutes);
+  // initialize all routes
+  app.use("/", router);
 
 
   // Serve static assets if in production
