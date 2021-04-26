@@ -7,7 +7,9 @@ module.exports = class Role {
         try {
             const errors = validationResult(req)
             if (!errors.isEmpty()) {
-                return res.status(400).json({ errors: errors.array(), message: errors.array()[0].msg })
+                return res.status(400).json({
+                    errors: errors.array(), message: errors.array()[0].msg
+                })
             }
 
             const data = await RoleService.addRole(req.body)
@@ -27,7 +29,7 @@ module.exports = class Role {
     static async getAll(req, res, next) {
         try {
             const data = await RoleService.getAll()
-            res.status(201).json(data)
+            res.status(200).json(data)
 
         } catch (e) {
             console.log(e)
@@ -43,11 +45,13 @@ module.exports = class Role {
         try {
             const errors = validationResult(req)
             if (!errors.isEmpty()) {
-                return res.status(400).json({ errors: errors.array(), message: errors.array()[0].msg })
+                return res.status(400).json({
+                    errors: errors.array(), message: errors.array()[0].msg
+                })
             }
 
             const data = await RoleService.getById(req.params.id)
-            res.status(201).json(data)
+            res.status(200).json(data)
 
         } catch (e) {
             console.log(e)

@@ -10,11 +10,17 @@ module.exports = class Company {
 
             const errors = validationResult(req)
             if (!errors.isEmpty()) {
-                return res.status(400).json({ errors: errors.array(), message: errors.array()[0].msg })
+                return res.status(400).json({
+                    errors: errors.array(), message: errors.array()[0].msg
+                })
             }
 
-            const { message, hasCompany } = await CompanyService.createCompany(req.body);
-            res.status(201).json({ message, status: 'created', hasCompany })
+            const { companyId, hasCompany } = await CompanyService.createCompany(req.body);
+            res.status(201).json({
+                message: 'Company and Initial Admin have been added',
+                status: 'created', companyId, 
+                hasCompany // hasCompany is irrelevant
+            })  
 
         } catch (e) {
             console.log(e)
@@ -49,7 +55,9 @@ module.exports = class Company {
 
             const errors = validationResult(req)
             if (!errors.isEmpty()) {
-                return res.status(400).json({ errors: errors.array(), message: errors.array()[0].msg })
+                return res.status(400).json({
+                    errors: errors.array(), message: errors.array()[0].msg
+                })
             }
 
             const data = await CompanyService.getById(req.params.id)

@@ -2,14 +2,19 @@ const AuthService = require("../services/authSvc");
 const { check, validationResult } = require('express-validator');
 
 module.exports = class Auth {
-
+    /**
+    * Registers a new user which can later create a an organization and subscribe a plan.
+    * Membership is not handled at this stage.
+    */
     static async register(req, res, next) {
         try {
             const { password, conPassword } = req.body
 
             const errors = validationResult(req)
             if (!errors.isEmpty()) {
-                return res.status(400).json({ errors: errors.array(), message: errors.array()[0].msg })
+                return res.status(400).json({
+                    errors: errors.array(), message: errors.array()[0].msg
+                })
             }
 
             if (password !== conPassword) {
@@ -17,7 +22,9 @@ module.exports = class Auth {
             }
 
             const createdUser = await AuthService.registerUser(req.body);
-            res.status(201).json({ message: 'User has been created', status: 'created', userId: createdUser })
+            res.status(201).json({
+                message: 'User has been created', status: 'created', userId: createdUser
+            })
 
         } catch (e) {
             console.log(e)
@@ -29,16 +36,27 @@ module.exports = class Auth {
         }
     }
 
-
+    /**
+     * Logs the user in if credentials are valid.
+     * @return {
+     *  {string} token - The user token
+     * 
+     *  {string} userId - The user id
+     * 
+     *  {bool} hasCompany - The boolean indicating whether the user is a member of an organization.
+     * }
+     */
     static async login(req, res, next) {
         try {
             const errors = validationResult(req)
             if (!errors.isEmpty()) {
-                return res.status(400).json({ errors: errors.array(), message: errors.array()[0].msg })
+                return res.status(400).json({
+                    errors: errors.array(), message: errors.array()[0].msg
+                })
             }
 
             const { token, userId, hasCompany } = await AuthService.login(req.body);
-            res.json({ token, userId, hasCompany })
+            res.status(200).json({ token, userId, hasCompany })
 
         } catch (e) {
             console.log(e)

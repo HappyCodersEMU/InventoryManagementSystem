@@ -4,6 +4,10 @@ const jwt = require('jsonwebtoken')
 
 module.exports = class AuthService {
 
+    /**
+      * Registers a new user.
+      * Membership is not handled at this stage.
+      */
     static async registerUser(data) {
         const { email, name, surname, password } = data
 

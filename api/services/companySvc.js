@@ -6,6 +6,11 @@ const Subscription = require('../models/subscription')
 
 module.exports = class CompanyService {
 
+    /**
+     * 
+     * @param {*} data 
+     * @returns 
+     */
     static async createCompany(data) {
         const { companyName, planName, userId } = data
 
@@ -30,7 +35,7 @@ module.exports = class CompanyService {
         await user.save()
         await member.save()
 
-        return { message: 'Company and Initial Admin have been added', hasCompany: user.hasCompany }
+        return { companyId, hasCompany: user.hasCompany }
     }
 
     // ----------------------------------------------------------------------
@@ -43,13 +48,9 @@ module.exports = class CompanyService {
     }
 
     static async getById(id) {
-        result = await Company
+        return await Company
             .findById(id)
             .populate('subscriptionID', '-__v')
             .exec()
-
-        console.log(result)
-        
-        return result
     }
 }

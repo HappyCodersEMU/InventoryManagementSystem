@@ -2,7 +2,7 @@ const Subscription = require('../models/subscription')
 
 module.exports = class SubscriptionService {
 
-    static async subscribe(data) {
+    static async addSubscriptionPlan(data) {
         const { transPerMonth, numProducts, numMembers, description, price, name } = data
 
         const subscription = new Subscription({
@@ -33,7 +33,6 @@ module.exports = class SubscriptionService {
     }
 
     static async getSubscriptionPlanById(id) {
-        // TODO: make case-insensative search 
         const data = await Subscription.
             findById(id).
             select("_id name transPerMonth numProducts numMembers")
@@ -43,7 +42,6 @@ module.exports = class SubscriptionService {
     }
 
     static async getAll() {
-        // TODO: make case-insensative search 
         const data = await Subscription.
             find().
             select("_id name transPerMonth numProducts numMembers")
