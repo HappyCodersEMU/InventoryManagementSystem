@@ -8,7 +8,7 @@ To import server dependencies, run same command from the **_/client_** dir
 
 To start the project, enter the next command in terminal:
 `npm run dev`
-It will run both backend and frontend servers in `127.0.0.1:3030` and `127.0.0.1:3000` respectively.
+It will run both backend and frontend servers in `127.0.0.1:5000` and `127.0.0.1:3000` respectively.
 
 
 ### Flow
