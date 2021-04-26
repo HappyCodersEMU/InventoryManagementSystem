@@ -43,9 +43,13 @@ module.exports = class CompanyService {
     }
 
     static async getById(id) {
-        return await Company
+        result = await Company
             .findById(id)
             .populate('subscriptionID', '-__v')
             .exec()
+
+        console.log(result)
+        
+        return result
     }
 }

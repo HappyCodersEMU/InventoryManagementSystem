@@ -50,6 +50,10 @@ module.exports = class Auth {
         }
     }
 
+    /**
+    * validates the passed fields.
+    * @param {string} method - The method name to be validated.
+    */
     static validate(method) {
         switch (method) {
             case 'register': {

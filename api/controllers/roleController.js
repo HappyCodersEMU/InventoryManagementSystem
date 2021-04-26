@@ -1,9 +1,15 @@
 const RoleService = require("../services/roleSvc");
+const { check, validationResult } = require('express-validator');
 
 module.exports = class Role {
 
     static async addRole(req, res, next) {
         try {
+            const errors = validationResult(req)
+            if (!errors.isEmpty()) {
+                return res.status(400).json({ errors: errors.array(), message: errors.array()[0].msg })
+            }
+
             const data = await RoleService.addRole(req.body)
             res.status(201).json(data)
 
@@ -35,6 +41,11 @@ module.exports = class Role {
 
     static async getById(req, res, next) {
         try {
+            const errors = validationResult(req)
+            if (!errors.isEmpty()) {
+                return res.status(400).json({ errors: errors.array(), message: errors.array()[0].msg })
+            }
+
             const data = await RoleService.getById(req.params.id)
             res.status(201).json(data)
 
@@ -44,6 +55,25 @@ module.exports = class Role {
                 res.status(500).json({ message: 'Something went wrong, try again' })
             } else {
                 res.status(400).json({ message: e.message })
+            }
+        }
+    }
+
+    /**
+    * validates the passed fields.
+    * @param {string} method - The method name to be validated.
+    */
+    static validate(method) {
+        switch (method) {
+            case 'addRole': {
+                return [
+                    check('roleName', 'Role name cannot be empty').notEmpty(),
+                ]
+            }
+            case 'getById': {
+                return [
+                    check('id', 'id is empty or invalid').notEmpty().isMongoId()
+                ]
             }
         }
     }
