@@ -1,19 +1,20 @@
-import React, {useContext, useEffect, useState} from 'react'
-import {useHttp} from "../hooks/http.hook";
-import {Loader} from "./components/Loader";
-import {AuthContext} from "../context/auth.context";
+import React, { useContext, useEffect, useState } from 'react'
+import { useHttp } from "../hooks/http.hook";
+import { Loader } from "./components/Loader";
+import PlanCard from "./components/PlanCard";
+import { AuthContext } from "../context/auth.context";
 
 export const OrganizationCreatePage = () => {
 
     const auth = useContext(AuthContext)
-    const {loading, request} = useHttp()
+    const { loading, request } = useHttp()
     const [dataState, setDataState] = useState(null)
-    const [data, setData] = useState(null)
+    const [subscriptionPlans, setSubscriptionPlans] = useState(null)
     const [companyName, setCompanyName] = useState('')
 
     const getData = async () => {
-        const temp = await request('/api/subscriptions', 'GET')
-        setData(temp)
+        const plans = await request('/api/subscriptions', 'GET')
+        setSubscriptionPlans(plans)
     }
 
     useEffect(async () => {
@@ -35,19 +36,19 @@ export const OrganizationCreatePage = () => {
                 return
             }
             const userId = auth.userId
-            const req = await request('/api/companies', 'POST', {companyName, planName, userId})
+            const req = await request('/api/companies', 'POST', { companyName, planName, userId })
             auth.setUserCompanyState(req.hasCompany)
-        } catch (e) {}
+        } catch (e) { }
     }
 
     const logoutHandler = async () => {
         try {
             auth.logout()
-        } catch (e) {}
+        } catch (e) { }
     }
 
     if (!dataState) {
-        return <Loader/>
+        return <Loader />
     }
 
     return (
@@ -56,58 +57,23 @@ export const OrganizationCreatePage = () => {
                 <div className="organization-box">
                     <div className="organization-input-box">
                         <div className="organization-input-wrap">
-                            <label>Name of Organization<input name="companyName" onChange={changeHandler}/></label>
+                            <label>Name of Organization<input name="companyName" onChange={changeHandler} /></label>
                         </div>
                     </div>
+
+
                     <div className="organization-plan-cards-wrap">
-                        <div className="organization-plan-card">
-                            <div className="plan-header">
-                                <h1>{data[0].name.toUpperCase()}</h1>
-                                <span className="plan-price">${data[0].price}</span>
-                            </div>
-                            <div className="plan-body">
-                                <span>{data[0].transPerMonth} Transactions / Month</span><br/>
-                                <span>{data[0].numProducts} Products</span><br/>
-                                <span>{data[0].numMembers} Users</span>
-                            </div>
-                            <div className="plan-button">
-                                <button disabled={loading} value={data[0].name} onClick={createCompanyHandler}>
-                                    Select Plan
-                                </button>
-                            </div>
-                        </div>
-                        <div className="organization-plan-card">
-                            <div className="plan-header">
-                                <h1>{data[1].name.toUpperCase()}</h1>
-                                <span className="plan-price">${data[1].price}</span>
-                            </div>
-                            <div className="plan-body">
-                                <span>{data[1].transPerMonth} Transactions / Month</span><br/>
-                                <span>{data[1].numProducts} Products</span><br/>
-                                <span>{data[1].numMembers} Users</span>
-                            </div>
-                            <div className="plan-button">
-                                <button disabled={loading} value={data[1].name} onClick={createCompanyHandler}>
-                                    Select Plan
-                                </button>
-                            </div>
-                        </div>
-                        <div className="organization-plan-card">
-                            <div className="plan-header">
-                                <h1>{data[2].name.toUpperCase()}</h1>
-                                <span className="plan-price">${data[2].price}</span>
-                            </div>
-                            <div className="plan-body">
-                                <span>{data[2].transPerMonth} Transactions / Month</span><br/>
-                                <span>{data[2].numProducts} Products</span><br/>
-                                <span>{data[2].numMembers} Users</span>
-                            </div>
-                            <div className="plan-button">
-                                <button disabled={loading} value={data[2].name} onClick={createCompanyHandler}>
-                                    Select Plan
-                                </button>
-                            </div>
-                        </div>
+                        {/* 
+                            iterate over each subscription and pass it to PlanCard component.
+                            <PlanCard /> will be rendered for each plan.
+                        */}
+                        {subscriptionPlans.map((plan) => (
+                            <PlanCard
+                                data={plan}
+                                loading={loading}
+                                onClick={createCompanyHandler}
+                            />
+                        ))}
                     </div>
                     <button onClick={logoutHandler}>
                         Log out
