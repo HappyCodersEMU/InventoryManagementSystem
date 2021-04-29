@@ -1,4 +1,5 @@
 import React from  'react'
+import stylesheet from './stylesheet.css'
 import {BrowserRouter as Router} from 'react-router-dom'
 import {useRoutes} from "./routes";
 import {useAuth} from "./hooks/auth.hook";
@@ -7,7 +8,7 @@ import {Loader} from "./pages/components/Loader";
 
 function App() {
 
-    const {login, logout, token, userId, ready, hasCompany, setUserCompanyState} = useAuth()
+    const {login, logout, token, userId, ready, hasCompany  } = useAuth()
     const isAuthenticated = !!token
     const routes = useRoutes(isAuthenticated, hasCompany)
 
@@ -17,7 +18,7 @@ function App() {
 
     return (
         <AuthContext.Provider value={{
-            login, logout, token, userId, isAuthenticated, setUserCompanyState
+            login, logout, token, userId, isAuthenticated
         }}>
             <Router>
                 <div>

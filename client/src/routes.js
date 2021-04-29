@@ -1,11 +1,10 @@
 import React from 'react'
 import {Route, Switch, Redirect} from "react-router-dom";
-import {AccountPage} from "./pages/AccountPage";
-import {MainPage} from "./pages/MainPage";
-import {DetailPage} from "./pages/DetailPage";
+import {OrganizationList} from "./pages/OrganizationList";
 import {OrganizationCreatePage} from "./pages/OrganizationCreatePage";
 import {LoginPage} from "./pages/Auth/LoginPage";
 import {RegisterPage} from "./pages/Auth/RegisterPage";
+import {Application} from "./pages/Application";
 
 
 export const useRoutes = (isAuthenticated, hasCompany) => {
@@ -34,10 +33,13 @@ export const useRoutes = (isAuthenticated, hasCompany) => {
     }
     return (
         <Switch>
-            <Route path="/main" exact>
-                <MainPage />
+            <Route path="/orglist" exact>
+                <OrganizationList />
             </Route>
-            <Redirect to="/main" />
+            <Route path="/:id/home">
+                <Application />
+            </Route>
+            <Redirect to="/orglist" />
         </Switch>
     )
 

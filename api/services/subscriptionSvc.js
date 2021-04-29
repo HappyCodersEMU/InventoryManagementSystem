@@ -26,7 +26,7 @@ module.exports = class SubscriptionService {
         // TODO: make case-insensative search 
         const data = await Subscription.
             findOne({ name }).
-            select("_id name transPerMonth numProducts numMembers")
+            select("_id name price transPerMonth numProducts numMembers")
             .exec()
 
         return data
@@ -35,7 +35,7 @@ module.exports = class SubscriptionService {
     static async getSubscriptionPlanById(id) {
         const data = await Subscription.
             findById(id).
-            select("_id name transPerMonth numProducts numMembers")
+            select("_id name price transPerMonth numProducts numMembers")
             .exec()
 
         return data
@@ -44,7 +44,7 @@ module.exports = class SubscriptionService {
     static async getAll() {
         const data = await Subscription.
             find().
-            select("_id name transPerMonth numProducts numMembers")
+            select("_id name price transPerMonth numProducts numMembers")
             .exec()
 
         return data

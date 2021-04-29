@@ -23,11 +23,13 @@
     font-family: 'Poppins-Light';
 }
 
+li {
+    list-style-type: none;
+}
+
 /*//////////////////////////////////////////////////////////
 ////////////////////////[ Login ]///////////////////////////
 //////////////////////////////////////////////////////////*/
-
-.login-background
 
 .login-container {
     display: flex;
@@ -168,7 +170,7 @@
 
 
 /*//////////////////////////////////////////////////////////
-/////////////////////////[  ]///////////////////////////
+//////////////////////[ Application ]///////////////////////
 //////////////////////////////////////////////////////////*/
 
 .background {
@@ -179,6 +181,8 @@
     min-height: 100%;
     background-color: lightyellow;
 }
+
+/*///////////////////////[ Header ]///////////////////////*/
 
 header {
     min-width: 1280px;
@@ -200,18 +204,6 @@ header {
     align-items: center;
 }
 
-.container {
-    display: flex;
-}
-
-.main {
-    min-width: 1280px;
-    max-width: 1280px;
-    background: gray;
-    margin: 0 auto;
-    height: 1500px;
-}
-
 .logo-block {
     height: 90px;
     width: 300px;
@@ -224,9 +216,97 @@ header {
     background: lightgray;
 }
 
-.navbar {
-    height: 90px;
-    width: 800px;
+/*///////////////////////[ Navbar ]///////////////////////*/
+
+.navbar-wrap {
+    width: 275px;
     background: lightblue;
-    color: white;
+    color: black;
+}
+
+/*//////////////////[ Organization List ]/////////////////*/
+
+.list-container {
+    display: flex;
+    background: gray;
+    width: 75%;
+    flex-direction: column;
+}
+
+.list-container a {
+    text-decoration: none;
+    color: black;
+}
+
+.list-wrap {
+    margin: 40px auto;
+    width: 80%;
+    height: 200px;
+    background: white;
+}
+
+.company-name-block {
+    width: 100%;
+    height: 55px;
+    /*background: red;*/
+    text-align: center;
+    font-size: 35px;
+}
+
+.company-info-block {
+    display: flex;
+    background: lightblue;
+    height: 145px;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-size: 20px;
+}
+
+.company-info-text {
+    margin: 15px 30px;
+}
+
+.company-creation-box {
+    background: lightblue;
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+}
+
+.company-creation-box * {
+    align-self: flex-start;
+    margin: 0 auto;
+}
+
+.company-creation-box input {
+    margin-top: 50px;
+    height: 30px;
+    width: 90%;
+    font-size: 20px;
+}
+
+.company-creation-box select {
+    height: 30px;
+    width: 30%;
+    font-size: 20px;
+    margin: 20px 0 0 15px;
+}
+
+.temp {
+    color: black;
+}
+/*/////////////////////[ Container ]//////////////////////*/
+
+.container {
+    display: flex;
+}
+
+.container-content {
+    display: flex;
+    /*justify-content: center;*/
+    min-width: 1480px;
+    max-width: 1480px;
+    background: lightblue;
+    margin: 0 auto;
+    min-height: 1000px;
 }
