@@ -9,13 +9,13 @@ import {AuthContext} from "../context/auth.context";
 
 export const OrganizationList = () => {
 
+    const auth = useContext(AuthContext)
     const { loading, request } = useHttp()
     const [dataState, setDataState] = useState(null)
     const [companies, setCompanies] = useState(null)
     const [companyName, setCompanyName] = useState(null)
     const [planName, setPlanName] = useState('classic')
     const [subscriptionPlans, setSubscriptionPlans] = useState(null)
-    const auth = useContext(AuthContext)
 
     const changeHandler = event => {
         setCompanyName(event.target.value)

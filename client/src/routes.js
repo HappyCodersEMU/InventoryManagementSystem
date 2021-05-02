@@ -36,7 +36,7 @@ export const useRoutes = (isAuthenticated, hasCompany) => {
             <Route path="/orglist" exact>
                 <OrganizationList />
             </Route>
-            <Route path="/:id/home">
+            <Route path="/:id/:link" exact>
                 <Application />
             </Route>
             <Redirect to="/orglist" />
