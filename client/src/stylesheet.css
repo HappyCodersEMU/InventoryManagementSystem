@@ -27,6 +27,14 @@ li {
     list-style-type: none;
 }
 
+hr {
+    padding: 0;
+    margin: 0;
+}
+
+a:hover {
+    text-decoration: none;
+}
 /*//////////////////////////////////////////////////////////
 ////////////////////////[ Login ]///////////////////////////
 //////////////////////////////////////////////////////////*/
@@ -337,13 +345,13 @@ header {
 .container {
     display: flex;
     /*justify-content: center;*/
-    /*min-width: 1480px;*/
-    /*max-width: 1480px;*/
-    width: 1480px;
+    min-width: 1480px;
+    max-width: 1480px;
     background: lightblue;
     margin: 0 auto;
-    min-height: 1000px;
+    min-height: 100vh;
     z-index: 98;
+    padding: 0;
 }
 
 .content-wrap {
@@ -369,15 +377,16 @@ header {
     transform: translateX(-20px);
 }
 
+.more-options {
+    display: flex;
+    flex-direction: column;
+}
+
 .btn-group {
     display: flex;
     flex-wrap: wrap;
-    /*justify-content: center;*/
-    /*align-content: flex-start;*/
-    width: 600px;
+    width: 500px;
     margin: 0 0 15px 0;
-    /*background: whitesmoke;*/
-    /*margin: 30px;*/
 }
 
 .more-btn {
@@ -387,7 +396,6 @@ header {
     border: none;
     background: none;
     margin: 10px 0 10px 0;
-    /*background: blue;*/
     transition: 0.3s;
     text-decoration: none;
 }
@@ -397,7 +405,7 @@ header {
 }
 
 .icon-box {
-    background: red;
+    background: violet;
     height: 50px;
     width: 50px;
 }
@@ -406,6 +414,63 @@ header {
     text-align: left;
     width: 450px;
     margin-left: 20px;
+    margin-top: 5px;
     color: black;
     font-size: 26px;
 }
+
+.more-name-box hr {
+    background: gray;
+    margin-top: 4px;
+    border: 1px solid gray;
+}
+
+/*///////////////////////[ Table ]////////////////////////*/
+
+.table {
+    text-align: center;
+    font-size: 24px;
+    overflow: auto;
+}
+
+.table-scroll {
+    overflow: auto;
+    max-height: 70vh;
+    width: 100%;
+}
+
+/*.table :is(th, td, thead, tbody){*/
+/*    border: none;*/
+/*}*/
+
+.table th {
+    background: lightgray;
+    border-top: none;
+    border-bottom: 2px solid gray!important;
+    transition: 0.3s;
+}
+
+.table th:hover {
+    background: gray;
+    color: white;
+}
+
+.table th:nth-child(1) {
+    border-top-left-radius: 30px;
+    width: 33%;
+}
+.table th:nth-child(2) {
+    width: 25%;
+}
+.table th:nth-child(3) {
+    width: 25%;
+}
+.table th:nth-child(4) {
+    width: 17%;
+    border-top-right-radius: 30px;
+}
+
+.btn {
+    color: rgb(50,50,50);
+}
+

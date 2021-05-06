@@ -8,6 +8,7 @@ import {Application} from "./pages/Application";
 
 
 export const useRoutes = (isAuthenticated, hasCompany) => {
+
     if (!isAuthenticated) {
         return (
             <Switch>
@@ -33,10 +34,11 @@ export const useRoutes = (isAuthenticated, hasCompany) => {
     }
     return (
         <Switch>
-            <Route path="/orglist" exact>
+            <Redirect from={`/organization/:link`} to="/orglist" />
+            <Route path="/orglist" exact >
                 <OrganizationList />
             </Route>
-            <Route path="/:id/:link" exact>
+            <Route path="/:id/:link" exact >
                 <Application />
             </Route>
             <Redirect to="/orglist" />

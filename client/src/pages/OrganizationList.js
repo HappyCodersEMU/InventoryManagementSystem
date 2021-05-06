@@ -2,7 +2,6 @@ import React, {useContext, useEffect, useState} from 'react'
 import Header from "./components/Header";
 import {useHttp} from "../hooks/http.hook";
 import {Loader} from "./components/Loader";
-import PlanCard from "./components/PlanCard";
 import CompanyItem from "./components/CompanyItem";
 import PlanInfo from "./components/PlanInfo";
 import {AuthContext} from "../context/auth.context";
@@ -76,38 +75,36 @@ export const OrganizationList = () => {
             <div className="background">
                 <Header />
                 <div className="container">
-                    <div className="container-content">
-                        <div className="list-container">
-                            {companies.map((company) => (
-                                <div key={company['_id']}>
-                                    <CompanyItem
-                                        data={company}
-                                        loading={loading}
-                                        // onClick={createCompanyHandler}
-                                    />
-                                </div>
-                            ))}
-                        </div>
-                        <div className="company-creation-box">
-                            <h1>Create New Company</h1>
-                            <input
-                                   placeholder="Enter company name"
-                                   name="companyName"
-                                   id="companyName"
-                                   onChange={changeHandler}
-                            />
-                            <select onChange={selectHandler}>
-                                <option defaultChecked>Classic</option>
-                                <option>Pro</option>
-                                <option>Gold</option>
-                            </select>
-                            { planName === 'classic' && <PlanInfo data={subscriptionPlans[0]}/>}
-                            { planName === 'pro' && <PlanInfo data={subscriptionPlans[1]}/>}
-                            { planName === 'gold' && <PlanInfo data={subscriptionPlans[2]}/>}
-                            <button onClick={createCompanyHandler}>
-                                Create company
-                            </button>
-                        </div>
+                    <div className="list-container">
+                        {companies.map((company) => (
+                            <div key={company['_id']}>
+                                <CompanyItem
+                                    data={company}
+                                    loading={loading}
+                                    // onClick={createCompanyHandler}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                    <div className="company-creation-box">
+                        <h1>Create New Company</h1>
+                        <input
+                               placeholder="Enter company name"
+                               name="companyName"
+                               id="companyName"
+                               onChange={changeHandler}
+                        />
+                        <select onChange={selectHandler}>
+                            <option defaultChecked>Classic</option>
+                            <option>Pro</option>
+                            <option>Gold</option>
+                        </select>
+                        { planName === 'classic' && <PlanInfo data={subscriptionPlans[0]}/>}
+                        { planName === 'pro' && <PlanInfo data={subscriptionPlans[1]}/>}
+                        { planName === 'gold' && <PlanInfo data={subscriptionPlans[2]}/>}
+                        <button onClick={createCompanyHandler}>
+                            Create company
+                        </button>
                     </div>
                 </div>
             </div>

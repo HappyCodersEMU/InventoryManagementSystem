@@ -4,7 +4,7 @@ const Inventory = () => {
 
     return (
         <>
-            MoreList
+            Inventory
         </>
     );
 }

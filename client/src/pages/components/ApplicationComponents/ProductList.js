@@ -4,7 +4,7 @@ const ProductList = () => {
 
     return (
         <>
-            BuyList
+            Products
         </>
     );
 }
