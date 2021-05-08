@@ -20,6 +20,7 @@ router.get('/api/companies', CompanyController.getAll);
 // Products
 router.get('/api/products/:id', ProductController.validate('getById'), ProductController.getById); // not working yet
 router.get('/api/products', ProductController.getAll);
+router.post('/api/products', ProductController.validate('createProduct'), ProductController.createProduct);
 
 // Roles
 router.post('/api/roles', RoleController.validate('addRole'), RoleController.addRole);

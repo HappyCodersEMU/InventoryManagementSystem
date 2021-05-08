@@ -18,7 +18,6 @@ module.exports = class Product {
         }
     }
 
-
     static async getById(req, res, next) {
         try {
             const errors = validationResult(req)
@@ -41,6 +40,31 @@ module.exports = class Product {
         }
     }
 
+    static async createProduct(req, res, next) {
+        try {
+            const errors = validationResult(req)
+            if (!errors.isEmpty()) {
+                return res.status(400).json({
+                    errors: errors.array(), message: errors.array()[0].msg
+                })
+            }
+
+            const createdProduct = await ProductService.createProduct(req.body);
+            res.status(201).json({
+                message: 'Product has been created', status: 'created', productId: createdProduct
+            })
+
+        } catch (e) {
+            console.log(e)
+            if (!e.status) {
+                res.status(500).json({ message: 'Something went wrong, try again' })
+            } else {
+                res.status(400).json({ message: e.message })
+            }
+        }
+    }
+
+
     /**
     * validates the passed fields.
     * @param {string} method - The method name to be validated.
@@ -50,6 +74,13 @@ module.exports = class Product {
             case 'getById': {
                 return [
                     check('id', 'id is empty or invalid').notEmpty().isMongoId()
+                ]
+            }
+            case 'createProduct': {
+                return [
+                    check('name', 'name is empty or invalid').notEmpty().isString(),
+                    check('categoryId', 'categoryId is empty or invalid').notEmpty().isMongoId(),
+                    check('subcategoryId', 'categoryId is empty or invalid').notEmpty().isMongoId()
                 ]
             }
         }
