@@ -6,7 +6,7 @@ const CompanyController = require("../controllers/companyController");
 const ProductController = require("../controllers/productController");
 const RoleController = require("../controllers/roleController");
 const SubscriptionController = require("../controllers/subscriptionController");
-
+const CategoryController = require("../controllers/categoryController");
 
 // Auth
 router.post("/api/auth/register", AuthController.validate("register"), AuthController.register);
@@ -33,5 +33,14 @@ router.get('/api/subscriptions', SubscriptionController.getAll);
 router.get('/api/subscriptions/name/:name', SubscriptionController.validate('getByName'), SubscriptionController.getByName);
 router.get('/api/subscriptions/:id', SubscriptionController.validate('getById'), SubscriptionController.getById);
 
+// Categories
+router.post('/api/categories', CategoryController.validate('createCategory'), CategoryController.createCategory);
+router.get('/api/categories/:id', CategoryController.validate('getCategoryById'), CategoryController.getCategoryById);
+router.get('/api/categories', CategoryController.getAllCategories)
+
+// Subcategories
+router.post('/api/subcategories', CategoryController.validate('createSubcategory'), CategoryController.createSubcategory);
+router.get('/api/subcategories/:id', CategoryController.validate('getSubcategoryById'), CategoryController.getSubcategoryById);
+router.get('/api/subcategories', CategoryController.getAllSubcategories)
 
 module.exports = router;
