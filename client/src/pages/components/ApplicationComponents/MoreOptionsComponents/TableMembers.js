@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
-import _ from "lodash";
-import {Loader} from "./Loader";
+import orderBy from "lodash";
+import {Loader} from "../../GeneralComponents/Loader";
+import './TableMembers.css'
 
 function TableMembers({ companyId }) {
 
@@ -8,10 +9,16 @@ function TableMembers({ companyId }) {
     const [dataToDisplay, setDataToDisplay] = useState(null)
     const [searchString, setSearchString] = useState(null)
     const [dataState, setDataState] = useState(null)
-    const [searchState, setSearchState] = useState({
+    const [newDataState, setNewDataState] = useState(null)
+    const [sortState, setSortState] = useState({
         sort: 'asc',
         sortKey: 'id',
     })
+    const [temp, setTemp] = useState(false)
+
+    const test = () => {
+        console.log(data)
+    }
 
     const getData = async () => {
         const req = []
@@ -25,8 +32,19 @@ function TableMembers({ companyId }) {
             }
             req.push(abc)
         }
+        if (temp === true) {
+            const abc = {
+                "_id": `607dd90a2fb5d52c4e0b0bb1KAVO`,
+                "email": `kavo@yandex.ru`,
+                "name": `kavo`,
+                "surname": `kavo`,
+                "role": `kavo`
+            }
+            req.push(abc)
+        }
         setData(req)
         setDataToDisplay(req)
+        setTemp(true)
     }
 
     useEffect(async () => {
@@ -34,16 +52,24 @@ function TableMembers({ companyId }) {
         setDataState(true)
     }, [])
 
+    useEffect(async () => {
+        if (newDataState === true) {
+            await getData()
+            setNewDataState(false)
+        }
+    }, [newDataState])
+
     const onReset = () => {
         setDataToDisplay(data)
-        // setSearchString('')
+        setSortState({ sort: '', sortKey: ''})
+        setSearchString('')
     }
 
     const onSort = (event, sortKey) => {
         const cloneData = dataToDisplay;
-        const sortType = searchState.sort === 'asc' ? 'desc' : 'asc';
-        const sortedData = _.orderBy(cloneData, sortKey, sortType);
-        setSearchState({
+        const sortType = sortState.sort === 'asc' ? 'desc' : 'asc';
+        const sortedData = orderBy.orderBy(cloneData, sortKey, sortType);
+        setSortState({
             sort: sortType,
             sortKey
         })
@@ -54,7 +80,8 @@ function TableMembers({ companyId }) {
         setDataToDisplay(data)
         const search = searchString
         if (!search) {
-            return data
+            setSortState({ sort: '', sortKey: ''})
+            return
         }
         const filteredData = data.filter(item => {
             return item['email'].toLowerCase().includes(search.toLowerCase())
@@ -94,21 +121,21 @@ function TableMembers({ companyId }) {
                     onChange={changeHandler}
                 />
             </div>
-            <div className="table-scroll">
-                <table className="table">
+            <div className="table-wrap">
+                <table className="table table-members">
                     <thead>
                     <tr>
                         <th onClick={e => onSort(e, 'email')}>
-                            Email {searchState.sortKey === 'email' ? <small>{searchState.sort}</small> : null}
+                            Email {sortState.sortKey === 'email' ? <small>{sortState.sort}</small> : null}
                         </th>
                         <th onClick={e => onSort(e, 'name')}>
-                            Name {searchState.sortKey === 'name' ? <small>{searchState.sort}</small> : null}
+                            Name {sortState.sortKey === 'name' ? <small>{sortState.sort}</small> : null}
                         </th>
                         <th onClick={e => onSort(e, 'surname')}>
-                            Surname {searchState.sortKey === 'surname' ? <small>{searchState.sort}</small> : null}
+                            Surname {sortState.sortKey === 'surname' ? <small>{sortState.sort}</small> : null}
                         </th>
                         <th onClick={e => onSort(e, 'role')}>
-                            Role {searchState.sortKey === 'role' ? <small>{searchState.sort}</small> : null}
+                            Role {sortState.sortKey === 'role' ? <small>{sortState.sort}</small> : null}
                         </th>
                     </tr>
                     </thead>
@@ -124,8 +151,14 @@ function TableMembers({ companyId }) {
                     </tbody>
                 </table>
             </div>
-            <button className="btn btn-outline-secondary">
+            <hr />
+            <button className="btn btn-outline-secondary btn-add-member"
+            onClick={(e) => {setNewDataState(true)}}>
                 Add New Member
+            </button>
+            <button className="btn btn-outline-secondary btn-add-member"
+                    onClick={test}>
+                test
             </button>
         </>
     );

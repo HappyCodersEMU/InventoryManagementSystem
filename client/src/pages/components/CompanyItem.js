@@ -1,7 +1,8 @@
 import React from "react";
 import {Link} from "react-router-dom";
 
-function CompanyItem({ data, loading, onClick }) {
+function CompanyItem({ data, loading }) {
+
     return (
         <div className="list-wrap">
             <Link to={`/${data._id}/home`}>
@@ -20,17 +21,5 @@ function CompanyItem({ data, loading, onClick }) {
         </div>
     );
 }
-
-// PlanCard.propTypes = {
-//     data: PropTypes.shape({
-//         transPerMonth: PropTypes.number,
-//         numProducts: PropTypes.number,
-//         numMembers: PropTypes.number,
-//         price: PropTypes.number,
-//         name: PropTypes.string,
-//     }).isRequired,
-//     loading: PropTypes.bool,
-//     onClick: PropTypes.func
-// };
 
 export default CompanyItem;

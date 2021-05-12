@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react'
-import Header from "./components/Header";
+import Header from "./components/GeneralComponents/Header";
 import {useHttp} from "../hooks/http.hook";
-import {Loader} from "./components/Loader";
+import {Loader} from "./components/GeneralComponents/Loader";
 import CompanyItem from "./components/CompanyItem";
 import PlanInfo from "./components/PlanInfo";
 import {AuthContext} from "../context/auth.context";
@@ -80,9 +80,7 @@ export const OrganizationList = () => {
                             <div key={company['_id']}>
                                 <CompanyItem
                                     data={company}
-                                    loading={loading}
-                                    // onClick={createCompanyHandler}
-                                />
+                                    loading={loading}                                />
                             </div>
                         ))}
                     </div>

@@ -3,7 +3,7 @@ import {BrowserRouter as Router} from 'react-router-dom'
 import {useRoutes} from "./routes";
 import {useAuth} from "./hooks/auth.hook";
 import {AuthContext} from "./context/auth.context";
-import {Loader} from "./pages/components/Loader";
+import {Loader} from "./pages/components/GeneralComponents/Loader";
 
 function App() {
 

@@ -1,5 +1,5 @@
 import React from "react";
-import TableMembers from "../../TableMembers";
+import TableMembers from "./TableMembers";
 
 const ListMembers = ({ companyId }) => {
 

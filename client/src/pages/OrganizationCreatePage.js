@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useHttp } from "../hooks/http.hook";
-import { Loader } from "./components/Loader";
+import { Loader } from "./components/GeneralComponents/Loader";
 import PlanCard from "./components/PlanCard";
 import { AuthContext } from "../context/auth.context";
 
