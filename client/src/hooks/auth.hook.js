@@ -14,31 +14,24 @@ export const useAuth = () => {
         setHasCompany(hasCompanyState)
 
         localStorage.setItem(storageName, JSON.stringify({
-            userId: id, token: jwtToken, hasCompany: hasCompany
-        }))
-    }, [])
-
-    const setUserCompanyState = useCallback((hasCompanyState) => {
-        setHasCompany(hasCompanyState)
-
-        localStorage.setItem(storageName, JSON.stringify({
-            hasCompany: hasCompany
+            userId: id, token: jwtToken, hasCompany: hasCompanyState
         }))
     }, [])
 
     const logout = useCallback(() => {
         setToken(null)
         setUserId(null)
+        setHasCompany(null)
         localStorage.removeItem(storageName)
     }, [])
 
     useEffect(() => {
         const data = JSON.parse(localStorage.getItem(storageName))
         if (data && data.token) {
-            login(data.token, data.userId)
+            login(data.token, data.userId, data.hasCompany)
         }
         setReady(true)
     }, [login])
 
-    return { login, logout, token, userId, ready, hasCompany, setUserCompanyState }
+    return { login, logout, token, userId, ready, hasCompany }
 }

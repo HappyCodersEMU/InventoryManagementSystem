@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useHttp } from "../hooks/http.hook";
-import { Loader } from "./components/Loader";
+import { Loader } from "./components/GeneralComponents/Loader";
 import PlanCard from "./components/PlanCard";
 import { AuthContext } from "../context/auth.context";
 
@@ -37,7 +37,7 @@ export const OrganizationCreatePage = () => {
             }
             const userId = auth.userId
             const req = await request('/api/companies', 'POST', { companyName, planName, userId })
-            auth.setUserCompanyState(req.hasCompany)
+            auth.login(auth.token, auth.userId, req.hasCompany)
         } catch (e) { }
     }
 
@@ -68,11 +68,13 @@ export const OrganizationCreatePage = () => {
                             <PlanCard /> will be rendered for each plan.
                         */}
                         {subscriptionPlans.map((plan) => (
-                            <PlanCard
-                                data={plan}
-                                loading={loading}
-                                onClick={createCompanyHandler}
-                            />
+                            <div key={plan.name}>
+                                <PlanCard
+                                    data={plan}
+                                    loading={loading}
+                                    onClick={createCompanyHandler}
+                                />
+                            </div>
                         ))}
                     </div>
                     <button onClick={logoutHandler}>
