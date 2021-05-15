@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const AuthController = require("../controllers/authController");
+const MemberController = require("../controllers/memberController");
 const CompanyController = require("../controllers/companyController");
 const ProductController = require("../controllers/productController");
 const RoleController = require("../controllers/roleController");
@@ -11,6 +12,11 @@ const CategoryController = require("../controllers/categoryController");
 // Auth
 router.post("/api/auth/register", AuthController.validate("register"), AuthController.register);
 router.post('/api/auth/login', AuthController.validate("login"), AuthController.login);
+
+// Member
+router.post('/api/members', MemberController.validate("addMember"), MemberController.addMemeber);
+router.get('/api/members:id', MemberController.validate("getById"), MemberController.getById);
+router.get('/api/members', MemberController.searchMembers);
 
 // Companies
 router.post('/api/companies', CompanyController.validate('createCompany'), CompanyController.createCompany);
