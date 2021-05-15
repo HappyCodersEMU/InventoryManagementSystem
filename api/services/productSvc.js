@@ -9,7 +9,8 @@ module.exports = class ProductService {
 
     static async getAll() {
         const data = await Product.find()
-            .select("name _id productImage categoryId description") // Select only listed fields
+            .select("productCode name _id productImage categoryId subcategoryId description") // Select only listed fields
+            .populate("categoryId subcategoryId")
             .exec()
 
         const result = {
@@ -17,9 +18,12 @@ module.exports = class ProductService {
             products: data.map((d) => {
                 return {
                     _id: d._id,
+                    productCode: d.productCode,
                     name: d.name,
+                    categoryId: d.categoryId,
+                    subcategoryId: d.subcategoryId,
                     // price: d.price,
-                    description: d.description,
+                    // description: d.description,
                 };
             }),
         };
@@ -37,7 +41,7 @@ module.exports = class ProductService {
 
     static async createProduct(data) {
         // TODO: handle details object
-        const { name, imageUrl, categoryId, subcategoryId, description } = data
+        const { productCode, name, imageUrl, categoryId, subcategoryId, description } = data
 
         // check if subcategory is under the valid category
         const validCategory = await Subcategory.find({_id: subcategoryId, categoryId})
@@ -46,6 +50,7 @@ module.exports = class ProductService {
         }
         
         const product = new Product({
+            productCode,
             name,
             imageUrl,
             categoryId,

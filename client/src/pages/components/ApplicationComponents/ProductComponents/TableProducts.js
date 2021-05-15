@@ -2,11 +2,15 @@ import React, { useEffect, useState } from "react";
 import orderBy from "lodash";
 import { Loader } from "../../GeneralComponents/Loader";
 import { Link} from "react-router-dom";
+import { useHttp } from "../../../../hooks/http.hook";
+import './TableProducts.css'
 
 function TableProducts({ companyId }) {
 
+    const { request } = useHttp()
+
     // Initial data
-    const [data, setData] = useState(null)
+    const [products, setProducts] = useState(null)
     const [categories, setCategories] = useState(null)
     const [subcategories, setSubcategories] = useState(null)
 
@@ -26,28 +30,16 @@ function TableProducts({ companyId }) {
         sortKey: 'id',
     })
 
-    const test = () => {
-
-    }
-
     const getData = async () => {
-        const req = []
-        let count = 1;
-        for (let i = 1; i <= 15; i++) {
-            for (let j = 1; j <= 2; j++) {
-                const abc = {
-                    "_id": `607dd90a2fb5d52c4e0b0bb1${count}`,
-                    "code": `code${count}`,
-                    "name": `Name${count}`,
-                    "category": `category${i}`,
-                    "subcategory": `subcategory${j}`
-                }
-                req.push(abc)
-                count++;
-            }
-        }
-        setData(req)
-        setDataToDisplay(req)
+
+        const categories = await request('/api/categories', 'GET')
+        setCategories(categories.categories)
+        const subcategories = await request('/api/subcategories', 'GET')
+        setSubcategories(subcategories.subcategories)
+        const products = await request('/api/products', 'GET')
+        setProducts(products.products)
+
+        setDataToDisplay(products.products)
     }
 
     useEffect(async () => {
@@ -56,7 +48,7 @@ function TableProducts({ companyId }) {
     }, [])
 
     const onReset = () => {
-        setDataToDisplay(data)
+        setDataToDisplay(products)
         setSortState({ sort: '', sortKey: ''})
         // setSearchString('')
     }
@@ -73,26 +65,26 @@ function TableProducts({ companyId }) {
     }
 
     const onSearch = () => {
-        setDataToDisplay(data)
+        setDataToDisplay(products)
         const search = { searchString, categorySelector, subcategorySelector }
         if (!search.searchString && !search.categorySelector && !search.subcategorySelector) {
             setSortState({ sort: '', sortKey: ''})
             return
         }
 
-        const categorisedData = data.filter(item => {
+        const categorisedData = products.filter(item => {
             if (search.categorySelector === null) { return item }
             if (search.subcategorySelector === null) {
-                return item['category'].toLowerCase().includes(search.categorySelector.toLowerCase())
+                return item.categoryId.name.toLowerCase().includes(search.categorySelector.toLowerCase())
             }
-            return item['category'].toLowerCase().includes(search.categorySelector.toLowerCase())
-                && item['subcategory'].toLowerCase().includes(search.subcategorySelector.toLowerCase())
+            return item.categoryId.name.toLowerCase().includes(search.categorySelector.toLowerCase())
+                && item.subcategoryId.name.toLowerCase().includes(search.subcategorySelector.toLowerCase())
         })
 
         const filteredData = categorisedData.filter(item => {
 
             if (search.searchString === null) { return item }
-            return item['code'].toLowerCase().includes(search.searchString.toLowerCase())
+            return item['productCode'].toLowerCase().includes(search.searchString.toLowerCase())
                 || item['name'].toLowerCase().includes(search.searchString.toLowerCase())
         })
 
@@ -113,8 +105,8 @@ function TableProducts({ companyId }) {
         } else {
             setCategorySelector(category)
             const arr = []
-            data.map((item) => {  // CHANGE data.map TO subcategory.map AFTER getData FUNCTION IS IMPLEMENTED
-                if (item.category === category) {
+            subcategories.map((item) => {
+                if (item.categoryId.name === category) {
                     arr.push(item)
                 }
             })
@@ -132,6 +124,15 @@ function TableProducts({ companyId }) {
 
     if (!dataState) {
         return <Loader />
+    }
+
+    if (dataToDisplay.length === 0) {
+        return (
+            <>
+                <div>No data found</div>
+                { products && <button onClick={onReset}>Reset</button>}
+            </>
+        )
     }
 
     return (
@@ -164,34 +165,35 @@ function TableProducts({ companyId }) {
                 <div className="input-group-append">
                     <select id="categorySelector" className="btn btn-outline-secondary" onChange={categoryChangeHandler} >
                         <option defaultValue>*Category*</option>
-                        <option>category1</option>
-                        <option>category2</option>
+                        { categories.map(item => (
+                            <option key={item._id}>{ item.name }</option>
+                        ))}
                     </select>
                 </div>
                 <div className="input-group-append">
                     <select id="subcategorySelector" className="btn btn-outline-secondary" onChange={subcategoryChangeHandler} >
                         <option defaultValue>*Subcategory*</option>
                         { subcategorySelectOptionsArray !== null && subcategorySelectOptionsArray.map((item) => (
-                            <option key={item._id}>{item.subcategory}</option>
+                            <option key={item._id}>{item.name}</option>
                         ))}
                     </select>
                 </div>
             </div>
             <div className="table-wrap">
-                <table className="table">
+                <table className="table table-products">
                     <thead>
                     <tr>
-                        <th onClick={e => onSort(e, 'code')}>
-                            Code {sortState.sortKey === 'code' ? <small>{sortState.sort}</small> : null}
+                        <th onClick={e => onSort(e, 'productCode')}>
+                            Code {sortState.sortKey === 'productCode' ? <small>{sortState.sort}</small> : null}
                         </th>
                         <th onClick={e => onSort(e, 'name')}>
                             Name {sortState.sortKey === 'name' ? <small>{sortState.sort}</small> : null}
                         </th>
-                        <th onClick={e => onSort(e, 'category')}>
-                            Category {sortState.sortKey === 'category' ? <small>{sortState.sort}</small> : null}
+                        <th onClick={e => onSort(e, 'categoryId.name')}>
+                            Category {sortState.sortKey === 'categoryId.name' ? <small>{sortState.sort}</small> : null}
                         </th>
-                        <th onClick={e => onSort(e, 'subcategory')}>
-                            Subcategory {sortState.sortKey === 'subcategory' ? <small>{sortState.sort}</small> : null}
+                        <th onClick={e => onSort(e, 'subcategoryId.name')}>
+                            Subcategory {sortState.sortKey === 'subcategoryId.name' ? <small>{sortState.sort}</small> : null}
                         </th>
                         <th>
 
@@ -201,12 +203,12 @@ function TableProducts({ companyId }) {
                     <tbody>
                     {dataToDisplay.map((item) => (
                         <tr key={item._id}>
-                            <td>{item.code}</td>
+                            <td>{item.productCode}</td>
                             <td>{item.name}</td>
-                            <td>{item.category}</td>
-                            <td>{item.subcategory}</td>
+                            <td>{item.categoryId.name}</td>
+                            <td>{item.subcategoryId.name}</td>
                             <td>
-                                <Link to={`/${companyId}/buy?${item.code}`} >Buy</Link>
+                                <Link to={`/${companyId}/buy?${item.productCode}`} className="btn btn-outline-dark" >Buy</Link>
                             </td>
                         </tr>
                     ))}
