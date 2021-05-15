@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import orderBy from "lodash";
 import { Loader } from "../../GeneralComponents/Loader";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+import Modal from "./Modal";
 
-function TableProducts({ companyId }) {
+function TableBuy({ companyId, setModalActive, setModalData }) {
 
     // Initial data
     const [data, setData] = useState(null)
@@ -26,8 +27,14 @@ function TableProducts({ companyId }) {
         sortKey: 'id',
     })
 
-    const test = () => {
+    // Popup window
 
+    const buyHandler = (_id, code, name, seller, quantity, price) => {
+        setModalData({_id, code, name, seller, quantity, price})
+        setModalActive(true)
+    }
+
+    const test = () => {
     }
 
     const getData = async () => {
@@ -39,21 +46,28 @@ function TableProducts({ companyId }) {
                     "_id": `607dd90a2fb5d52c4e0b0bb1${count}`,
                     "code": `code${count}`,
                     "name": `Name${count}`,
-                    "category": `category${i}`,
-                    "subcategory": `subcategory${j}`
+                    "seller": `company${i}`,
+                    "quantity": `${count}`,
+                    "price": `${count}`
                 }
                 req.push(abc)
                 count++;
             }
         }
-        setData(req)
-        setDataToDisplay(req)
+        await setData(req)
+        await setDataToDisplay(req)
     }
 
     useEffect(async () => {
         await getData()
         setDataState(true)
     }, [])
+
+    useEffect(() => {
+        const search = window.location.search
+        setSearchString(search.replace('?', ''))
+        onSearch()
+    },[dataState])
 
     const onReset = () => {
         setDataToDisplay(data)
@@ -141,8 +155,7 @@ function TableProducts({ companyId }) {
             {/*</button>*/}
 
 
-
-            <h1>Products</h1>
+            <h1>Buy Table</h1>
             <div className="input-group mb-3 mt-3">
                 <div className="input-group-prepend">
                     <button
@@ -187,15 +200,16 @@ function TableProducts({ companyId }) {
                         <th onClick={e => onSort(e, 'name')}>
                             Name {sortState.sortKey === 'name' ? <small>{sortState.sort}</small> : null}
                         </th>
-                        <th onClick={e => onSort(e, 'category')}>
-                            Category {sortState.sortKey === 'category' ? <small>{sortState.sort}</small> : null}
-                        </th>
-                        <th onClick={e => onSort(e, 'subcategory')}>
-                            Subcategory {sortState.sortKey === 'subcategory' ? <small>{sortState.sort}</small> : null}
+                        <th onClick={e => onSort(e, 'seller')}>
+                            Seller {sortState.sortKey === 'seller' ? <small>{sortState.sort}</small> : null}
                         </th>
                         <th>
-
+                            Quantity
                         </th>
+                        <th>
+                            Price
+                        </th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -203,10 +217,21 @@ function TableProducts({ companyId }) {
                         <tr key={item._id}>
                             <td>{item.code}</td>
                             <td>{item.name}</td>
-                            <td>{item.category}</td>
-                            <td>{item.subcategory}</td>
+                            <td>{item.seller}</td>
+                            <td>{item.quantity}</td>
+                            <td>{item.price}</td>
                             <td>
-                                <Link to={`/${companyId}/buy?${item.code}`} >Buy</Link>
+                                <button onClick={e => buyHandler(
+                                        item._id,
+                                        item.code,
+                                        item.name,
+                                        item.seller,
+                                        item.quantity,
+                                        item.price
+                                    )}
+                                className="btn btn-outline-dark">
+                                    Buy
+                                </button>
                             </td>
                         </tr>
                     ))}
@@ -218,4 +243,4 @@ function TableProducts({ companyId }) {
     );
 }
 
-export default TableProducts;
+export default TableBuy;

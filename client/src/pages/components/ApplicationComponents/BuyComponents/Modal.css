@@ -1,0 +1,8 @@
+.modal {
+    display: block!important;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.modal-footer > .btn {
+    color: rgb(220,220,220);
+}
