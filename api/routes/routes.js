@@ -3,6 +3,7 @@ const router = express.Router();
 
 const AuthController = require("../controllers/authController");
 const MemberController = require("../controllers/memberController");
+const UserController = require("../controllers/userController");
 const CompanyController = require("../controllers/companyController");
 const ProductController = require("../controllers/productController");
 const RoleController = require("../controllers/roleController");
@@ -15,8 +16,13 @@ router.post('/api/auth/login', AuthController.validate("login"), AuthController.
 
 // Member
 router.post('/api/members', MemberController.validate("addMember"), MemberController.addMemeber);
-router.get('/api/members:id', MemberController.validate("getById"), MemberController.getById);
+router.get('/api/members/:id', MemberController.validate("getById"), MemberController.getById);
 router.get('/api/members', MemberController.searchMembers);
+
+// User
+router.get('/api/users/:id', UserController.validate("getById"), UserController.getById);
+router.get('/api/users/email/:email', UserController.validate("getByEmail"), UserController.getByEmail);
+router.get('/api/users', UserController.searchUsers);
 
 // Companies
 router.post('/api/companies', CompanyController.validate('createCompany'), CompanyController.createCompany);
