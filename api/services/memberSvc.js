@@ -8,8 +8,8 @@ module.exports = class MemeberService {
         const { email, companyID, roleID } = data
         let userID = data.userID;
 
-        if (typeof(userID) == 'undefined' || userID == null ) {
-           const user = await User.findOne({ email }).select("userID").exec()
+        if (typeof (userID) == 'undefined' || userID == null) {
+            const user = await User.findOne({ email }).select("userID").exec()
             if (!user) {
                 throw ({ status: 400, message: 'User with provided email not found' });
             }
@@ -53,7 +53,8 @@ module.exports = class MemeberService {
     static async search(searchQuery, limit) {
         const data = await Member.find(searchQuery)
             .select("_id userID companyID  roleID")
-            .populate('userID roleID')
+            .populate('userID', '-password -__v')
+            .populate('roleID', '-__v')
             .limit(limit)
             .exec()
 
