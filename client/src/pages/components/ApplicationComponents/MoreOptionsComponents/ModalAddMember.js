@@ -1,32 +1,58 @@
 import React, {useEffect, useState} from "react";
 import '../Modal.css'
 import {useHttp} from "../../../../hooks/http.hook";
+import {Loader} from "../../GeneralComponents/Loader";
 
 const ModalAddMember = ({ companyId, active, setActive }) => {
 
     const { request } = useHttp()
     const [roles, setRoles] = useState(null)
+    const [selectedRole, setSelectedRole] = useState(null)
+    const [emailToAdd, setEmailToAdd] = useState(null)
+    const [dataState, setDataState] = useState(null)
 
     const getRoles = async () => {
         const req = await request(`/api/roles`, 'GET')
-
         setRoles(req)
     }
 
     useEffect(async () => {
         await getRoles()
+        setDataState(true)
     }, [])
 
-    const test = () => {
-
+    const roleChangeHandler = (event) => {
+        const selected = event.target.value
+        if (selected === '*Role*') {
+            setSelectedRole(null)
+        } else {
+            const role = roles.find((role) => {
+                return role.roleName === selected
+            })
+            setSelectedRole(role._id)
+        }
     }
 
-    const addHandler = () => {
+    const emailChangeHandler = (event) => {
+        setEmailToAdd(event.target.value)
+    }
 
+    const addHandler = async () => {
+        try {
+            const req = await request('/api/auth/register', 'POST', { email: emailToAdd, companyId: companyId, roleId: selectedRole })
+        } catch (e) {}
     }
 
     const closeHandler = () => {
         setActive(false)
+    }
+
+    if (!dataState) {
+        return <Loader />
+    }
+
+    const test = () => {
+        console.log(selectedRole)
     }
 
     return (
@@ -44,14 +70,19 @@ const ModalAddMember = ({ companyId, active, setActive }) => {
                         <div className="modal-body">
                             <ul>
                                 <li>CompanyID: {companyId}</li>
-                                <li>Email<input /></li>
-                                <li>
-                                    <select></select>
+                                <li>Email: <input onChange={emailChangeHandler}/></li>
+                                <li>Role:&nbsp;
+                                    <select id="categorySelector" className="btn btn-outline-secondary" onClick={roleChangeHandler}>
+                                        <option defaultValue>*Role*</option>
+                                        {roles.map((role) => (
+                                            <option key={role._id}>{role.roleName}</option>
+                                        ))}
+                                    </select>
                                 </li>
                             </ul>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-primary" onClick={addHandler}>Confirm</button>
+                            <button type="button" className="btn btn-primary" onClick={addHandler}>Add</button>
                             <button type="button"
                                     className="btn btn-secondary"
                                     onClick={closeHandler}

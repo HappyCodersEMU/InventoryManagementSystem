@@ -14,6 +14,8 @@ import ModalAddMember from "./components/ApplicationComponents/MoreOptionsCompon
 
 export const Application = () => {
 
+    const [modalAddMemberActive, setModalAddMemberActive] = useState(false)
+    const [modalAddMemberTemp, setModalAddMemberTemp] = useState(false)
     const [modalActive, setModalActive] = useState(false)
     const [modalData, setModalData] = useState(false)
 
@@ -21,14 +23,17 @@ export const Application = () => {
     const link = useParams().link
 
     const test = () => {
-        console.log(modalActive)
     }
 
     return (
         <div>
             <button onClick={test}>test</button>
 
-            { modalActive === true && <ModalAddMember companyId={companyId} active={modalActive} setActive={setModalActive}/> }
+            { modalAddMemberActive === true && <ModalAddMember
+                companyId={companyId}
+                active={modalAddMemberActive}
+                setActive={setModalAddMemberActive}
+            /> }
 
 
             <div className="background">
@@ -45,7 +50,7 @@ export const Application = () => {
                         { link === 'sell' && <SellList /> }
                         { link === 'more' && <MoreList companyId={companyId} /> }
                         <>
-                            { link === 'list-members' && <TableMembers companyId={ companyId } setModalActive={setModalActive} setModalData={setModalData}/> }
+                            { link === 'list-members' && <TableMembers companyId={ companyId } setModalActive={setModalAddMemberActive}/> }
                         </>
                     </div>
                 </div>
