@@ -332,9 +332,13 @@ header {
 
 .company-creation-box select {
     height: 30px;
-    width: 30%;
     font-size: 20px;
     margin: 20px 0 0 15px;
+}
+
+.company-creation-box button {
+    padding: 5px;
+    margin-top: 20px;
 }
 
 .temp {

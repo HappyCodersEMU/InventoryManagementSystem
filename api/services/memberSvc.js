@@ -43,6 +43,7 @@ module.exports = class MemeberService {
     static async search(searchQuery, limit) {
         const data = await Member.find(searchQuery)
             .select("_id userID companyID  roleID")
+            .populate('userID roleID')
             .limit(limit)
             .exec()
 

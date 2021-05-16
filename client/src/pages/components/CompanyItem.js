@@ -2,7 +2,6 @@ import React from "react";
 import {Link} from "react-router-dom";
 
 function CompanyItem({ data, loading }) {
-
     return (
         <div className="list-wrap">
             <Link to={`/${data._id}/home`}>
@@ -14,7 +13,7 @@ function CompanyItem({ data, loading }) {
                         Company ID: {data._id}
                     </div>
                     <div className="company-info-text">
-                        Subscription Plan: {data.subscriptionID}
+                        Subscription Plan: {data.subscriptionID.name}
                     </div>
                 </div>
             </Link>

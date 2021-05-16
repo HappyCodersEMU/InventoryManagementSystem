@@ -3,19 +3,19 @@ import {useParams} from 'react-router-dom'
 import Header from "./components/GeneralComponents/Header";
 import Navbar from "./components/GeneralComponents/Navbar";
 import MoreList from "./components/ApplicationComponents/MoreOptionsComponents/MoreList";
-import ProductList from "./components/ApplicationComponents/ProductList";
 import Inventory from "./components/ApplicationComponents/Inventory";
-import BuyList from "./components/ApplicationComponents/BuyList";
 import SellList from "./components/ApplicationComponents/SellList";
 import HomePage from "./components/ApplicationComponents/HomePage";
-import ListMembers from "./components/ApplicationComponents/MoreOptionsComponents/ListMembers";
 import TableMembers from "./components/ApplicationComponents/MoreOptionsComponents/TableMembers";
 import TableProducts from "./components/ApplicationComponents/ProductComponents/TableProducts";
 import TableBuy from "./components/ApplicationComponents/BuyComponents/TableBuy";
 import Modal from "./components/ApplicationComponents/BuyComponents/Modal";
+import ModalAddMember from "./components/ApplicationComponents/MoreOptionsComponents/ModalAddMember";
 
 export const Application = () => {
 
+    const [modalAddMemberActive, setModalAddMemberActive] = useState(false)
+    const [modalAddMemberTemp, setModalAddMemberTemp] = useState(false)
     const [modalActive, setModalActive] = useState(false)
     const [modalData, setModalData] = useState(false)
 
@@ -23,18 +23,17 @@ export const Application = () => {
     const link = useParams().link
 
     const test = () => {
-        console.log(modalActive)
     }
 
     return (
         <div>
             <button onClick={test}>test</button>
 
-            { modalActive === true
-            && <Modal active={modalActive}
-                      setActive={setModalActive}
-                      modalData={modalData}
-                      setModalData={setModalData}/> }
+            { modalAddMemberActive === true && <ModalAddMember
+                companyId={companyId}
+                active={modalAddMemberActive}
+                setActive={setModalAddMemberActive}
+            /> }
 
 
             <div className="background">
@@ -51,7 +50,7 @@ export const Application = () => {
                         { link === 'sell' && <SellList /> }
                         { link === 'more' && <MoreList companyId={companyId} /> }
                         <>
-                            { link === 'list-members' && <TableMembers companyId={ companyId } /> }
+                            { link === 'list-members' && <TableMembers companyId={ companyId } setModalActive={setModalAddMemberActive}/> }
                         </>
                     </div>
                 </div>
