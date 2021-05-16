@@ -1,19 +1,32 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import '../Modal.css'
+import {useHttp} from "../../../../hooks/http.hook";
 
-const Modal = ({ active, setActive, modalData, setModalData }) => {
+const ModalAddMember = ({ companyId, active, setActive }) => {
 
-    const test = () => {
-        console.log(modalData)
+    const { request } = useHttp()
+    const [roles, setRoles] = useState(null)
+
+    const getRoles = async () => {
+        const req = await request(`/api/roles`, 'GET')
+
+        setRoles(req)
     }
 
-    const buyHandler = () => {
+    useEffect(async () => {
+        await getRoles()
+    }, [])
+
+    const test = () => {
+
+    }
+
+    const addHandler = () => {
 
     }
 
     const closeHandler = () => {
         setActive(false)
-        setModalData(null)
     }
 
     return (
@@ -30,15 +43,15 @@ const Modal = ({ active, setActive, modalData, setModalData }) => {
                         </div>
                         <div className="modal-body">
                             <ul>
-                                <li>Product Code: ${modalData.code}</li>
-                                <li>Product Name: ${modalData.name}</li>
-                                <li>Company-seller: ${modalData.seller}</li>
-                                <li>Quantity: ${modalData.quantity}</li>
-                                <li>Price: ${modalData.price}</li>
+                                <li>CompanyID: {companyId}</li>
+                                <li>Email<input /></li>
+                                <li>
+                                    <select></select>
+                                </li>
                             </ul>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-primary" onClick={buyHandler}>Confirm</button>
+                            <button type="button" className="btn btn-primary" onClick={addHandler}>Confirm</button>
                             <button type="button"
                                     className="btn btn-secondary"
                                     onClick={closeHandler}
@@ -53,4 +66,4 @@ const Modal = ({ active, setActive, modalData, setModalData }) => {
     );
 }
 
-export default Modal;
+export default ModalAddMember;

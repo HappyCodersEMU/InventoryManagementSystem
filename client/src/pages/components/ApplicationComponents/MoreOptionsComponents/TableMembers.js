@@ -2,62 +2,48 @@ import React, {useEffect, useState} from "react";
 import orderBy from "lodash";
 import {Loader} from "../../GeneralComponents/Loader";
 import './TableMembers.css'
+import {useHttp} from "../../../../hooks/http.hook";
 
-function TableMembers({ companyId }) {
+function TableMembers({ companyId, setModalActive }) {
+
+    const { request } = useHttp()
 
     const [data, setData] = useState(null)
     const [dataToDisplay, setDataToDisplay] = useState(null)
     const [searchString, setSearchString] = useState(null)
     const [dataState, setDataState] = useState(null)
-    const [newDataState, setNewDataState] = useState(null)
     const [sortState, setSortState] = useState({
         sort: 'asc',
         sortKey: 'id',
     })
-    const [temp, setTemp] = useState(false)
 
     const test = () => {
-        console.log(data)
+
     }
 
     const getData = async () => {
-        const req = []
-        for (let i = 1; i <= 70; i++) {
-            const abc = {
-                "_id": `607dd90a2fb5d52c4e0b0bb1${i}`,
-                "email": `${i}@yandex.ru`,
-                "name": `Name${i}`,
-                "surname": `Surname${i}`,
-                "role": `role${i}`
-            }
-            req.push(abc)
-        }
-        if (temp === true) {
-            const abc = {
-                "_id": `607dd90a2fb5d52c4e0b0bb1KAVO`,
-                "email": `kavo@yandex.ru`,
-                "name": `kavo`,
-                "surname": `kavo`,
-                "role": `kavo`
-            }
-            req.push(abc)
-        }
+        const req = await request(`/api/members?companyId=${companyId}`, 'GET')
+
+        // const abc = {
+        //     _id: '60a10c4b3011fd210022ffbf',
+        //     userID: {email: 'aboba@yandex.ru', name: 'aboba', surname: 'aboba'},
+        //     companyID: "60a10c4b3011fd210022ffbd",
+        //     roleID: {roleName: 'aboba'}
+        // }
+        // req.push(abc)
+
         setData(req)
         setDataToDisplay(req)
-        setTemp(true)
+    }
+
+    const addMemberHandler = () => {
+        setModalActive(true)
     }
 
     useEffect(async () => {
         await getData()
         setDataState(true)
     }, [])
-
-    useEffect(async () => {
-        if (newDataState === true) {
-            await getData()
-            setNewDataState(false)
-        }
-    }, [newDataState])
 
     const onReset = () => {
         setDataToDisplay(data)
@@ -84,10 +70,10 @@ function TableMembers({ companyId }) {
             return
         }
         const filteredData = data.filter(item => {
-            return item['email'].toLowerCase().includes(search.toLowerCase())
-                || item['name'].toLowerCase().includes(search.toLowerCase())
-                || item['surname'].toLowerCase().includes(search.toLowerCase())
-                || item['role'].toLowerCase().includes(search.toLowerCase())
+            return item.userID.email.toLowerCase().includes(search.toLowerCase())
+                || item.userID.name.toLowerCase().includes(search.toLowerCase())
+                || item.userID.surname.toLowerCase().includes(search.toLowerCase())
+                || item.roleID.roleName.toLowerCase().includes(search.toLowerCase())
         })
         setDataToDisplay(filteredData)
     }
@@ -100,8 +86,22 @@ function TableMembers({ companyId }) {
         return <Loader />
     }
 
+    if (dataToDisplay.length === 0) {
+        return (
+            <>
+                <div>No data found</div>
+                { data && <button onClick={onReset}>Reset</button>}
+            </>
+        )
+    }
+
     return (
         <>
+            <button className="btn btn-outline-secondary btn-add-member"
+                    onClick={test}>
+                test
+            </button>
+
             <div className="input-group mb-3 mt-3">
                 <div className="input-group-prepend">
                     <button
@@ -125,27 +125,27 @@ function TableMembers({ companyId }) {
                 <table className="table table-members">
                     <thead>
                     <tr>
-                        <th onClick={e => onSort(e, 'email')}>
-                            Email {sortState.sortKey === 'email' ? <small>{sortState.sort}</small> : null}
+                        <th onClick={e => onSort(e, 'userID.email')}>
+                            Email {sortState.sortKey === 'userID.email' ? <small>{sortState.sort}</small> : null}
                         </th>
-                        <th onClick={e => onSort(e, 'name')}>
-                            Name {sortState.sortKey === 'name' ? <small>{sortState.sort}</small> : null}
+                        <th onClick={e => onSort(e, 'userID.name')}>
+                            Name {sortState.sortKey === 'userID.name' ? <small>{sortState.sort}</small> : null}
                         </th>
-                        <th onClick={e => onSort(e, 'surname')}>
-                            Surname {sortState.sortKey === 'surname' ? <small>{sortState.sort}</small> : null}
+                        <th onClick={e => onSort(e, 'userID.surname')}>
+                            Surname {sortState.sortKey === 'userID.surname' ? <small>{sortState.sort}</small> : null}
                         </th>
-                        <th onClick={e => onSort(e, 'role')}>
-                            Role {sortState.sortKey === 'role' ? <small>{sortState.sort}</small> : null}
+                        <th onClick={e => onSort(e, 'roleID.roleName')}>
+                            Role {sortState.sortKey === 'roleID.roleName' ? <small>{sortState.sort}</small> : null}
                         </th>
                     </tr>
                     </thead>
                     <tbody>
                     {dataToDisplay.map((user) => (
                         <tr key={user._id}>
-                            <td>{user.email}</td>
-                            <td>{user.name}</td>
-                            <td>{user.surname}</td>
-                            <td>{user.role}</td>
+                            <td>{user.userID.email}</td>
+                            <td>{user.userID.name}</td>
+                            <td>{user.userID.surname}</td>
+                            <td>{user.roleID.roleName}</td>
                         </tr>
                     ))}
                     </tbody>
@@ -153,12 +153,8 @@ function TableMembers({ companyId }) {
             </div>
             <hr />
             <button className="btn btn-outline-secondary btn-add-member"
-            onClick={(e) => {setNewDataState(true)}}>
+                    onClick={addMemberHandler}>
                 Add New Member
-            </button>
-            <button className="btn btn-outline-secondary btn-add-member"
-                    onClick={test}>
-                test
             </button>
         </>
     );

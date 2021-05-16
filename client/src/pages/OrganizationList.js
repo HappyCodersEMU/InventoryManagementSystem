@@ -11,54 +11,65 @@ export const OrganizationList = () => {
     const auth = useContext(AuthContext)
     const { loading, request } = useHttp()
     const [dataState, setDataState] = useState(null)
-    const [companies, setCompanies] = useState(null)
+    const [companiesToDisplay, setCompaniesToDisplay] = useState([])
     const [companyName, setCompanyName] = useState(null)
-    const [planName, setPlanName] = useState('classic')
+    const [planName, setPlanName] = useState(null)
+    const [planInfoData, setPlanInfoData] = useState(null)
     const [subscriptionPlans, setSubscriptionPlans] = useState(null)
+
+    const test = () => {
+        console.log(subscriptionPlans)
+    }
 
     const changeHandler = event => {
         setCompanyName(event.target.value)
     }
 
     const selectHandler = event => {
-        setPlanName(event.target.value.toLowerCase())
+        const selectedPlanName = event.target.value
+        const selectedPlanData = subscriptionPlans.find((item) => {
+            return item.name === selectedPlanName
+        })
+
+        setPlanName(selectedPlanName)
+        setPlanInfoData(selectedPlanData)
+
     }
 
     const getData = async () => {
-        // const req = await request('/api/subscriptions', 'GET')
-        const req = [{
-            "_id": "607dd90a2fb5d52c4e0b0bb4",
-            "name": "New Company 1",
-            "subscriptionID": null
-        }, {
-            "_id": "607dd90a2fb5d52c4e0b0bb5",
-            "name": "New Company 2",
-            "subscriptionID": null
-        }, {
-            "_id": "607dd90a2fb5d52c4e0b0bb6",
-            "name": "New Company 3",
-            "subscriptionID": null
-        }]
-        setCompanies(req)
-    }
-
-    const getSubscriptionPlans = async () => {
+        const userID = auth.userId
+        const data = await request(`/api/members?userId=${userID}`, 'GET')
+        const companies = await request(`/api/companies`, 'GET')
         const plans = await request('/api/subscriptions', 'GET')
+
+        const arr = []
+        data.map((item) => {
+            companies.map((company) => {
+                if (company._id === item.companyID) {
+                    arr.push(company)
+                }
+            })
+        })
+
         setSubscriptionPlans(plans)
+        setCompaniesToDisplay(arr)
     }
 
     useEffect(async () => {
         if (!dataState) {
             await getData()
-            await getSubscriptionPlans()
             setDataState(true)
         }
     }, [])
 
     const createCompanyHandler = async () => {
         try {
-            if (companyName.length < 3) {
+            if (!companyName || companyName.length < 3) {
                 console.log("Length of company name should be more then 3 symbols")
+                return
+            }
+            if (!planName || planName === '*Subscription Plan*') {
+                console.log("Choose the subscription plan")
                 return
             }
             const userId = auth.userId
@@ -72,15 +83,21 @@ export const OrganizationList = () => {
 
     return (
         <div>
+
+
             <div className="background">
                 <Header />
+                <button onClick={test}>
+                    Test
+                </button>
                 <div className="container">
                     <div className="list-container">
-                        {companies.map((company) => (
+                        {companiesToDisplay.map((company) => (
                             <div key={company['_id']}>
                                 <CompanyItem
                                     data={company}
-                                    loading={loading}                                />
+                                    loading={loading}
+                                />
                             </div>
                         ))}
                     </div>
@@ -92,14 +109,13 @@ export const OrganizationList = () => {
                                id="companyName"
                                onChange={changeHandler}
                         />
-                        <select onChange={selectHandler}>
-                            <option defaultChecked>Classic</option>
-                            <option>Pro</option>
-                            <option>Gold</option>
+                        <select onChange={selectHandler} >
+                            <option defaultChecked>*Subscription Plan*</option>
+                            { subscriptionPlans && subscriptionPlans.map((item) => (
+                                <option key={item._id}>{item.name}</option>
+                            ))}
                         </select>
-                        { planName === 'classic' && <PlanInfo data={subscriptionPlans[0]}/>}
-                        { planName === 'pro' && <PlanInfo data={subscriptionPlans[1]}/>}
-                        { planName === 'gold' && <PlanInfo data={subscriptionPlans[2]}/>}
+                        { planName && planName !== '*Subscription Plan*' && <PlanInfo data={planInfoData}/>}
                         <button onClick={createCompanyHandler}>
                             Create company
                         </button>
