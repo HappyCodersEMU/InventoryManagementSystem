@@ -55,6 +55,7 @@ module.exports = class MemeberService {
             .select("_id userID companyID  roleID")
             .populate('userID', '-password -__v')
             .populate('roleID', '-__v')
+            .populate('companyID', '-__v')
             .limit(limit)
             .exec()
 
