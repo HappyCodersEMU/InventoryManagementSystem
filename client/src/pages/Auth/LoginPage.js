@@ -1,6 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react'
 import {useHttp} from '../../hooks/http.hook';
 import {AuthContext} from '../../context/auth.context';
+import './Login.css'
 
 export const LoginPage = () => {
     const auth = useContext(AuthContext)

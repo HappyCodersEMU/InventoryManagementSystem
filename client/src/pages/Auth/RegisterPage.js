@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useHttp } from "../../hooks/http.hook"
+import './Login.css'
+
 
 export const RegisterPage = () => {
 
