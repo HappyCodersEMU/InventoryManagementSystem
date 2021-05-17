@@ -39,7 +39,7 @@ const ModalAddMember = ({ companyId, active, setActive }) => {
 
     const addHandler = async () => {
         try {
-            const req = await request('/api/auth/register', 'POST', { email: emailToAdd, companyId: companyId, roleId: selectedRole })
+            const req = await request('/api/members', 'POST', { email: emailToAdd, companyID: companyId, roleID: selectedRole })
         } catch (e) {}
     }
 
@@ -51,14 +51,9 @@ const ModalAddMember = ({ companyId, active, setActive }) => {
         return <Loader />
     }
 
-    const test = () => {
-        console.log(selectedRole)
-    }
-
     return (
         <>
             <div className="modal">
-                <button onClick={test}>Test</button>
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header">
