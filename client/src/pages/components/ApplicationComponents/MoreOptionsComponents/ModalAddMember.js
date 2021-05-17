@@ -6,10 +6,16 @@ import {Loader} from "../../GeneralComponents/Loader";
 const ModalAddMember = ({ companyId, active, setActive }) => {
 
     const { request } = useHttp()
+
+    // Initial data
     const [roles, setRoles] = useState(null)
+
+    // Initial data state
+    const [dataState, setDataState] = useState(null)
+
+    // Variables to create new member
     const [selectedRole, setSelectedRole] = useState(null)
     const [emailToAdd, setEmailToAdd] = useState(null)
-    const [dataState, setDataState] = useState(null)
 
     const getRoles = async () => {
         const req = await request(`/api/roles`, 'GET')

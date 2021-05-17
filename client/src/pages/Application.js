@@ -16,29 +16,21 @@ import {AuthContext} from "../context/auth.context";
 import {useHttp} from "../hooks/http.hook";
 
 export const Application = () => {
+
     const auth = useAuth(AuthContext)
-
-
     const { request } = useHttp()
+
+    // Modal States
     const [modalAddMemberActive, setModalAddMemberActive] = useState(false)
     const [modalActive, setModalActive] = useState(false)
     const [modalData, setModalData] = useState(false)
 
+    // Block States
     const [dataState, setDataState] = useState(null)
-
     const [blocked, setBlocked] = useState(false)
-
-    if (auth.userId) {
-        // setUserState(auth.userId)
-        // console.log(auth.userId)
-    } else { }
 
     const companyId = useParams().id
     const link = useParams().link
-
-    const setUser = () => {
-
-    }
 
     const checkAccess = async () => {
         try {
