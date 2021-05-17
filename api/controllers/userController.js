@@ -1,9 +1,9 @@
-const MemberService = require("../services/memberSvc");
+const UserService = require("../services/userSvc");
 const { check, validationResult } = require('express-validator');
 
-module.exports = class Memeber {
+module.exports = class User {
 
-    static async addMemeber(req, res, next) {
+    static async getById(req, res, next) {
         try {
             const errors = validationResult(req)
             if (!errors.isEmpty()) {
@@ -12,8 +12,8 @@ module.exports = class Memeber {
                 })
             }
 
-            const data = await MemberService.addMember(req.body)
-            res.status(201).json(data)
+            const data = await UserService.getById(req.params.id)
+            res.status(200).json(data)
 
         } catch (e) {
             console.log(e)
@@ -25,7 +25,7 @@ module.exports = class Memeber {
         }
     }
 
-    static async getById(req, res, next) {
+    static async getByEmail(req, res, next) {
         try {
             const errors = validationResult(req)
             if (!errors.isEmpty()) {
@@ -34,7 +34,7 @@ module.exports = class Memeber {
                 })
             }
 
-            const data = await MemberService.getById(req.params.id)
+            const data = await UserService.getByEmail(req.params.email)
             res.status(200).json(data)
 
         } catch (e) {
@@ -48,25 +48,21 @@ module.exports = class Memeber {
     }
 
     // TODO: protect the route.
-    static async searchMembers(req, res, next) {
+    static async searchUsers(req, res, next) {
         const defaultLimit = 100
         let limit = 0
 
         try {
             let searchQuery = {}
 
-            if (req.query.companyId != null) {
-                searchQuery = { ...searchQuery, ...{ companyID: req.query.companyId } };
+            if (req.query.name != null) {
+                searchQuery = { ...searchQuery, ...{ name: req.query.name } };
             }
-            if (req.query.userId != null) {
-                searchQuery = { ...searchQuery, ...{ userID: req.query.userId } };
+            if (req.query.surname != null) {
+                searchQuery = { ...searchQuery, ...{ surname: req.query.surname } };
             }
-            if (req.query.active != null) {
-                searchQuery = { ...searchQuery, ...{ active: req.query.active } };
-                searchQuery.active = req.query.active
-            }
-            if (req.query.roleId != null) {
-                searchQuery = { ...searchQuery, ...{ roleID: req.query.roleId } };
+            if (req.query.hasCompany != null) {
+                searchQuery = { ...searchQuery, ...{ hasCompany: req.query.hasCompany } };
             }
             if (req.query.limit != null) {
                 limit = parseInt(req.query.limit);
@@ -74,7 +70,7 @@ module.exports = class Memeber {
                 limit = defaultLimit;
             }
 
-            const data = await MemberService.search(searchQuery, limit)
+            const data = await UserService.search(searchQuery, limit)
             res.status(200).json(data)
 
         } catch (e) {
@@ -93,11 +89,9 @@ module.exports = class Memeber {
     */
     static validate(method) {
         switch (method) {
-            case 'addMember': {
+            case 'getByEmail': {
                 return [
-                    // check('userID', 'userID cannot be empty').notEmpty() || check('email', 'email cannot be empty').notEmpty(),
-                    check('companyID', 'companyID cannot be empty').notEmpty(),
-                    check('roleID', 'roleID cannot be empty').notEmpty(),
+                    check('email', 'email cannot be empty').notEmpty().isEmail(),
                 ]
             }
             case 'getById': {
