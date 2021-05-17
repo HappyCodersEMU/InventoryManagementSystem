@@ -3,6 +3,7 @@ import { useHttp } from "../hooks/http.hook";
 import { Loader } from "./components/GeneralComponents/Loader";
 import PlanCard from "./components/PlanCard";
 import { AuthContext } from "../context/auth.context";
+import './OrganizationCreatePage.css'
 
 export const OrganizationCreatePage = () => {
 
@@ -57,33 +58,35 @@ export const OrganizationCreatePage = () => {
 
     return (
         <div>
-            <div className="organization-container">
-                <div className="organization-box">
-                    <div className="organization-input-box">
-                        <div className="organization-input-wrap">
-                            <label>Name of Organization<input name="companyName" onChange={changeHandler} /></label>
+            <div className="organization-background">
+                <div className="organization-container">
+                    <div className="organization-box">
+                        <div className="logout-wrap">
+                            <div>*User e-mail*</div>
+                            <button className="logout-btn" onClick={logoutHandler}>
+                                Log out
+                            </button>
+                        </div>
+                        <div className="organization-input-box">
+                            <div className="organization-input-wrap">
+                                <label className="organization-input-label" htmlFor="companyName" data-placeholder="">Enter company name</label>
+                                <input className="organization-input-field" name="companyName" onChange={changeHandler} placeholder="Company name" />
+                                <hr className="input-line" />
+                            </div>
+                        </div>
+
+                        <div className="organization-plan-cards-wrap">
+                            {subscriptionPlans.map((plan) => (
+                                <div key={plan.name}>
+                                    <PlanCard
+                                        data={plan}
+                                        loading={loading}
+                                        onClick={createCompanyHandler}
+                                    />
+                                </div>
+                            ))}
                         </div>
                     </div>
-
-
-                    <div className="organization-plan-cards-wrap">
-                        {/* 
-                            iterate over each subscription and pass it to PlanCard component.
-                            <PlanCard /> will be rendered for each plan.
-                        */}
-                        {subscriptionPlans.map((plan) => (
-                            <div key={plan.name}>
-                                <PlanCard
-                                    data={plan}
-                                    loading={loading}
-                                    onClick={createCompanyHandler}
-                                />
-                            </div>
-                        ))}
-                    </div>
-                    <button onClick={logoutHandler}>
-                        Log out
-                    </button>
                 </div>
             </div>
         </div>

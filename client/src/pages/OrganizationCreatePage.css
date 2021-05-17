@@ -1,0 +1,139 @@
+
+
+.organization-background {
+    background-image: url("../public/images/bg-02.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    width: 100vw;
+    height: 100vh;
+    min-width: 1500px;
+    position: absolute;
+}
+
+.organization-container {
+    background: white;
+    border-radius: 30px;
+    width: 1500px;
+    margin: 40px auto 0 auto;
+    box-shadow: 0 0 3px 0 lightgrey;
+}
+
+.organization-box {
+    margin: 30px;
+}
+
+.logout-wrap {
+    display: flex;
+    padding-top: 20px;
+    justify-content: flex-end;
+}
+
+.logout-btn {
+    background: white;
+    border: 1px solid gray;
+    border-radius: 30px;
+    width: 100px;
+    height: 35px;
+    font-size: 14pt;
+    transition: 0.3s;
+}
+
+.logout-btn:hover {
+    background: lightblue;
+    border: 1px solid lightblue;
+}
+
+.organization-input-box {
+    height: 100px;
+    display: flex;
+    justify-content: center;
+}
+
+.organization-input-wrap {
+    width: 30%;
+}
+
+.organization-input-field {
+    width: 100%;
+    height: 35px;
+    font-size: 24px;
+    border: none;
+}
+
+.organization-input-label {
+    width: 100%;
+    height: 30px;
+    font-size: 20px;
+    transform: translateY(7px);
+}
+
+.organization-input-wrap .input-line {
+    height: 2px;
+}
+
+.organization-input-field:focus + .input-line:after {
+    width: 100%;
+}
+
+.organization-plan-cards-wrap {
+    width: 100%;
+    height: 600px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.organization-plan-card {
+    margin: 45px 30px 35px 30px;
+    width: 400px;
+    height: 500px;
+    box-shadow: 0 0 5px 0 gray;
+    border-radius: 5px;
+    background-color: #fafafa;
+    /*background-color: whitesmoke;*/
+    transition: 0.5s;
+}
+
+.organization-plan-card:hover {
+    transform: translateY(-30px);
+    box-shadow: 0 0 10px 3px gray;
+    /*width: 410px;*/
+    /*height: 530px;*/
+}
+
+.organization-plan-card-content {
+    width: 100%;
+    height: 100%;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.plan-header {
+    text-align: center;
+}
+
+.plan-header h2 {
+    font-size: 22pt;
+}
+
+.plan-body {
+    text-align: center;
+    margin-top: -50px;
+    font-size: 16pt;
+}
+
+.plan-button {
+    font-size: 16pt;
+    height: 50px;
+    background: white;
+    border: 1px solid gray;
+    border-radius: 30px;
+    transition: 0.3s;
+}
+
+.plan-button:hover {
+    background: palevioletred;
+    color: white;
+}

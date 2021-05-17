@@ -14,6 +14,7 @@ import ModalAddMember from "./components/ApplicationComponents/MoreOptionsCompon
 import {useAuth} from "../hooks/auth.hook";
 import {AuthContext} from "../context/auth.context";
 import {useHttp} from "../hooks/http.hook";
+import {Blocked} from "./components/GeneralComponents/Blocked";
 
 export const Application = () => {
 
@@ -52,10 +53,7 @@ export const Application = () => {
 
     if (blocked === true) {
         return (
-            <>
-                <h1>Blocked</h1>
-                <Link to='/orglist'>To Orglist</Link>
-            </>
+            <Blocked />
         )
     }
 

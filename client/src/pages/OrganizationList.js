@@ -92,9 +92,6 @@ export const OrganizationList = () => {
         <div>
             <div className="background">
                 <Header />
-                <button onClick={test}>
-                    Test
-                </button>
                 <div className="container">
                     <div className="list-container">
                         {companiesToDisplay.map((company) => (

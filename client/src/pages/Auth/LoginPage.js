@@ -33,41 +33,41 @@ export const LoginPage = () => {
 
 
     return (
-        <div>
-            <div className="login-background">
-                <div className="login-container">
-                    <div className="login-box">
-                        <div className="login-logo-box">
-                            Log In
-                        </div>
-                        <div className="login-input-group">
-                            <label className="login-input-label" htmlFor="email">e-mail</label>
-                            <input className="login-input-field"
-                                   placeholder="Enter email"
-                                   name="email"
-                                   id="email"
-                                   onChange={changeHandler}
-                            />
-                        </div>
+        <div className="login">
+            <div className="login-background"></div>
+            <div className="login-box">
+                <div className="login-content-wrap">
+                    <div className="login-logo-box">
+                        Log In
+                    </div>
+                    <div className="login-input-group">
+                        <label className="login-input-label" htmlFor="email" data-placeholder="">e-mail</label>
+                        <input className="login-input-field"
+                               placeholder="Enter email"
+                               name="email"
+                               id="email"
+                               onChange={changeHandler}
+                        />
+                        <hr className="input-line" />
+                    </div>
 
-                        <div className="login-input-group">
-                            <label className="login-input-label" htmlFor="password">password</label>
-                            <input className="login-input-field"
-                                   placeholder="Enter password"
-                                   name="password"
-                                   type="password"
-                                   id="password"
-                                   onChange={changeHandler}
-                            />
-                        </div>
-                        <div className="errorHandler">{errMsg}</div>
-                        <div className="login-input-group">
-                            <button className="login-button" disabled={loading} onClick={loginHandler} >
-                                Log In</button>
-                        </div>
-                        <div>
-                            <span>Don't have an account?<a href="/register">Create!</a></span>
-                        </div>
+                    <div className="login-input-group">
+                        <label className="login-input-label" htmlFor="password" data-placeholder="">Password</label>
+                        <input className="login-input-field"
+                               placeholder="Enter password"
+                               name="password"
+                               type="password"
+                               id="password"
+                               onChange={changeHandler}
+                        />
+                        <hr className="input-line" />
+                    </div>
+                    <div className="error-handler">{errMsg}</div>
+                    <button className="login-button" disabled={loading} onClick={loginHandler} >
+                        Log In
+                    </button>
+                    <div className="underbutton-link">
+                        <span>Don't have an account?<a href="/register"> Create!</a></span>
                     </div>
                 </div>
             </div>

@@ -1,0 +1,25 @@
+.blocked-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.blocked-container * {
+    margin: 0 auto;
+}
+
+.blocked-wrap {
+    text-align: center;
+    /*width: 500px;*/
+    /*background: red;*/
+}
+
+.blocked-container p {
+    font-size: 20pt;
+}
+
+.blocked-link {
+    margin-top: 20px;
+}
