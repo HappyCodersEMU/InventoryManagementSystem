@@ -96,10 +96,10 @@ function TableMembers({ companyId, setModalActive }) {
 
     return (
         <>
-            <button className="btn btn-outline-secondary btn-add-member"
-                    onClick={test}>
-                test
-            </button>
+            {/*<button className="btn btn-outline-secondary btn-add-member"*/}
+            {/*        onClick={test}>*/}
+            {/*    test*/}
+            {/*</button>*/}
 
             <div className="input-group mb-3 mt-3">
                 <div className="input-group-prepend">

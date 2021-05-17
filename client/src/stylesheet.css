@@ -21,6 +21,7 @@
     margin: 0;
     padding: 0;
     font-family: 'Poppins-Light';
+    color: #505050;
 }
 
 li {
@@ -32,6 +33,10 @@ hr {
     margin: 0;
 }
 
+input:focus {
+    outline: none;
+}
+
 a:hover {
     text-decoration: none;
 }
@@ -39,141 +44,141 @@ a:hover {
 ////////////////////////[ Login ]///////////////////////////
 //////////////////////////////////////////////////////////*/
 
-.login-container {
-    display: flex;
-}
+/*.login-container {*/
+/*    display: flex;*/
+/*}*/
 
-.login-box {
-    min-width: 500px;
-    min-height: 100vh;
-    background-color: lightgray;
-    margin: 0 0 0 auto;
-}
+/*.login-box {*/
+/*    min-width: 500px;*/
+/*    min-height: 100vh;*/
+/*    background-color: lightgray;*/
+/*    margin: 0 0 0 auto;*/
+/*}*/
 
-.login-logo-box {
-    margin: 20px 40px;
-    width: 200px;
-    height: 150px;
-    background: black;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 50px;
-}
+/*.login-logo-box {*/
+/*    margin: 20px 40px;*/
+/*    width: 200px;*/
+/*    height: 150px;*/
+/*    background: black;*/
+/*    color: white;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    font-size: 50px;*/
+/*}*/
 
-.login-input-group {
-    width: 420px;
-    height: 80px;
-    background: lightgray;
-    margin: 20px 40px;
-}
+/*.login-input-group {*/
+/*    width: 420px;*/
+/*    height: 80px;*/
+/*    background: lightgray;*/
+/*    margin: 20px 40px;*/
+/*}*/
 
-.login-input-field {
-    width: 100%;
-    height: 35px;
-    font-size: 20px;
-}
+/*.login-input-field {*/
+/*    width: 100%;*/
+/*    height: 35px;*/
+/*    font-size: 20px;*/
+/*}*/
 
-.login-input-label {
-    font-size: 24px;
-}
+/*.login-input-label {*/
+/*    font-size: 24px;*/
+/*}*/
 
-.login-button {
-    width: 100%;
-    height: 50px;
-    font-size: 34px;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+/*.login-button {*/
+/*    width: 100%;*/
+/*    height: 50px;*/
+/*    font-size: 34px;*/
+/*    padding: 0;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*}*/
 
 
 /*//////////////////////////////////////////////////////////
 /////////////////[ Organization Creation ]//////////////////
 //////////////////////////////////////////////////////////*/
 
-.organization-container {
-    display: flex;
-}
+/*.organization-container {*/
+/*    display: flex;*/
+/*}*/
 
-.organization-box {
-    min-width: 1500px;
-    height: 100vh;
-    margin: 0 auto;
-    /*background-color: red;*/
-}
+/*.organization-box {*/
+/*    min-width: 1500px;*/
+/*    height: 100vh;*/
+/*    margin: 0 auto;*/
+/*    !*background-color: red;*!*/
+/*}*/
 
-.organization-input-box {
-    width: 1500px;
-    height: 150px;
-    display: flex;
-    justify-content: center;
-    background-color: lightgray;
-}
+/*.organization-input-box {*/
+/*    width: 1500px;*/
+/*    height: 150px;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    background-color: lightgray;*/
+/*}*/
 
-.organization-input-wrap {
-    padding-top: 40px;
-    width: 500px;
-    display: flex;
-    justify-content: center;
-}
+/*.organization-input-wrap {*/
+/*    padding-top: 40px;*/
+/*    width: 500px;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*}*/
 
-.organization-input-box input {
-    width: 100%;
-    height: 30px;
-}
+/*.organization-input-box input {*/
+/*    width: 100%;*/
+/*    height: 30px;*/
+/*}*/
 
-.organization-input-box label {
-    width: 100%;
-    height: 30px;
-    font-size: 24px;
-}
+/*.organization-input-box label {*/
+/*    width: 100%;*/
+/*    height: 30px;*/
+/*    font-size: 24px;*/
+/*}*/
 
-.organization-plan-cards-wrap {
-    width: 100%;
-    height: 600px;
-    background-color: gray;
-    display: flex;
-    justify-content: space-between;
-}
+/*.organization-plan-cards-wrap {*/
+/*    width: 100%;*/
+/*    height: 600px;*/
+/*    background-color: gray;*/
+/*    display: flex;*/
+/*    justify-content: space-between;*/
+/*}*/
 
-.organization-plan-card {
-    margin: 75px 30px 35px 30px;
-    width: 400px;
-    height: 500px;
-    background-color: whitesmoke;
-    display: flex;
-    flex-direction: column;
-}
+/*.organization-plan-card {*/
+/*    margin: 75px 30px 35px 30px;*/
+/*    width: 400px;*/
+/*    height: 500px;*/
+/*    background-color: whitesmoke;*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*}*/
 
-.plan-header {
-    display: flex;
-    flex-flow: column wrap;
-    align-content: center;
-    text-align: center;
- }
+/*.plan-header {*/
+/*    display: flex;*/
+/*    flex-flow: column wrap;*/
+/*    align-content: center;*/
+/*    text-align: center;*/
+/* }*/
 
-.plan-button {
-    width: 100%;
-    height: 50px;
-    /*background-color: red;*/
-}
+/*.plan-button {*/
+/*    width: 100%;*/
+/*    height: 50px;*/
+/*    !*background-color: red;*!*/
+/*}*/
 
-.plan-button button {
-    width: 100%;
-    height: 50px;
-    background-color: lightblue;
-}
+/*.plan-button button {*/
+/*    width: 100%;*/
+/*    height: 50px;*/
+/*    background-color: lightblue;*/
+/*}*/
 
 
 
-.organization-enroll-box {
-    width: 100%;
-    height: 90px;
-    background-color: lightgray;
-}
+/*.organization-enroll-box {*/
+/*    width: 100%;*/
+/*    height: 90px;*/
+/*    background-color: lightgray;*/
+/*}*/
 
 
 
@@ -201,7 +206,6 @@ header {
     justify-content: center;
     box-shadow: 0 0 5px 0 gray;
     z-index: 100;
-
 }
 
 .header-content {
