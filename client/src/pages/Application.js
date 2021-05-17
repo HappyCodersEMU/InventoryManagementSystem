@@ -27,7 +27,7 @@ export const Application = () => {
 
     // Block States
     const [dataState, setDataState] = useState(null)
-    const [blocked, setBlocked] = useState(false)
+    const [blocked, setBlocked] = useState(true)
 
     const companyId = useParams().id
     const link = useParams().link
@@ -35,12 +35,10 @@ export const Application = () => {
     const checkAccess = async () => {
         try {
             const req = await request(`/api/members?userId=${auth.userId}&companyId=${companyId}`, 'GET')
-            if (!req[0]) {
-                setBlocked(true)
+            if (req[0]) {
+                setBlocked(false)
             }
-        } catch (e) {
-        }
-
+        } catch (e) {}
     }
 
     useEffect(async () => {
