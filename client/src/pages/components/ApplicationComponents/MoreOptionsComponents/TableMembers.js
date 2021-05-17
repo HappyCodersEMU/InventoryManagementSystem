@@ -8,10 +8,17 @@ function TableMembers({ companyId, setModalActive }) {
 
     const { request } = useHttp()
 
+    // Initial data
     const [data, setData] = useState(null)
-    const [dataToDisplay, setDataToDisplay] = useState(null)
-    const [searchString, setSearchString] = useState(null)
+
+    // Initial data state
     const [dataState, setDataState] = useState(null)
+
+    // Data that will be displayed for user (can be sorted, filtered)
+    const [dataToDisplay, setDataToDisplay] = useState(null)
+
+    // Variables that used to sort or filter dataToDisplay
+    const [searchString, setSearchString] = useState(null)
     const [sortState, setSortState] = useState({
         sort: 'asc',
         sortKey: 'id',
@@ -24,15 +31,6 @@ function TableMembers({ companyId, setModalActive }) {
 
     const getData = async () => {
         const req = await request(`/api/members?companyId=${companyId}`, 'GET')
-
-        // const abc = {
-        //     _id: '60a10c4b3011fd210022ffbf',
-        //     userID: {email: 'aboba@yandex.ru', name: 'aboba', surname: 'aboba'},
-        //     companyID: "60a10c4b3011fd210022ffbd",
-        //     roleID: {roleName: 'aboba'}
-        // }
-        // req.push(abc)
-
         setData(req)
         setDataToDisplay(req)
     }

@@ -10,12 +10,20 @@ export const OrganizationList = () => {
 
     const auth = useContext(AuthContext)
     const { loading, request } = useHttp()
-    const [dataState, setDataState] = useState(null)
+
+    // Initial data
     const [companiesToDisplay, setCompaniesToDisplay] = useState([])
+    const [subscriptionPlans, setSubscriptionPlans] = useState(null)
+
+    // Initial data state
+    const [dataState, setDataState] = useState(null)
+
+    // Plan info to display
+    const [planInfoData, setPlanInfoData] = useState(null)
+
+    // Variables to create new company
     const [companyName, setCompanyName] = useState(null)
     const [planName, setPlanName] = useState(null)
-    const [planInfoData, setPlanInfoData] = useState(null)
-    const [subscriptionPlans, setSubscriptionPlans] = useState(null)
 
     const test = () => {
         console.log(subscriptionPlans)
@@ -33,7 +41,6 @@ export const OrganizationList = () => {
 
         setPlanName(selectedPlanName)
         setPlanInfoData(selectedPlanData)
-
     }
 
     const getData = async () => {
@@ -41,11 +48,11 @@ export const OrganizationList = () => {
         const data = await request(`/api/members?userId=${userID}`, 'GET')
         const companies = await request(`/api/companies`, 'GET')
         const plans = await request('/api/subscriptions', 'GET')
-
         const arr = []
+
         data.map((item) => {
             companies.map((company) => {
-                if (company._id === item.companyID) {
+                if (company._id === item.companyID._id) {
                     arr.push(company)
                 }
             })
@@ -83,8 +90,6 @@ export const OrganizationList = () => {
 
     return (
         <div>
-
-
             <div className="background">
                 <Header />
                 <button onClick={test}>

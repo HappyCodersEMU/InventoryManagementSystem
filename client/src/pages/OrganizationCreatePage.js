@@ -8,8 +8,12 @@ export const OrganizationCreatePage = () => {
 
     const auth = useContext(AuthContext)
     const { loading, request } = useHttp()
-    const [dataState, setDataState] = useState(null)
+
+    // Initial data
     const [subscriptionPlans, setSubscriptionPlans] = useState(null)
+    // Initial data state
+    const [dataState, setDataState] = useState(null)
+    // Company Name for new organization
     const [companyName, setCompanyName] = useState('')
 
     const getData = async () => {
