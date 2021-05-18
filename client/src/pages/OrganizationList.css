@@ -1,0 +1,173 @@
+.orglist-container {
+    display: flex;
+    background: white;
+    width: 75%;
+    flex-direction: column;
+}
+
+.orglist-container a {
+    /*text-decoration: none;*/
+    /*color: black;*/
+}
+
+.orglist-company-list {
+    height: 100%;
+    margin: 40px;
+}
+
+.orglist-wrap {
+    margin: 50px auto 60px auto;
+    width: 80%;
+    height: 200px;
+    background: gray;
+}
+
+.orglist-company-name-block {
+    width: 100%;
+    height: 55px;
+    /*background: red;*/
+    text-align: center;
+    font-size: 35px;
+}
+
+.orglist-company-info-block {
+    display: flex;
+    background: lightblue;
+    height: 145px;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-size: 20px;
+}
+
+.orglist-company-info-text {
+    margin: 15px 30px;
+}
+
+.orglist-company-creation-wrap {
+    background: whitesmoke;
+    box-shadow: 0 0 5px 0 gray;
+    width: 25%;
+}
+
+.orglist-company-creation-box {
+    /*background: red;*/
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.orglist-company-creation-box * {
+    margin: 0 auto;
+}
+
+.orglist-company-creation-box h1 {
+    text-align: center;
+}
+
+
+/* Input */
+
+
+.orglist-company-input-wrap {
+    width: 90%;
+    margin-top: 20px;
+}
+
+.orglist-company-input-field {
+    width: 100%;
+    height: 35px;
+    font-size: 24px;
+    border: none;
+    background: whitesmoke;
+}
+
+.orglist-company-input-label {
+    width: 100%;
+    height: 30px;
+    font-size: 20px;
+    transform: translateY(3px);
+}
+
+.orglist-company-input-wrap .input-line {
+    height: 2px;
+}
+
+.orglist-company-input-field:focus + .input-line:after {
+    width: 100%;
+}
+
+
+/* Select */
+
+
+.orglist-company-select-wrap {
+    margin-top: 50px;
+    /*background: red;*/
+    width: 90%;
+}
+
+.orglist-company-select-label {
+    width: 100%;
+    height: 30px;
+    font-size: 20px;
+    transform: translateY(3px);
+}
+
+.orglist-company-select-field {
+    width: 100%;
+    /*border-radius: 5px;*/
+    font-size: 20px;
+    transition: 0.3s;
+    border: none;
+    border-bottom: 2px solid gray;
+    background: whitesmoke;
+    outline: none;
+}
+
+.orglist-company-select-field:hover {
+    background: lightblue;
+    /*background: #ffd6e1;*/
+}
+
+.orglist-company-select-field:focus {
+    background: lightblue;
+    /*background: #ffd6e1;*/
+}
+
+.orglist-company-plan-info {
+     margin-top: 20px;
+     height: 180px;
+     width: 90%;
+     font-size: 16pt;
+ }
+
+.orglist-company-plan-info :is(h2, h3) {
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.orglist-company-create-btn {
+    font-size: 18pt;
+    background: white;
+    padding: 5px 0;
+    margin-top: 20px;
+    width: 75%;
+    border-radius: 45px;
+    border: 1px solid gray;
+    transition: 0.3s;
+    position: relative;
+}
+
+.orglist-company-create-btn:hover {
+    /*background: -webkit-linear-gradient(45deg,#e8519e,#c77ff2);*/
+    /*background: darkcyan;*/
+    background: palevioletred;
+    /*background: gray;*/
+    color: white;
+}
+
+.orglist-company-creation-box .error-handler {
+    margin-top: 10px;
+    font-size: 14pt;
+    text-align: center;
+}

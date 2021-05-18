@@ -1,9 +1,11 @@
 import React from "react";
 
 function PlanInfo({ data }) {
+    console.log(data)
     return (
-        <div className="temp">
-            <span>${data.price}</span><br />
+        <div className="orglist-company-plan-info">
+            <h2>{data.name.toUpperCase()}</h2>
+            <h3>${data.price}</h3>
             <span>{data.transPerMonth} Transactions / Month</span><br />
             <span>{data.numProducts} Products</span><br />
             <span>{data.numMembers} Users</span>

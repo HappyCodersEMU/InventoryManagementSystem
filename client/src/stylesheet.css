@@ -40,195 +40,21 @@ input:focus {
 a:hover {
     text-decoration: none;
 }
-/*//////////////////////////////////////////////////////////
-////////////////////////[ Login ]///////////////////////////
-//////////////////////////////////////////////////////////*/
-
-/*.login-container {*/
-/*    display: flex;*/
-/*}*/
-
-/*.login-box {*/
-/*    min-width: 500px;*/
-/*    min-height: 100vh;*/
-/*    background-color: lightgray;*/
-/*    margin: 0 0 0 auto;*/
-/*}*/
-
-/*.login-logo-box {*/
-/*    margin: 20px 40px;*/
-/*    width: 200px;*/
-/*    height: 150px;*/
-/*    background: black;*/
-/*    color: white;*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*    align-items: center;*/
-/*    font-size: 50px;*/
-/*}*/
-
-/*.login-input-group {*/
-/*    width: 420px;*/
-/*    height: 80px;*/
-/*    background: lightgray;*/
-/*    margin: 20px 40px;*/
-/*}*/
-
-/*.login-input-field {*/
-/*    width: 100%;*/
-/*    height: 35px;*/
-/*    font-size: 20px;*/
-/*}*/
-
-/*.login-input-label {*/
-/*    font-size: 24px;*/
-/*}*/
-
-/*.login-button {*/
-/*    width: 100%;*/
-/*    height: 50px;*/
-/*    font-size: 34px;*/
-/*    padding: 0;*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*    align-items: center;*/
-/*}*/
-
-
-/*//////////////////////////////////////////////////////////
-/////////////////[ Organization Creation ]//////////////////
-//////////////////////////////////////////////////////////*/
-
-/*.organization-container {*/
-/*    display: flex;*/
-/*}*/
-
-/*.organization-box {*/
-/*    min-width: 1500px;*/
-/*    height: 100vh;*/
-/*    margin: 0 auto;*/
-/*    !*background-color: red;*!*/
-/*}*/
-
-/*.organization-input-box {*/
-/*    width: 1500px;*/
-/*    height: 150px;*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*    background-color: lightgray;*/
-/*}*/
-
-/*.organization-input-wrap {*/
-/*    padding-top: 40px;*/
-/*    width: 500px;*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*}*/
-
-/*.organization-input-box input {*/
-/*    width: 100%;*/
-/*    height: 30px;*/
-/*}*/
-
-/*.organization-input-box label {*/
-/*    width: 100%;*/
-/*    height: 30px;*/
-/*    font-size: 24px;*/
-/*}*/
-
-/*.organization-plan-cards-wrap {*/
-/*    width: 100%;*/
-/*    height: 600px;*/
-/*    background-color: gray;*/
-/*    display: flex;*/
-/*    justify-content: space-between;*/
-/*}*/
-
-/*.organization-plan-card {*/
-/*    margin: 75px 30px 35px 30px;*/
-/*    width: 400px;*/
-/*    height: 500px;*/
-/*    background-color: whitesmoke;*/
-/*    display: flex;*/
-/*    flex-direction: column;*/
-/*}*/
-
-/*.plan-header {*/
-/*    display: flex;*/
-/*    flex-flow: column wrap;*/
-/*    align-content: center;*/
-/*    text-align: center;*/
-/* }*/
-
-/*.plan-button {*/
-/*    width: 100%;*/
-/*    height: 50px;*/
-/*    !*background-color: red;*!*/
-/*}*/
-
-/*.plan-button button {*/
-/*    width: 100%;*/
-/*    height: 50px;*/
-/*    background-color: lightblue;*/
-/*}*/
-
-
-
-/*.organization-enroll-box {*/
-/*    width: 100%;*/
-/*    height: 90px;*/
-/*    background-color: lightgray;*/
-/*}*/
-
-
 
 /*//////////////////////////////////////////////////////////
 //////////////////////[ Application ]///////////////////////
 //////////////////////////////////////////////////////////*/
 
 .background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    min-width: 100%;
-    min-height: 100%;
-    background-color: lightyellow;
-}
-
-/*///////////////////////[ Header ]///////////////////////*/
-
-header {
-    min-width: 1280px;
-    height: 100px;
-    background: lightgray;
-    display: flex;
-    position: relative;
-    justify-content: center;
-    box-shadow: 0 0 5px 0 gray;
-    z-index: 100;
-}
-
-.header-content {
-    max-width: 1920px;
-    height: 100%;
+    background-image: url("./public/images/bg-02.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
     width: 100%;
-    background: whitesmoke;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    min-width: 1500px;
+    position: absolute;
 }
 
-.logo-block {
-    height: 90px;
-    width: 300px;
-    background: lightblue;
-}
-
-.user-block {
-    height: 90px;
-    width: 300px;
-    background: lightblue;
-}
 
 /*///////////////////////[ Navbar ]///////////////////////*/
 
@@ -273,93 +99,30 @@ header {
     height: 50px;
     font-size: 20px;
 }
-/*//////////////////[ Organization List ]/////////////////*/
 
-.list-container {
+/*//////////////////////[ Header ]////////////////////////*/
+
+header {
     display: flex;
-    background: gray;
-    width: 75%;
-    flex-direction: column;
+    position: relative;
+    justify-content: center;
+    box-shadow: 0 0 7px 1px black;
+    z-index: 100;
 }
 
-.list-container a {
-    text-decoration: none;
-    color: black;
-}
-
-.list-wrap {
-    margin: 40px auto;
-    width: 80%;
-    height: 200px;
-    background: white;
-}
-
-.company-name-block {
-    width: 100%;
-    height: 55px;
-    /*background: red;*/
-    text-align: center;
-    font-size: 35px;
-}
-
-.company-info-block {
-    display: flex;
-    background: lightblue;
-    height: 145px;
-    justify-content: space-between;
-    align-items: flex-end;
-    font-size: 20px;
-}
-
-.company-info-text {
-    margin: 15px 30px;
-}
-
-.company-creation-box {
-    background: lightblue;
-    display: flex;
-    flex-direction: column;
-    width: 25%;
-}
-
-.company-creation-box * {
-    align-self: flex-start;
-    margin: 0 auto;
-}
-
-.company-creation-box input {
-    margin-top: 50px;
-    height: 30px;
-    width: 90%;
-    font-size: 20px;
-}
-
-.company-creation-box select {
-    height: 30px;
-    font-size: 20px;
-    margin: 20px 0 0 15px;
-}
-
-.company-creation-box button {
-    padding: 5px;
-    margin-top: 20px;
-}
-
-.temp {
-    color: black;
-}
 /*/////////////////////[ Container ]//////////////////////*/
 
 .container {
     display: flex;
     /*justify-content: center;*/
+    background: white;
     min-width: 1480px;
     max-width: 1480px;
-    background: lightblue;
     margin: 0 auto;
     min-height: 100vh;
     z-index: 98;
     padding: 0;
+    box-shadow: 0 0 10px 1px dimgray;
 }
 
 .content-wrap {

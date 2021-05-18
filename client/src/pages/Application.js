@@ -72,7 +72,7 @@ export const Application = () => {
 
 
             <div className="background">
-                <Header />
+                <Header companyId={companyId} />
                 {/*<button onClick={test}>Test</button>*/}
                 <div className="container">
                     <div className="navbar-wrap">
