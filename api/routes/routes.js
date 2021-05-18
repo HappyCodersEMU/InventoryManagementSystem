@@ -6,6 +6,7 @@ const MemberController = require("../controllers/memberController");
 const UserController = require("../controllers/userController");
 const CompanyController = require("../controllers/companyController");
 const ProductController = require("../controllers/productController");
+const InventoryController = require("../controllers/inventoryController");
 const RoleController = require("../controllers/roleController");
 const SubscriptionController = require("../controllers/subscriptionController");
 const CategoryController = require("../controllers/categoryController");
@@ -33,6 +34,14 @@ router.get('/api/companies', CompanyController.getAll);
 router.get('/api/products/:id', ProductController.validate('getById'), ProductController.getById); // not working yet
 router.get('/api/products', ProductController.getAll);
 router.post('/api/products', ProductController.validate('createProduct'), ProductController.createProduct);
+
+// Inventory
+router.get('/api/inventories/:id', InventoryController.validate('getById'), InventoryController.getById);
+router.get('/api/inventories', InventoryController.searchInventory);
+router.get('/api/inventories/companies/:companyId', InventoryController.getByCompany);
+router.post('/api/inventories', InventoryController.validate('addProduct'), InventoryController.addProduct);
+router.delete('/api/inventories', InventoryController.validate('deleteProduct'), InventoryController.deleteProduct);
+
 
 // Roles
 router.post('/api/roles', RoleController.validate('addRole'), RoleController.addRole);
