@@ -38,6 +38,7 @@ module.exports = class InventoryService {
                     productName: d.product.name,
                     categoryId: d.product.categoryId,
                     subcategoryId: d.product.subcategoryId,
+                    quantity: d.quantity,
                     // price: d.price,
                     // description: d.description,
                 };
