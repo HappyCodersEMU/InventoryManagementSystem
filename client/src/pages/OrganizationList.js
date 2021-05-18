@@ -5,6 +5,8 @@ import {Loader} from "./components/GeneralComponents/Loader";
 import CompanyItem from "./components/CompanyItem";
 import PlanInfo from "./components/PlanInfo";
 import {AuthContext} from "../context/auth.context";
+import './OrganizationList.css'
+import {Link} from "react-router-dom";
 
 export const OrganizationList = () => {
 
@@ -24,6 +26,7 @@ export const OrganizationList = () => {
     // Variables to create new company
     const [companyName, setCompanyName] = useState(null)
     const [planName, setPlanName] = useState(null)
+    const [errorMsg, setErrorMsg] = useState(null)
 
     const test = () => {
         console.log(subscriptionPlans)
@@ -35,6 +38,10 @@ export const OrganizationList = () => {
 
     const selectHandler = event => {
         const selectedPlanName = event.target.value
+        if (selectedPlanName === '*Subscription Plan*') {
+            setPlanName(null)
+            return
+        }
         const selectedPlanData = subscriptionPlans.find((item) => {
             return item.name === selectedPlanName
         })
@@ -72,11 +79,13 @@ export const OrganizationList = () => {
     const createCompanyHandler = async () => {
         try {
             if (!companyName || companyName.length < 3) {
-                console.log("Length of company name should be more then 3 symbols")
+                setErrorMsg('Length of company name should be more then 3 symbols')
+                // console.log("Length of company name should be more then 3 symbols")
                 return
             }
             if (!planName || planName === '*Subscription Plan*') {
-                console.log("Choose the subscription plan")
+                setErrorMsg('Choose the subscription plan')
+                // console.log("Choose the subscription plan")
                 return
             }
             const userId = auth.userId
@@ -93,34 +102,48 @@ export const OrganizationList = () => {
             <div className="background">
                 <Header />
                 <div className="container">
-                    <div className="list-container">
-                        {companiesToDisplay.map((company) => (
-                            <div key={company['_id']}>
-                                <CompanyItem
-                                    data={company}
-                                    loading={loading}
-                                />
-                            </div>
-                        ))}
-                    </div>
-                    <div className="company-creation-box">
-                        <h1>Create New Company</h1>
-                        <input
-                               placeholder="Enter company name"
-                               name="companyName"
-                               id="companyName"
-                               onChange={changeHandler}
-                        />
-                        <select onChange={selectHandler} >
-                            <option defaultChecked>*Subscription Plan*</option>
-                            { subscriptionPlans && subscriptionPlans.map((item) => (
-                                <option key={item._id}>{item.name}</option>
+                    <div className="orglist-container">
+                        <div className="orglist-company-list">
+                            {companiesToDisplay.map((company) => (
+                                <div key={company['_id']}>
+                                    <CompanyItem
+                                        data={company}
+                                        loading={loading}
+                                    />
+                                </div>
                             ))}
-                        </select>
-                        { planName && planName !== '*Subscription Plan*' && <PlanInfo data={planInfoData}/>}
-                        <button onClick={createCompanyHandler}>
-                            Create company
-                        </button>
+                        </div>
+                    </div>
+                    <div className="orglist-company-creation-wrap">
+                        <div className="orglist-company-creation-box">
+                            <h1>Create New Company</h1>
+                            <div className="orglist-company-input-wrap">
+                                <label className="orglist-company-input-label" htmlFor="companyName" data-placeholder="">Enter company name</label>
+                                <input
+                                    className="orglist-company-input-field"
+                                    placeholder="Company name"
+                                    name="companyName"
+                                    id="companyName"
+                                    onChange={changeHandler}
+                                />
+                                <hr className="input-line" />
+                            </div>
+                            <div className="orglist-company-select-wrap">
+                                <label className="orglist-company-select-label" htmlFor="planSelector" data-placeholder="">Select your plan</label>
+                                <select onChange={selectHandler} name="planSelector" className="orglist-company-select-field" >
+                                    <option defaultChecked>*Subscription Plan*</option>
+                                    { subscriptionPlans && subscriptionPlans.map((item) => (
+                                        <option key={item._id}>{item.name}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            { !planName && <div className="orglist-company-plan-info"></div>}
+                            { planName && planName !== '*Subscription Plan*' && <PlanInfo data={planInfoData}/>}
+                            <button onClick={createCompanyHandler} className="orglist-company-create-btn">
+                                Create company
+                            </button>
+                            <div className="error-handler">{errorMsg}</div>
+                        </div>
                     </div>
                 </div>
             </div>

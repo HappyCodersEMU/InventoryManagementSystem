@@ -35,9 +35,6 @@ function Navbar({companyId}) {
                 </div>
             </NavLink>
             <hr/>
-            <NavLink to={`/orglist`}>
-                Select another organization
-            </NavLink>
         </>
     );
 }
