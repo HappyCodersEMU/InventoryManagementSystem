@@ -46,7 +46,7 @@ a:hover {
 //////////////////////////////////////////////////////////*/
 
 .background {
-    background-image: url("./public/images/bg-02.jpg");
+    background-image: url("./public/images/bg-03.jpg");
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -106,7 +106,7 @@ header {
     display: flex;
     position: relative;
     justify-content: center;
-    box-shadow: 0 0 7px 1px black;
+    box-shadow: 0 0 7px 1px gray;
     z-index: 100;
 }
 
@@ -122,7 +122,7 @@ header {
     min-height: 100vh;
     z-index: 98;
     padding: 0;
-    box-shadow: 0 0 10px 3px white;
+    box-shadow: 0 0 10px 3px gray;
 }
 
 .content-wrap {
