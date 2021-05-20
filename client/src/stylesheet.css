@@ -17,6 +17,32 @@
 ////////////////////////[ Util ]////////////////////////////
 //////////////////////////////////////////////////////////*/
 
+*::-webkit-scrollbar {
+    width: 15px;
+    /*background: red;*/
+}
+
+*::-webkit-scrollbar-track {
+    /*background: transparent;*/
+    /*border-left: 1px solid gray;*/
+}
+
+*::-webkit-scrollbar-thumb {
+    position: relative;
+    background: pink;
+    border: 2px solid white;
+    margin: 0 2px;
+    border-radius: 50px;
+}
+
+body::-webkit-scrollbar {
+    /*background: rgb(220,220,220);*/
+}
+
+body::-webkit-scrollbar-thumb {
+    /*border: 3px solid rgb(220,220,220);*/
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -46,7 +72,7 @@ a:hover {
 //////////////////////////////////////////////////////////*/
 
 .background {
-    background-image: url("./public/images/bg-02.jpg");
+    background-image: url("./public/images/bg-03.jpg");
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -55,58 +81,13 @@ a:hover {
     position: absolute;
 }
 
-
-/*///////////////////////[ Navbar ]///////////////////////*/
-
-.navbar-wrap {
-    width: 18%;
-    background: lightgray;
-    color: black;
-    display: flex;
-    position: relative;
-    flex-direction: column;
-    box-shadow: 3px 0 5px 0 gray;
-    z-index: 99;
-}
-
-.link-wrap {
-    text-decoration: none;
-    color: white;
-}
-
-.link-wrap:hover {
-    color: black;
-}
-
-.navbar-btn {
-    display: flex;
-    font-size: 30px;
-    flex-direction: column;
-    text-align: center;
-    justify-content: center;
-    width: 100%;
-    height: 150px;
-    background: gray;
-    transition: 0.2s;
-}
-
-.navbar-btn:hover {
-    background: #afafaf;
-}
-
-
-.navbar-btn-more {
-    height: 50px;
-    font-size: 20px;
-}
-
 /*//////////////////////[ Header ]////////////////////////*/
 
 header {
     display: flex;
     position: relative;
     justify-content: center;
-    box-shadow: 0 0 7px 1px black;
+    box-shadow: 0 0 7px 1px gray;
     z-index: 100;
 }
 
@@ -122,7 +103,7 @@ header {
     min-height: 100vh;
     z-index: 98;
     padding: 0;
-    box-shadow: 0 0 10px 3px white;
+    box-shadow: 0 0 10px 3px gray;
 }
 
 .content-wrap {
@@ -132,7 +113,7 @@ header {
     align-content: flex-start;
     margin: 50px;
     font-size: 30px;
-    background: lightblue;
+    /*background: lightblue;*/
     width: 82%;
 }
 
@@ -172,7 +153,17 @@ header {
 }
 
 .more-btn:hover {
-    background: #CEEAEA;
+    background: rgb(240,240,240);
+}
+
+.more-name-box .input-line {
+    background: gray;
+    margin-top: 4px;
+    height: 2px;
+}
+
+.more-name-box:hover .input-line:after {
+    width: 100%;
 }
 
 .icon-box {
@@ -188,12 +179,6 @@ header {
     margin-top: 5px;
     color: black;
     font-size: 26px;
-}
-
-.more-name-box hr {
-    background: gray;
-    margin-top: 4px;
-    border: 1px solid gray;
 }
 
 /*///////////////////[ Table Members ]////////////////////*/
@@ -221,28 +206,13 @@ header {
     border-top: none;
     border-bottom: 2px solid gray!important;
     transition: 0.3s;
+    position: sticky;
+    top: 0;
 }
 
 .table th:hover {
     background: gray;
     color: white;
-}
-
-.table-members th:nth-child(1) {
-    width: 33%;
-    border-right: 1px solid gray;
-}
-.table-members th:nth-child(2) {
-    width: 25%;
-    border-right: 1px solid gray;
-}
-.table-members th:nth-child(3) {
-    width: 25%;
-    border-right: 1px solid gray;
-}
-.table-members th:nth-child(4) {
-    width: 17%;
-    border-left: 1px solid gray;
 }
 
 .btn-add-member {
@@ -253,6 +223,10 @@ header {
     color: rgb(50,50,50);
 }
 
-select {
+.content-wrap select {
     padding: 2px 4px!important;
+}
+
+.content-wrap select:hover option {
+    color: white;
 }

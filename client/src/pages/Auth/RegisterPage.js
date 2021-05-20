@@ -107,7 +107,7 @@ export const RegisterPage = () => {
                     </div>
                     <div className="error-handler">{errMsg}</div>
                     <button className="login-button" disabled={loading} onClick={registerHandler} >
-                        Sing Up
+                        Sign Up
                     </button>
                     <div className="underbutton-link">
                         <span>Already have an account?<a href="/login"> Log In!</a></span>

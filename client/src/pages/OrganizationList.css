@@ -11,37 +11,111 @@
 }
 
 .orglist-company-list {
+
     height: 100%;
     margin: 40px;
 }
 
-.orglist-wrap {
+.orglist-item {
+    --company-info-block-width: calc(100% - 150px);
     margin: 50px auto 60px auto;
     width: 80%;
     height: 200px;
-    background: gray;
+    box-shadow: 0 0 5px 0 gray;
+    /*background: rgb(245,245,245);*/
+    border-radius: 5px;
+
 }
 
-.orglist-company-name-block {
+.orglist-item-wrap {
+    display: block;
+    position: relative;
     width: 100%;
-    height: 55px;
+    height: 100%;
+    z-index: 5;
+    /*border-radius: 25px;*/
+    overflow: hidden;
     /*background: red;*/
-    text-align: center;
-    font-size: 35px;
 }
 
-.orglist-company-info-block {
+.orglist-item-background {
+    position: absolute;
+    z-index: 3;
+    width: 300%;
+    height: 100%;
+    background: #e8519e;
+    /*background: -webkit-linear-gradient(top, #e8519e, #c77ff2, #e8519e, #c77ff2);*/
+    /*background: -o-linear-gradient(top, #e8519e, #c77ff2, #e8519e, #c77ff2);*/
+    /*background: -moz-linear-gradient(top, #e8519e, #c77ff2, #e8519e, #c77ff2);*/
+    background: linear-gradient(90deg, #e8519e, #c77ff2, #e8519e, #c77ff2);
+    left: -100%;
+    transition: 0.7s;
+}
+
+.orglist-item:hover .orglist-item-background {
+    left: 0;
+}
+
+.orglist-item-content {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 4;
     display: flex;
-    background: lightblue;
-    height: 145px;
-    justify-content: space-between;
-    align-items: flex-end;
-    font-size: 20px;
+    justify-content: flex-end;
 }
 
-.orglist-company-info-text {
-    margin: 15px 30px;
+.orglist-item-content-open {
+    position: absolute;
+    height: 100%;
+    width: 150px;
+    left: -150px;
+    background: rgba(0,0,0, 0.6);
+    transition: all 0.5s;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
+
+.orglist-item-content-open h1 {
+    text-align: center;
+    color: white;
+}
+
+.orglist-item:hover .orglist-item-content-open {
+    left: 0;
+}
+
+.orglist-item-company-info {
+    width: 100%;
+    /*background: blue;*/
+    transition: all 0.5s;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.orglist-item:hover .orglist-item-company-info {
+    width: var(--company-info-block-width);
+}
+
+.orglist-item-company-info :is(h1,p,span) {
+    width: var(--company-info-block-width);
+    margin: 0 auto;
+    color: ghostwhite;
+}
+
+.orglist-item-company-info h1 {
+    margin-top: 10px;
+}
+
+.orglist-item-company-info p {
+    margin-bottom: 20px;
+    font-size: 14pt;
+}
+
+/*///////////////////////[ Create ]///////////////////////*/
 
 .orglist-company-creation-wrap {
     background: whitesmoke;
@@ -65,7 +139,7 @@
 }
 
 
-/* Input */
+/*///////////////////////[ Input ]////////////////////////*/
 
 
 .orglist-company-input-wrap {
@@ -97,7 +171,7 @@
 }
 
 
-/* Select */
+/*///////////////////////[ Select ]///////////////////////*/
 
 
 .orglist-company-select-wrap {

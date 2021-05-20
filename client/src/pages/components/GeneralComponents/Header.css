@@ -1,14 +1,15 @@
 header {
     min-width: 1280px;
     height: 100px;
-    background: white;
+    background: rgb(220,220,220);
 }
 
 .header-content {
     max-width: 1920px;
     height: 100%;
     width: 100%;
-    background: gray;
+    /*background: gray;*/
+    background: rgb(220,220,220);
     /*margin: 0 20px;*/
     display: flex;
     justify-content: space-between;
@@ -16,9 +17,11 @@ header {
 }
 
 .header-logo-wrap {
-    height: 90px;
+    height: 80px;
     width: 300px;
-    background: gray;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0 0 3px 1px floralwhite;
 }
 
 .header-orgdata-wrap {
@@ -60,26 +63,24 @@ header {
     border-top-left-radius: 10px;
     background: white;
     box-shadow: 0 0 3px 1px floralwhite;
+    display: flex;
+    align-content: center;
 }
 
 
 .header-user-block {
-    height: calc(100% - 10px);
     width: calc(100% - 10px);
-    /*background: red;*/
     margin: 5px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    /*align-content: center;*/
 }
 
 .header-userdata {
     width: 100%;
-    height: 30px;
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
+    align-content: center;
 }
 
 .header-userdata span {
@@ -90,6 +91,17 @@ header {
 
 
 header .logout-btn {
+    border: none;
+    color: #45cbff;
     height: 30px;
     margin-right: 8px;
+    text-decoration: underline;
+    cursor: pointer;
 }
+
+header .logout-btn:hover {
+    background: white;
+    border: none;
+    color: #007bff;
+}
+

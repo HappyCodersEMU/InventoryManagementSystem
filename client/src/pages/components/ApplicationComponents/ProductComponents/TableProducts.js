@@ -4,6 +4,7 @@ import { Loader } from "../../GeneralComponents/Loader";
 import { Link} from "react-router-dom";
 import { useHttp } from "../../../../hooks/http.hook";
 import './TableProducts.css'
+import {NoResultDisplay} from "../../GeneralComponents/NoResultDisplay";
 
 function TableProducts({ companyId }) {
 
@@ -50,6 +51,9 @@ function TableProducts({ companyId }) {
     const onReset = () => {
         setDataToDisplay(products)
         setSortState({ sort: '', sortKey: ''})
+        setSearchString('')
+        setCategorySelector(null)
+        setSubcategorySelector(null)
         // setSearchString('')
     }
 
@@ -128,10 +132,7 @@ function TableProducts({ companyId }) {
 
     if (dataToDisplay.length === 0) {
         return (
-            <>
-                <div>No data found</div>
-                { products && <button onClick={onReset}>Reset</button>}
-            </>
+            <NoResultDisplay products={!!products} onReset={onReset} />
         )
     }
 
@@ -182,36 +183,36 @@ function TableProducts({ companyId }) {
             <div className="table-wrap">
                 <table className="table table-products">
                     <thead>
-                    <tr>
-                        <th onClick={e => onSort(e, 'productCode')}>
-                            Code {sortState.sortKey === 'productCode' ? <small>{sortState.sort}</small> : null}
-                        </th>
-                        <th onClick={e => onSort(e, 'name')}>
-                            Name {sortState.sortKey === 'name' ? <small>{sortState.sort}</small> : null}
-                        </th>
-                        <th onClick={e => onSort(e, 'categoryId.name')}>
-                            Category {sortState.sortKey === 'categoryId.name' ? <small>{sortState.sort}</small> : null}
-                        </th>
-                        <th onClick={e => onSort(e, 'subcategoryId.name')}>
-                            Subcategory {sortState.sortKey === 'subcategoryId.name' ? <small>{sortState.sort}</small> : null}
-                        </th>
-                        <th>
+                        <tr>
+                            <th onClick={e => onSort(e, 'productCode')}>
+                                Code {sortState.sortKey === 'productCode' ? <small>{sortState.sort}</small> : null}
+                            </th>
+                            <th onClick={e => onSort(e, 'name')}>
+                                Name {sortState.sortKey === 'name' ? <small>{sortState.sort}</small> : null}
+                            </th>
+                            <th onClick={e => onSort(e, 'categoryId.name')}>
+                                Category {sortState.sortKey === 'categoryId.name' ? <small>{sortState.sort}</small> : null}
+                            </th>
+                            <th onClick={e => onSort(e, 'subcategoryId.name')}>
+                                Subcategory {sortState.sortKey === 'subcategoryId.name' ? <small>{sortState.sort}</small> : null}
+                            </th>
+                            <th>
 
-                        </th>
-                    </tr>
+                            </th>
+                        </tr>
                     </thead>
                     <tbody>
-                    {dataToDisplay.map((item) => (
-                        <tr key={item._id}>
-                            <td>{item.productCode}</td>
-                            <td>{item.name}</td>
-                            <td>{item.categoryId.name}</td>
-                            <td>{item.subcategoryId.name}</td>
-                            <td>
-                                <Link to={`/${companyId}/buy?${item.productCode}`} className="btn btn-outline-dark" >Buy</Link>
-                            </td>
-                        </tr>
-                    ))}
+                        {dataToDisplay.map((item) => (
+                            <tr key={item._id}>
+                                <td>{item.productCode}</td>
+                                <td>{item.name}</td>
+                                <td>{item.categoryId.name}</td>
+                                <td>{item.subcategoryId.name}</td>
+                                <td>
+                                    <Link to={`/${companyId}/buy?${item.productCode}`} className="btn btn-outline-dark" >Buy</Link>
+                                </td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             </div>
