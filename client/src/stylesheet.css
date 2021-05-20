@@ -153,7 +153,17 @@ header {
 }
 
 .more-btn:hover {
-    background: #CEEAEA;
+    background: rgb(240,240,240);
+}
+
+.more-name-box .input-line {
+    background: gray;
+    margin-top: 4px;
+    height: 2px;
+}
+
+.more-name-box:hover .input-line:after {
+    width: 100%;
 }
 
 .icon-box {
@@ -169,12 +179,6 @@ header {
     margin-top: 5px;
     color: black;
     font-size: 26px;
-}
-
-.more-name-box hr {
-    background: gray;
-    margin-top: 4px;
-    border: 1px solid gray;
 }
 
 /*///////////////////[ Table Members ]////////////////////*/
@@ -202,28 +206,13 @@ header {
     border-top: none;
     border-bottom: 2px solid gray!important;
     transition: 0.3s;
+    position: sticky;
+    top: 0;
 }
 
 .table th:hover {
     background: gray;
     color: white;
-}
-
-.table-members th:nth-child(1) {
-    width: 33%;
-    border-right: 1px solid gray;
-}
-.table-members th:nth-child(2) {
-    width: 25%;
-    border-right: 1px solid gray;
-}
-.table-members th:nth-child(3) {
-    width: 25%;
-    border-right: 1px solid gray;
-}
-.table-members th:nth-child(4) {
-    width: 17%;
-    border-left: 1px solid gray;
 }
 
 .btn-add-member {
@@ -234,10 +223,10 @@ header {
     color: rgb(50,50,50);
 }
 
-select {
+.content-wrap select {
     padding: 2px 4px!important;
 }
 
-select:hover option {
+.content-wrap select:hover option {
     color: white;
 }

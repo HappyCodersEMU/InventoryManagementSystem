@@ -183,36 +183,36 @@ function TableProducts({ companyId }) {
             <div className="table-wrap">
                 <table className="table table-products">
                     <thead>
-                    <tr>
-                        <th onClick={e => onSort(e, 'productCode')}>
-                            Code {sortState.sortKey === 'productCode' ? <small>{sortState.sort}</small> : null}
-                        </th>
-                        <th onClick={e => onSort(e, 'name')}>
-                            Name {sortState.sortKey === 'name' ? <small>{sortState.sort}</small> : null}
-                        </th>
-                        <th onClick={e => onSort(e, 'categoryId.name')}>
-                            Category {sortState.sortKey === 'categoryId.name' ? <small>{sortState.sort}</small> : null}
-                        </th>
-                        <th onClick={e => onSort(e, 'subcategoryId.name')}>
-                            Subcategory {sortState.sortKey === 'subcategoryId.name' ? <small>{sortState.sort}</small> : null}
-                        </th>
-                        <th>
+                        <tr>
+                            <th onClick={e => onSort(e, 'productCode')}>
+                                Code {sortState.sortKey === 'productCode' ? <small>{sortState.sort}</small> : null}
+                            </th>
+                            <th onClick={e => onSort(e, 'name')}>
+                                Name {sortState.sortKey === 'name' ? <small>{sortState.sort}</small> : null}
+                            </th>
+                            <th onClick={e => onSort(e, 'categoryId.name')}>
+                                Category {sortState.sortKey === 'categoryId.name' ? <small>{sortState.sort}</small> : null}
+                            </th>
+                            <th onClick={e => onSort(e, 'subcategoryId.name')}>
+                                Subcategory {sortState.sortKey === 'subcategoryId.name' ? <small>{sortState.sort}</small> : null}
+                            </th>
+                            <th>
 
-                        </th>
-                    </tr>
+                            </th>
+                        </tr>
                     </thead>
                     <tbody>
-                    {dataToDisplay.map((item) => (
-                        <tr key={item._id}>
-                            <td>{item.productCode}</td>
-                            <td>{item.name}</td>
-                            <td>{item.categoryId.name}</td>
-                            <td>{item.subcategoryId.name}</td>
-                            <td>
-                                <Link to={`/${companyId}/buy?${item.productCode}`} className="btn btn-outline-dark" >Buy</Link>
-                            </td>
-                        </tr>
-                    ))}
+                        {dataToDisplay.map((item) => (
+                            <tr key={item._id}>
+                                <td>{item.productCode}</td>
+                                <td>{item.name}</td>
+                                <td>{item.categoryId.name}</td>
+                                <td>{item.subcategoryId.name}</td>
+                                <td>
+                                    <Link to={`/${companyId}/buy?${item.productCode}`} className="btn btn-outline-dark" >Buy</Link>
+                                </td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             </div>
