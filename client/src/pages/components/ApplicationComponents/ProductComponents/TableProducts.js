@@ -4,6 +4,7 @@ import { Loader } from "../../GeneralComponents/Loader";
 import { Link} from "react-router-dom";
 import { useHttp } from "../../../../hooks/http.hook";
 import './TableProducts.css'
+import {NoResultDisplay} from "../../GeneralComponents/NoResultDisplay";
 
 function TableProducts({ companyId }) {
 
@@ -50,6 +51,9 @@ function TableProducts({ companyId }) {
     const onReset = () => {
         setDataToDisplay(products)
         setSortState({ sort: '', sortKey: ''})
+        setSearchString('')
+        setCategorySelector(null)
+        setSubcategorySelector(null)
         // setSearchString('')
     }
 
@@ -128,10 +132,7 @@ function TableProducts({ companyId }) {
 
     if (dataToDisplay.length === 0) {
         return (
-            <>
-                <div>No data found</div>
-                { products && <button onClick={onReset}>Reset</button>}
-            </>
+            <NoResultDisplay products={!!products} onReset={onReset} />
         )
     }
 

@@ -55,51 +55,6 @@ a:hover {
     position: absolute;
 }
 
-
-/*///////////////////////[ Navbar ]///////////////////////*/
-
-.navbar-wrap {
-    width: 18%;
-    background: lightgray;
-    color: black;
-    display: flex;
-    position: relative;
-    flex-direction: column;
-    box-shadow: 3px 0 5px 0 gray;
-    z-index: 99;
-}
-
-.link-wrap {
-    text-decoration: none;
-    color: white;
-}
-
-.link-wrap:hover {
-    color: black;
-}
-
-.navbar-btn {
-    display: flex;
-    font-size: 30px;
-    flex-direction: column;
-    text-align: center;
-    justify-content: center;
-    width: 100%;
-    height: 150px;
-    background: gray;
-    transition: 0.2s;
-}
-
-.navbar-btn:hover {
-    background: #afafaf;
-}
-
-
-.navbar-btn-more {
-    height: 50px;
-    font-size: 20px;
-}
-
 /*//////////////////////[ Header ]////////////////////////*/
 
 header {
@@ -132,7 +87,7 @@ header {
     align-content: flex-start;
     margin: 50px;
     font-size: 30px;
-    background: lightblue;
+    /*background: lightblue;*/
     width: 82%;
 }
 
@@ -255,4 +210,8 @@ header {
 
 select {
     padding: 2px 4px!important;
+}
+
+select:hover option {
+    color: white;
 }

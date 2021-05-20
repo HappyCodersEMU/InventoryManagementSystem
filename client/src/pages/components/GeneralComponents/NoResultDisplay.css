@@ -1,0 +1,9 @@
+.no-result-display-text {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.no-result-display-btn {
+    font-size: 16pt!important;
+}
