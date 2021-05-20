@@ -17,6 +17,32 @@
 ////////////////////////[ Util ]////////////////////////////
 //////////////////////////////////////////////////////////*/
 
+*::-webkit-scrollbar {
+    width: 15px;
+    /*background: red;*/
+}
+
+*::-webkit-scrollbar-track {
+    /*background: transparent;*/
+    /*border-left: 1px solid gray;*/
+}
+
+*::-webkit-scrollbar-thumb {
+    position: relative;
+    background: pink;
+    border: 2px solid white;
+    margin: 0 2px;
+    border-radius: 50px;
+}
+
+body::-webkit-scrollbar {
+    /*background: rgb(220,220,220);*/
+}
+
+body::-webkit-scrollbar-thumb {
+    /*border: 3px solid rgb(220,220,220);*/
+}
+
 * {
     margin: 0;
     padding: 0;

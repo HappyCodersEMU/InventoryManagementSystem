@@ -61,16 +61,16 @@
     font-size: 1.1em;
 }
 
-.navbar-link .input-line {
-    height: 1px;
-}
+/*.navbar-link .input-line {*/
+/*    height: 2px;*/
+/*}*/
 
 .navbar-link:hover .input-line:after {
     width: 100%;
 }
 
 .navbar-link:hover .navbar-link-content-wrap {
-    background: lightgrey;
+    background: rgb(220,220,220);
 }
 
 .navbar-link-content-wrap-more {
