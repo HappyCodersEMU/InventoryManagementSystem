@@ -29,7 +29,7 @@
 
 *::-webkit-scrollbar-thumb {
     position: relative;
-    background: pink;
+    background: gray;
     border: 2px solid white;
     margin: 0 2px;
     border-radius: 50px;
