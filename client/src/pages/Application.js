@@ -15,6 +15,8 @@ import {useAuth} from "../hooks/auth.hook";
 import {AuthContext} from "../context/auth.context";
 import {useHttp} from "../hooks/http.hook";
 import {Blocked} from "./components/GeneralComponents/Blocked";
+import ModalAddToInventory from "./components/ApplicationComponents/ProductComponents/ModalAddToInventory";
+import TableInventory from "./components/ApplicationComponents/InventoryComponents/TableInventory";
 
 export const Application = () => {
 
@@ -23,6 +25,12 @@ export const Application = () => {
 
     // Modal States
     const [modalAddMemberActive, setModalAddMemberActive] = useState(false)
+
+    const [modalAddToInventoryActive, setModalAddToInventoryActive] = useState(false)
+    const [modalAddToInventoryData, setModalAddToInventoryData] = useState(false)
+
+
+
     const [modalActive, setModalActive] = useState(false)
     const [modalData, setModalData] = useState(false)
 
@@ -40,6 +48,11 @@ export const Application = () => {
                 setBlocked(false)
             }
         } catch (e) {}
+    }
+
+    const getData = () => {
+        const memberRecord = null
+        const memberRoles = null
     }
 
     useEffect(async () => {
@@ -70,6 +83,14 @@ export const Application = () => {
                 setActive={setModalAddMemberActive}
             /> }
 
+            { modalAddToInventoryActive === true && <ModalAddToInventory
+                companyId={companyId}
+                active={modalAddToInventoryActive}
+                setActive={setModalAddToInventoryActive}
+                modalData={modalAddToInventoryData}
+                setModalData={setModalAddToInventoryData}
+            /> }
+
 
             <div className="background">
                 <Header companyId={companyId} />
@@ -80,8 +101,8 @@ export const Application = () => {
                     </div>
                     <div className="content-wrap">
                         { link === 'home' && <HomePage /> }
-                        { link === 'products' && <TableProducts companyId={ companyId } /> }
-                        { link === 'inventory' && <Inventory /> }
+                        { link === 'products' && <TableProducts companyId={companyId} setModalActive={setModalAddToInventoryActive} setModalData={setModalAddToInventoryData}/> }
+                        { link === 'inventory' && <TableInventory companyId={companyId} /> }
                         { link === 'buy' && <TableBuy companyId={ companyId } setModalActive={setModalActive} setModalData={setModalData}/> }
                         { link === 'sell' && <SellList /> }
                         { link === 'more' && <MoreList companyId={companyId} /> }
