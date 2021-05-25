@@ -71,6 +71,7 @@ module.exports = class Role {
         switch (method) {
             case 'addRole': {
                 return [
+                    check('roleCode', 'Role code cannot be empty').notEmpty().isNumeric(),
                     check('roleName', 'Role name cannot be empty').notEmpty(),
                 ]
             }
