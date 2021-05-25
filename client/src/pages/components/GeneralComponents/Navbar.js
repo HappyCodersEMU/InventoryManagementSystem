@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import './Navbar.css'
 
 
-function Navbar({companyId}) {
+function Navbar({ companyId }) {
 
     return (
         <>
