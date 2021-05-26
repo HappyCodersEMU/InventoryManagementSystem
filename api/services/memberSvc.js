@@ -2,29 +2,29 @@ const Member = require('../models/member')
 const User = require('../models/user')
 
 
-module.exports = class MemeberService {
+module.exports = class MemberService {
 
     static async addMember(data) {
-        const { email, companyId, roleId } = data
+        const { email, companyID, roleID } = data
         let userId = data.userId;
 
         if (typeof (userId) == 'undefined' || userId == null) {
-            const user = await User.findOne({ email }).select("_id").exec()
+            const user = await User.findOne({ email }).select("_id hasCompany").exec()
             if (!user) {
                 throw ({ status: 400, message: 'User with provided email not found' });
             }
             userId = user._id
             user.hasCompany = true
+            await user.save()
         }
 
 
         const member = new Member({
             user: userId,
-            company: companyId,
-            role: roleId,
+            company: companyID,
+            role: roleID,
         })
 
-        await user.save()
         return await member.save()
     }
 

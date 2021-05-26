@@ -45,7 +45,7 @@ const ModalAddMember = ({ companyId, active, setActive }) => {
 
     const addHandler = async () => {
         try {
-            const req = await request('/api/members', 'POST', { email: emailToAdd, companyId: companyId, roleId: selectedRole })
+            const req = await request('/api/members', 'POST', { email: emailToAdd, companyID: companyId, roleID: selectedRole })
             setActive(false)
         } catch (e) {
             console.log("add member: ", e)

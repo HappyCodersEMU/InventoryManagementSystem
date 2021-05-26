@@ -26,7 +26,6 @@ export const Application = () => {
     const { request } = useHttp()
 
     const validateRole = (roles, userRoles) => (
-        // userRoles && roles.map(role => userRoles.indexOf(role) !== -1).includes(true)
         roles.includes(userRoles)
     )
 

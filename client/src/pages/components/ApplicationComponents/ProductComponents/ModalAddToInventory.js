@@ -47,8 +47,8 @@ const ModalAddToInventory = ({companyId, active, setActive, modalData, setModalD
                             <ul>
                                 <li>Product code: {modalData.productCode}</li>
                                 <li>Product name: {modalData.name}</li>
-                                <li>Product category: {modalData.categoryId.name}</li>
-                                <li>Product subcategory: {modalData.subcategoryId.name}</li>
+                                <li>Product category: {modalData.category.name}</li>
+                                <li>Product subcategory: {modalData.subcategory.name}</li>
                             </ul>
 
                             <input placeholder="Enter quantity of product that you want to add" type="number" onChange={quantityChangeHandler}/>
