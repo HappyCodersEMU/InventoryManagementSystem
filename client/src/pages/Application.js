@@ -53,11 +53,9 @@ export const Application = () => {
     const checkAccess = async () => {
         try {
             const req = await request(`/api/members?userId=${auth.userId}&companyId=${companyId}`, 'GET')
-            console.log(req)
             if (req[0]) {
                 setBlocked(false)
             }
-            req[0].test = 3
             setUserRoles(req[0].roleID.roleCode)
             setDataState(true)
         } catch (e) {}
