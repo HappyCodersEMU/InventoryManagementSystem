@@ -5,7 +5,7 @@ const User = require('../models/user')
 module.exports = class MemberService {
 
     static async addMember(data) {
-        const { email, companyID, roleID } = data
+        const { email, companyId, roleId } = data
         let userId = data.userId;
 
         if (typeof (userId) == 'undefined' || userId == null) {
@@ -21,8 +21,8 @@ module.exports = class MemberService {
 
         const member = new Member({
             user: userId,
-            company: companyID,
-            role: roleID,
+            company: companyId,
+            role: roleId,
         })
 
         return await member.save()

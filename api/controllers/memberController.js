@@ -1,7 +1,7 @@
 const MemberService = require("../services/memberSvc");
 const { check, validationResult } = require('express-validator');
 
-module.exports = class Memeber {
+module.exports = class Member {
 
     static async addMemeber(req, res, next) {
         try {
@@ -96,9 +96,8 @@ module.exports = class Memeber {
         switch (method) {
             case 'addMember': {
                 return [
-                    // check('userID', 'userID cannot be empty').notEmpty() || check('email', 'email cannot be empty').notEmpty(),
-                    check('companyID', 'companyID cannot be empty').notEmpty(),
-                    check('roleID', 'roleID cannot be empty').notEmpty(),
+                    check('companyId', 'companyId cannot be empty').notEmpty(),
+                    check('roleId', 'roleId cannot be empty').notEmpty(),
                 ]
             }
             case 'getById': {
