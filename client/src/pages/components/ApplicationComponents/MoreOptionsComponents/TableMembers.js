@@ -69,10 +69,10 @@ function TableMembers({ companyId, setModalActive }) {
             return
         }
         const filteredData = data.filter(item => {
-            return item.userID.email.toLowerCase().includes(search.toLowerCase())
-                || item.userID.name.toLowerCase().includes(search.toLowerCase())
-                || item.userID.surname.toLowerCase().includes(search.toLowerCase())
-                || item.roleID.roleName.toLowerCase().includes(search.toLowerCase())
+            return item.user.email.toLowerCase().includes(search.toLowerCase())
+                || item.user.name.toLowerCase().includes(search.toLowerCase())
+                || item.user.surname.toLowerCase().includes(search.toLowerCase())
+                || item.rolr.roleName.toLowerCase().includes(search.toLowerCase())
         })
         setDataToDisplay(filteredData)
     }
@@ -124,27 +124,27 @@ function TableMembers({ companyId, setModalActive }) {
                 <table className="table table-members">
                     <thead>
                     <tr>
-                        <th onClick={e => onSort(e, 'userID.email')}>
-                            Email {sortState.sortKey === 'userID.email' ? <small>{sortState.sort}</small> : null}
+                        <th onClick={e => onSort(e, 'user.email')}>
+                            Email {sortState.sortKey === 'user.email' ? <small>{sortState.sort}</small> : null}
                         </th>
-                        <th onClick={e => onSort(e, 'userID.name')}>
-                            Name {sortState.sortKey === 'userID.name' ? <small>{sortState.sort}</small> : null}
+                        <th onClick={e => onSort(e, 'user.name')}>
+                            Name {sortState.sortKey === 'user.name' ? <small>{sortState.sort}</small> : null}
                         </th>
-                        <th onClick={e => onSort(e, 'userID.surname')}>
-                            Surname {sortState.sortKey === 'userID.surname' ? <small>{sortState.sort}</small> : null}
+                        <th onClick={e => onSort(e, 'user.surname')}>
+                            Surname {sortState.sortKey === 'user.surname' ? <small>{sortState.sort}</small> : null}
                         </th>
-                        <th onClick={e => onSort(e, 'roleID.roleName')}>
-                            Role {sortState.sortKey === 'roleID.roleName' ? <small>{sortState.sort}</small> : null}
+                        <th onClick={e => onSort(e, 'role.roleName')}>
+                            Role {sortState.sortKey === 'role.roleName' ? <small>{sortState.sort}</small> : null}
                         </th>
                     </tr>
                     </thead>
                     <tbody>
-                    {dataToDisplay.map((user) => (
-                        <tr key={user._id}>
-                            <td>{user.userID.email}</td>
-                            <td>{user.userID.name}</td>
-                            <td>{user.userID.surname}</td>
-                            <td>{user.roleID.roleName}</td>
+                    {dataToDisplay.map((d) => (
+                        <tr key={d._id}>
+                            <td>{d.user.email}</td>
+                            <td>{d.user.name}</td>
+                            <td>{d.user.surname}</td>
+                            <td>{d.role.roleName}</td>
                         </tr>
                     ))}
                     </tbody>

@@ -13,7 +13,7 @@ function CompanyItem({ data, loading }) {
                         Company ID: {data._id}
                     </div>
                     <div className="orglist-company-info-text">
-                        Subscription Plan: {data.subscriptionID.name}
+                        Subscription Plan: {data.subscription.name}
                     </div>
                 </div>
             </Link>
