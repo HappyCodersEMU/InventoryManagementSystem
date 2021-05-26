@@ -76,9 +76,6 @@ module.exports = class InventoryService {
 
 
     static async search(searchQuery, limit) {
-
-        // console.log(searchQuery)
-
         const data = await Inventory.find(searchQuery)
             .select("_id company product quantity")
             .populate('company', '-__v')
@@ -88,9 +85,6 @@ module.exports = class InventoryService {
 
         const subcategories = await Subcategory.find().select("_id name").exec()
         const categories = await Category.find().select("_id name").exec()
-
-        console.log(categories)
-        console.log(data)
         const result = {
             count: data.length,
             products: data.map((d) => {
