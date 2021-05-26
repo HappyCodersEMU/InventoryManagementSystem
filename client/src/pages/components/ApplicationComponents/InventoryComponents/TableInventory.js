@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import orderBy from "lodash";
 import { Loader } from "../../GeneralComponents/Loader";
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
 import { useHttp } from "../../../../hooks/http.hook";
-import './TableProducts.css'
-import { NoResultDisplay } from "../../GeneralComponents/NoResultDisplay";
+// import './TableProducts.css'
+import {NoResultDisplay} from "../../GeneralComponents/NoResultDisplay";
 
-function TableProducts({ companyId, setModalActive, setModalData }) {
+function TableInventory ({ companyId, setModalActive, setModalData }) {
 
     const { request } = useHttp()
 
     // Initial data
-    const [products, setProducts] = useState(null)
+    const [inventory, setInventory] = useState(null)
     const [categories, setCategories] = useState(null)
     const [subcategories, setSubcategories] = useState(null)
 
@@ -37,10 +37,24 @@ function TableProducts({ companyId, setModalActive, setModalData }) {
         setCategories(categories.categories)
         const subcategories = await request('/api/subcategories', 'GET')
         setSubcategories(subcategories.subcategories)
-        const products = await request('/api/products', 'GET')
-        setProducts(products.products)
+        const inventory = await request(`/api/inventories/companies/${companyId}`)
 
-        setDataToDisplay(products.products)
+        inventory.products.forEach((item) => {
+            categories.categories.find((category) => {
+                if (category._id === item.categoryId) {
+                    item.categoryName = category.name
+                    subcategories.subcategories.find((subcategory) => {
+                        if (subcategory._id === item.subcategoryId) {
+                            return item.subcategoryName = subcategory.name
+                        }
+                    })
+                }
+            })
+        })
+
+        setInventory(inventory.products)
+
+        setDataToDisplay(inventory.products)
     }
 
     useEffect(async () => {
@@ -49,8 +63,8 @@ function TableProducts({ companyId, setModalActive, setModalData }) {
     }, [])
 
     const onReset = () => {
-        setDataToDisplay(products)
-        setSortState({ sort: '', sortKey: '' })
+        setDataToDisplay(inventory)
+        setSortState({ sort: '', sortKey: ''})
         setSearchString('')
         setCategorySelector(null)
         setSubcategorySelector(null)
@@ -69,27 +83,28 @@ function TableProducts({ companyId, setModalActive, setModalData }) {
     }
 
     const onSearch = () => {
-        setDataToDisplay(products)
+        setDataToDisplay(inventory)
         const search = { searchString, categorySelector, subcategorySelector }
         if (!search.searchString && !search.categorySelector && !search.subcategorySelector) {
-            setSortState({ sort: '', sortKey: '' })
+            setSortState({ sort: '', sortKey: ''})
             return
         }
 
-        const categorisedData = products.filter(item => {
+        const categorisedData = inventory.filter(item => {
             if (search.categorySelector === null) { return item }
             if (search.subcategorySelector === null) {
-                return item.category.name.toLowerCase().includes(search.categorySelector.toLowerCase())
+                return item.categoryName.toLowerCase().includes(search.categorySelector.toLowerCase())
             }
-            return item.category.name.toLowerCase().includes(search.categorySelector.toLowerCase())
-                && item.subcategory.name.toLowerCase().includes(search.subcategorySelector.toLowerCase())
+            return item.categoryName.toLowerCase().includes(search.categorySelector.toLowerCase())
+                && item.subcategoryName.toLowerCase().includes(search.subcategorySelector.toLowerCase())
         })
 
         const filteredData = categorisedData.filter(item => {
 
             if (search.searchString === null) { return item }
             return item['productCode'].toLowerCase().includes(search.searchString.toLowerCase())
-                || item['name'].toLowerCase().includes(search.searchString.toLowerCase())
+                || item['productName'].toLowerCase().includes(search.searchString.toLowerCase())
+                || item['quantity'].toString().toLowerCase().includes(search.searchString.toLowerCase())
         })
 
         setDataToDisplay(filteredData)
@@ -102,14 +117,15 @@ function TableProducts({ companyId, setModalActive, setModalData }) {
     const categoryChangeHandler = event => {
         setSubcategorySelectOptionsArray(null)
         const category = event.target.value
-        if (category === null || category === '*Category*') {
+        if (category === null || category === '*Category*')
+        {
             setCategorySelector(null)
             setSubcategorySelector(null)
         } else {
             setCategorySelector(category)
             const arr = []
             subcategories.map((item) => {
-                if (item.category.name === category) {
+                if (item.categoryId.name === category) {
                     arr.push(item)
                 }
             })
@@ -125,23 +141,28 @@ function TableProducts({ companyId, setModalActive, setModalData }) {
         }
     }
 
-    const addToInventoryHandler = (item) => {
-        setModalData(item)
-        setModalActive(true)
-    }
-
     if (!dataState) {
         return <Loader />
     }
 
     if (dataToDisplay.length === 0) {
         return (
-            <NoResultDisplay products={!!products} onReset={onReset} />
+            <NoResultDisplay products={!!inventory} onReset={onReset} />
         )
+    }
+
+    const test = () => {
+        console.log(inventory)
     }
 
     return (
         <>
+            <button onClick={test}>
+                test
+            </button>
+
+
+
             <h1>Products</h1>
             <div className="input-group mb-3 mt-3">
                 <div className="input-group-prepend">
@@ -181,43 +202,45 @@ function TableProducts({ companyId, setModalActive, setModalData }) {
             <div className="table-wrap">
                 <table className="table table-products">
                     <thead>
-                        <tr>
+                    <tr>
                         <th onClick={e => onSort(e, 'productCode')}>
                             Code {sortState.sortKey === 'productCode' ? <small>{sortState.sort}</small> : null}
                         </th>
-                        <th onClick={e => onSort(e, 'name')}>
-                            Name {sortState.sortKey === 'name' ? <small>{sortState.sort}</small> : null}
+                        <th onClick={e => onSort(e, 'productName')}>
+                            Name {sortState.sortKey === 'productName' ? <small>{sortState.sort}</small> : null}
                         </th>
-                        <th onClick={e => onSort(e, 'category.name')}>
-                            Category {sortState.sortKey === 'categoryId.name' ? <small>{sortState.sort}</small> : null}
+                        <th onClick={e => onSort(e, 'categoryName')}>
+                            Category {sortState.sortKey === 'categoryName' ? <small>{sortState.sort}</small> : null}
                         </th>
-                        <th onClick={e => onSort(e, 'subcategory.name')}>
-                            Subcategory {sortState.sortKey === 'subcategory.name' ? <small>{sortState.sort}</small> : null}
+                        <th onClick={e => onSort(e, 'subcategoryName')}>
+                            Subcategory {sortState.sortKey === 'subcategoryName' ? <small>{sortState.sort}</small> : null}
                         </th>
-                        <th>
-
+                        <th onClick={e => onSort(e, 'quantity')}>
+                            Quantity {sortState.sortKey === 'quantity' ? <small>{sortState.sort}</small> : null}
                         </th>
+                        <th></th>
                     </tr>
                     </thead>
-                <tbody>
+                    <tbody>
                     {dataToDisplay.map((item) => (
-                        <tr key={item._id}>
+                        <tr key={item.inventoryId}>
                             <td>{item.productCode}</td>
-                            <td>{item.name}</td>
-                            <td>{item.category.name}</td>
-                            <td>{item.subcategory.name}</td>
+                            <td>{item.productName}</td>
+                            <td>{item.categoryName}</td>
+                            <td>{item.subcategoryName}</td>
+                            <td>{item.quantity}</td>
+
                             <td>
-                                <Link to={`/${companyId}/buy?${item.productCode}`} className="btn btn-outline-dark" >Buy</Link>
-                                <button onClick={e => addToInventoryHandler(item)} className="btn btn-outline-dark" >Add</button>
+
                             </td>
                         </tr>
                     ))}
-                </tbody>
+                    </tbody>
                 </table>
-        </div>
-        <hr />
+            </div>
+            <hr />
         </>
     );
 }
 
-export default TableProducts;
+export default TableInventory;

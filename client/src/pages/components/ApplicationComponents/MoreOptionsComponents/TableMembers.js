@@ -31,6 +31,7 @@ function TableMembers({ companyId, setModalActive }) {
 
     const getData = async () => {
         const req = await request(`/api/members?companyId=${companyId}`, 'GET')
+        const memberRoles = null
         setData(req)
         setDataToDisplay(req)
     }
