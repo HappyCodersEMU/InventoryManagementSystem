@@ -20,6 +20,7 @@ module.exports = class Memeber {
             if (!e.status) {
                 res.status(500).json({ message: 'Something went wrong, try again' })
             } else {
+                console.log(e.message)
                 res.status(400).json({ message: e.message })
             }
         }
@@ -56,17 +57,17 @@ module.exports = class Memeber {
             let searchQuery = {}
 
             if (req.query.companyId != null) {
-                searchQuery = { ...searchQuery, ...{ companyID: req.query.companyId } };
+                searchQuery = { ...searchQuery, ...{ company: req.query.companyId } };
             }
             if (req.query.userId != null) {
-                searchQuery = { ...searchQuery, ...{ userID: req.query.userId } };
+                searchQuery = { ...searchQuery, ...{ user: req.query.userId } };
             }
             if (req.query.active != null) {
                 searchQuery = { ...searchQuery, ...{ active: req.query.active } };
                 searchQuery.active = req.query.active
             }
             if (req.query.roleId != null) {
-                searchQuery = { ...searchQuery, ...{ roleID: req.query.roleId } };
+                searchQuery = { ...searchQuery, ...{ role: req.query.roleId } };
             }
             if (req.query.limit != null) {
                 limit = parseInt(req.query.limit);

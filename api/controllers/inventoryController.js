@@ -25,27 +25,6 @@ module.exports = class Inventory {
         }
     }
 
-    static async getByCompany(req, res, next) {
-        try {
-            const errors = validationResult(req)
-            if (!errors.isEmpty()) {
-                return res.status(400).json({
-                    errors: errors.array(), message: errors.array()[0].msg
-                })
-            }
-
-            const data = await InventoryService.getByCompany(req.params.companyId)
-            res.status(201).json(data)
-
-        } catch (e) {
-            console.log(e)
-            if (!e.status) {
-                res.status(500).json({ message: 'Something went wrong, try again' })
-            } else {
-                res.status(400).json({ message: e.message })
-            }
-        }
-    }
 
     // addProduct creates adds a new product to the inventory if it has not beed created before.
     // if the product exist the company inventory, then it will increase its quantity. 
@@ -108,7 +87,7 @@ module.exports = class Inventory {
 
         try {
             const searchQuery = InventoryService.toSearch(req.query)
-        
+
             if (req.query.limit != null) {
                 limit = parseInt(req.query.limit);
             } else {

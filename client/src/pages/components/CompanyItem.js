@@ -30,7 +30,7 @@ function CompanyItem({ data, loading }) {
                         <div className="orglist-item-company-info">
                             <h1>{data.name}</h1>
                             <p>Company ID: {data._id}<br/>
-                            Subscription plan: {data.subscriptionID.name}</p>
+                            Subscription plan: {data.subscription.name}</p>
                         </div>
                     </div>
                 </div>

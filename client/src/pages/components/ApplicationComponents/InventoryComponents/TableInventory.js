@@ -37,7 +37,7 @@ function TableInventory ({ companyId, setModalActive, setModalData }) {
         setCategories(categories.categories)
         const subcategories = await request('/api/subcategories', 'GET')
         setSubcategories(subcategories.subcategories)
-        const inventory = await request(`/api/inventories/companies/${companyId}`)
+        const inventory = await request(`/api/inventories?companyId=${companyId}`)
 
         inventory.products.forEach((item) => {
             categories.categories.find((category) => {
@@ -53,7 +53,6 @@ function TableInventory ({ companyId, setModalActive, setModalData }) {
         })
 
         setInventory(inventory.products)
-
         setDataToDisplay(inventory.products)
     }
 

@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import '../Modal.css'
-import {useHttp} from "../../../../hooks/http.hook";
-import {Loader} from "../../GeneralComponents/Loader";
+import { useHttp } from "../../../../hooks/http.hook";
+import { Loader } from "../../GeneralComponents/Loader";
 
 const ModalAddMember = ({ companyId, active, setActive }) => {
 
@@ -45,9 +45,11 @@ const ModalAddMember = ({ companyId, active, setActive }) => {
 
     const addHandler = async () => {
         try {
-            const req = await request('/api/members', 'POST', { email: emailToAdd, companyID: companyId, roleID: selectedRole })
+            const req = await request('/api/members', 'POST', { email: emailToAdd, companyId: companyId, roleId: selectedRole })
             setActive(false)
-        } catch (e) {}
+        } catch (e) {
+            console.log("add member: ", e)
+        }
     }
 
     const closeHandler = () => {
@@ -72,7 +74,7 @@ const ModalAddMember = ({ companyId, active, setActive }) => {
                         <div className="modal-body">
                             <ul>
                                 <li>CompanyID: {companyId}</li>
-                                <li>Email: <input onChange={emailChangeHandler}/></li>
+                                <li>Email: <input onChange={emailChangeHandler} /></li>
                                 <li>Role:&nbsp;
                                     <select id="categorySelector" className="btn btn-outline-secondary" onClick={roleChangeHandler}>
                                         <option defaultValue>*Role*</option>
@@ -86,8 +88,8 @@ const ModalAddMember = ({ companyId, active, setActive }) => {
                         <div className="modal-footer">
                             <button type="button" className="btn btn-primary" onClick={addHandler}>Add</button>
                             <button type="button"
-                                    className="btn btn-secondary"
-                                    onClick={closeHandler}
+                                className="btn btn-secondary"
+                                onClick={closeHandler}
                             >
                                 Close
                             </button>

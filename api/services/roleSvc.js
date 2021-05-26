@@ -5,15 +5,11 @@ module.exports = class RoleService {
 
     static async addRole(data) {
 
-        const { roleName, feature1, feature2, feature3, feature4 } = data
-        console.log(feature3)
+        const { roleName, roleCode } = data
 
         const role = new Role({
+            roleCode,
             roleName,
-            tempNameFeatureOne: feature1,
-            tempNameFeatureTwo: feature2,
-            tempNameFeatureThree: feature3,
-            tempNameFeatureFour: feature4
         })
 
         return await role.save()
@@ -21,7 +17,7 @@ module.exports = class RoleService {
 
     static async getById(id) {
         const data = await Role.findById(id)
-            .select("_id roleName tempNameFeatureOne  tempNameFeatureTwo tempNameFeatureThree")
+            .select("_id roleCode roleName")
             .exec()
 
         return data
@@ -29,7 +25,7 @@ module.exports = class RoleService {
 
     static async getAll() {
         const data = await Role.find()
-            .select("_id roleName tempNameFeatureOne  tempNameFeatureTwo tempNameFeatureThree")
+            .select("_id roleCode roleName")
             .exec()
 
         return data
