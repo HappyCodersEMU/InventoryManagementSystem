@@ -75,10 +75,10 @@ function TableProducts({ companyId }) {
         const categorisedData = products.filter(item => {
             if (search.categorySelector === null) { return item }
             if (search.subcategorySelector === null) {
-                return item.categoryId.name.toLowerCase().includes(search.categorySelector.toLowerCase())
+                return item.category.name.toLowerCase().includes(search.categorySelector.toLowerCase())
             }
-            return item.categoryId.name.toLowerCase().includes(search.categorySelector.toLowerCase())
-                && item.subcategoryId.name.toLowerCase().includes(search.subcategorySelector.toLowerCase())
+            return item.category.name.toLowerCase().includes(search.categorySelector.toLowerCase())
+                && item.subcategory.name.toLowerCase().includes(search.subcategorySelector.toLowerCase())
         })
 
         const filteredData = categorisedData.filter(item => {
@@ -106,7 +106,7 @@ function TableProducts({ companyId }) {
             setCategorySelector(category)
             const arr = []
             subcategories.map((item) => {
-                if (item.categoryId.name === category) {
+                if (item.category.name === category) {
                     arr.push(item)
                 }
             })
@@ -192,8 +192,8 @@ function TableProducts({ companyId }) {
                         <th onClick={e => onSort(e, 'categoryId.name')}>
                             Category {sortState.sortKey === 'categoryId.name' ? <small>{sortState.sort}</small> : null}
                         </th>
-                        <th onClick={e => onSort(e, 'subcategoryId.name')}>
-                            Subcategory {sortState.sortKey === 'subcategoryId.name' ? <small>{sortState.sort}</small> : null}
+                        <th onClick={e => onSort(e, 'subcategory.name')}>
+                            Subcategory {sortState.sortKey === 'subcategory.name' ? <small>{sortState.sort}</small> : null}
                         </th>
                         <th>
 
@@ -205,8 +205,8 @@ function TableProducts({ companyId }) {
                         <tr key={item._id}>
                             <td>{item.productCode}</td>
                             <td>{item.name}</td>
-                            <td>{item.categoryId.name}</td>
-                            <td>{item.subcategoryId.name}</td>
+                            <td>{item.category.name}</td>
+                            <td>{item.subcategory.name}</td>
                             <td>
                                 <Link to={`/${companyId}/buy?${item.productCode}`} className="btn btn-outline-dark" >Buy</Link>
                             </td>

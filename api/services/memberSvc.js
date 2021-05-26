@@ -9,7 +9,7 @@ module.exports = class MemeberService {
         let userId = data.userId;
 
         if (typeof (userId) == 'undefined' || userId == null) {
-            const user = await User.findOne({ email }).select("userId").exec()
+            const user = await User.findOne({ email }).select("_id").exec()
             if (!user) {
                 throw ({ status: 400, message: 'User with provided email not found' });
             }
