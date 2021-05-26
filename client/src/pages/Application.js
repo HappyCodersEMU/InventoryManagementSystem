@@ -56,7 +56,7 @@ export const Application = () => {
             if (req[0]) {
                 setBlocked(false)
             }
-            setUserRoles(req[0].roleID.roleCode)
+            setUserRoles(req[0].role.roleCode)
             setDataState(true)
         } catch (e) {}
     }

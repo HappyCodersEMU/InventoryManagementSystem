@@ -20,6 +20,7 @@ module.exports = class Memeber {
             if (!e.status) {
                 res.status(500).json({ message: 'Something went wrong, try again' })
             } else {
+                console.log(e.message)
                 res.status(400).json({ message: e.message })
             }
         }
