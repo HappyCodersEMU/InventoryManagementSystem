@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import './Navbar.css'
 
 
-function Navbar({companyId}) {
+function Navbar({ companyId }) {
 
     return (
         <>
@@ -12,7 +12,7 @@ function Navbar({companyId}) {
                     <div className="navbar-link-content-wrap">
                         <div className="navbar-link-content">
                             <div className="navbar-link-content-icon-wrap" >
-                                <div className="navbar-link-content-icon" data-placeholder="&#xf207;" >
+                                <div className="navbar-link-content-icon" >
 
                                 </div>
                             </div>
@@ -34,6 +34,23 @@ function Navbar({companyId}) {
                             </div>
                             <div className="navbar-link-content-text">
                                 <span>Inventory</span>
+                            </div>
+                        </div>
+                    </div>
+                </NavLink>
+                <hr className="input-line"/>
+            </div>
+            <div className="navbar-link">
+                <NavLink to={`/${companyId}/billing`} >
+                    <div className="navbar-link-content-wrap">
+                        <div className="navbar-link-content">
+                            <div className="navbar-link-content-icon-wrap" >
+                                <div className="navbar-link-content-icon" >
+
+                                </div>
+                            </div>
+                            <div className="navbar-link-content-text">
+                                <span>Billing</span>
                             </div>
                         </div>
                     </div>
@@ -88,36 +105,6 @@ function Navbar({companyId}) {
                 </NavLink>
                 <hr className="input-line"/>
             </div>
-            {/*<NavLink to={`/${companyId}/products`} >*/}
-            {/*    <div className="navbar-btn">*/}
-            {/*        Products*/}
-            {/*    </div>*/}
-            {/*</NavLink>*/}
-            {/*<hr/>*/}
-            {/*<NavLink to={`/${companyId}/inventory`} className="link-wrap" >*/}
-            {/*    <div className="navbar-btn">*/}
-            {/*        Inventory*/}
-            {/*    </div>*/}
-            {/*</NavLink>*/}
-            {/*<hr/>*/}
-            {/*<NavLink to={`/${companyId}/buy`} className="link-wrap" >*/}
-            {/*    <div className="navbar-btn">*/}
-            {/*        Buy*/}
-            {/*    </div>*/}
-            {/*</NavLink>*/}
-            {/*<hr/>*/}
-            {/*<NavLink to={`/${companyId}/sell`} className="link-wrap" >*/}
-            {/*    <div className="navbar-btn">*/}
-            {/*        Sell*/}
-            {/*    </div>*/}
-            {/*</NavLink>*/}
-            {/*<hr/>*/}
-            {/*<NavLink to={`/${companyId}/more`} className="link-wrap" >*/}
-            {/*    <div className="navbar-btn navbar-btn-more">*/}
-            {/*        More*/}
-            {/*    </div>*/}
-            {/*</NavLink>*/}
-            {/*<hr/>*/}
         </>
     );
 }
