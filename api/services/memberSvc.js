@@ -14,6 +14,7 @@ module.exports = class MemeberService {
                 throw ({ status: 400, message: 'User with provided email not found' });
             }
             userId = user._id
+            user.hasCompany = true
         }
 
 
@@ -23,6 +24,7 @@ module.exports = class MemeberService {
             role: roleId,
         })
 
+        await user.save()
         return await member.save()
     }
 
