@@ -3,7 +3,7 @@ import {AuthContext} from "../../../context/auth.context";
 import './Header.css'
 import {useHttp} from "../../../hooks/http.hook";
 import {Loader} from "./Loader";
-import {Link, NavLink} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 function Header({ companyId }) {
     const auth = useContext(AuthContext)
@@ -58,9 +58,9 @@ function Header({ companyId }) {
                         <div className="header-user-block">
                             <div className="header-userdata">
                                 <span>{userData.name} {userData.surname}</span>
-                                <button onClick={logoutHandler} className="logout-btn">
+                                <div onClick={logoutHandler} className="logout-btn">
                                     Log out
-                                </button>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -2,10 +2,10 @@
     width: 12%;
 }
 .table-products th:nth-child(2) {
-    width: 45%;
+    width: 40%;
 }
 .table-products th:nth-child(3) {
-    width: 18%;
+    width: 20%;
 }
 .table-products th:nth-child(4) {
     width: 18%;
@@ -13,4 +13,9 @@
 
 .table-products th:nth-child(5) {
     width: 7%;
+}
+
+.table-products td:nth-child(5) {
+    display: flex;
+    gap: 5px;
 }

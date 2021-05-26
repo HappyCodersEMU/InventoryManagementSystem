@@ -19,7 +19,7 @@ const MoreList = ({ companyId }) => {
                         </div>
                         <div className="more-name-box">
                             List All Members
-                            <hr />
+                            <hr className="input-line" />
                         </div>
                     </Link>
                     {/*<Link to={`/${companyId}/add-member`} className="more-btn">*/}
@@ -37,7 +37,7 @@ const MoreList = ({ companyId }) => {
                         </div>
                         <div className="more-name-box">
                             Manage Roles
-                            <hr />
+                            <hr className="input-line" />
                         </div>
                     </Link>
                 </div>
@@ -52,7 +52,7 @@ const MoreList = ({ companyId }) => {
                         </div>
                         <div className="more-name-box">
                             Show All Transactions
-                            <hr />
+                            <hr className="input-line" />
                         </div>
                     </Link>
                     <Link to={`/${companyId}/import-transactions`} className="more-btn">
@@ -61,16 +61,15 @@ const MoreList = ({ companyId }) => {
                         </div>
                         <div className="more-name-box">
                             Import Transactions
-                            <hr />
+                            <hr className="input-line" />
                         </div>
                     </Link>
                     <Link to={`/${companyId}/export-transactions`} className="more-btn">
                         <div className="icon-box">
-
                         </div>
                         <div className="more-name-box">
                             Export Transactions
-                            <hr />
+                            <hr className="input-line" />
                         </div>
                     </Link>
                 </div>
