@@ -7,12 +7,12 @@ const productSchema = mongoose.Schema({
   // price: { type: Number, required: false },
   imageUrl: { type: String, required: false },
   description: { type: String, default: "" },
-  categoryId: {
+  category: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Category",
     required: true,
   },
-  subcategoryId: {
+  subcategory: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Subcategory",
     required: true,

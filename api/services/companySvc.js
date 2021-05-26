@@ -17,15 +17,15 @@ module.exports = class CompanyService {
         const plan = await Subscription.findOne({ name: planName })
         const company = new Company({
             name: companyName,
-            subscriptionID: plan.get('_id')
+            subscription: plan.get('_id')
         })
 
         const companyId = company.get('_id')
         const role = await Role.findOne({ roleName: 'admin' })
         const member = new Member({
-            userID: userId,
-            companyID: companyId,
-            roleID: role.get('_id')
+            user: userId,
+            company: companyId,
+            role: role.get('_id')
         })
 
         const user = await User.findOne({ _id: userId })
@@ -42,15 +42,15 @@ module.exports = class CompanyService {
 
     static async getAll() {
         return await Company.find()
-            .select("_id name subscriptionID")
-            .populate('subscriptionID', '-__v')
+            .select("_id name subscription")
+            .populate('subscription', '-__v')
             .exec()
     }
 
     static async getById(id) {
         return await Company
             .findById(id)
-            .populate('subscriptionID', '-__v')
+            .populate('subscription', '-__v')
             .exec()
     }
 }

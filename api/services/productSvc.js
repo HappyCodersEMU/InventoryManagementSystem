@@ -9,8 +9,8 @@ module.exports = class ProductService {
 
     static async getAll() {
         const data = await Product.find()
-            .select("productCode name _id productImage categoryId subcategoryId description") // Select only listed fields
-            .populate("categoryId subcategoryId")
+            .select("productCode name _id productImage category subcategory description") // Select only listed fields
+            .populate("category subcategory")
             .exec()
 
         const result = {
@@ -20,8 +20,8 @@ module.exports = class ProductService {
                     _id: d._id,
                     productCode: d.productCode,
                     name: d.name,
-                    categoryId: d.categoryId,
-                    subcategoryId: d.subcategoryId,
+                    category: d.category,
+                    subcategory: d.subcategory,
                     // price: d.price,
                     // description: d.description,
                 };
@@ -33,7 +33,7 @@ module.exports = class ProductService {
 
     static async getById(id) {
         const data = await Product.findById(id)
-            .select("name _id productImage categoryId description") // Select only listed fields
+            .select("name _id productImage category description") // Select only listed fields
             .exec()
 
         return data
@@ -44,17 +44,17 @@ module.exports = class ProductService {
         const { productCode, name, imageUrl, categoryId, subcategoryId, description } = data
 
         // check if subcategory is under the valid category
-        const validCategory = await Subcategory.find({_id: subcategoryId, categoryId})
+        const validCategory = await Subcategory.find({ _id: subcategoryId, category: categoryId })
         if (!validCategory) {
             throw ({ status: 400, message: 'Provided subcategory does not match category' });
         }
-        
+
         const product = new Product({
             productCode,
             name,
             imageUrl,
-            categoryId,
-            subcategoryId
+            category: categoryId,
+            subcategory: subcategoryId
         })
 
         await product.save()

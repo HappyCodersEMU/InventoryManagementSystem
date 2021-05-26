@@ -36,9 +36,8 @@ router.get('/api/products', ProductController.getAll);
 router.post('/api/products', ProductController.validate('createProduct'), ProductController.createProduct);
 
 // Inventory
-router.get('/api/inventories/:id', InventoryController.validate('getById'), InventoryController.getById);
 router.get('/api/inventories', InventoryController.searchInventory);
-router.get('/api/inventories/companies/:companyId', InventoryController.getByCompany);
+router.get('/api/inventories/:id', InventoryController.validate('getById'), InventoryController.getById);
 router.post('/api/inventories', InventoryController.validate('addProduct'), InventoryController.addProduct);
 router.delete('/api/inventories', InventoryController.validate('deleteProduct'), InventoryController.deleteProduct);
 
