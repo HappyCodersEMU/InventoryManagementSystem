@@ -107,6 +107,25 @@ module.exports = class Inventory {
         }
     }
 
+    // addProduct creates adds a new product to the inventory if it has not beed created before.
+    // if the product exist the company inventory, then it will increase its quantity. 
+    static async sellProducts(req, res, next) {
+        try {
+            await InventoryService.sellProducts(req.body);
+            res.status(201).json({
+                message: 'Successful transaction', status: 'success'
+            })
+
+        } catch (e) {
+            console.log(e)
+            if (!e.status) {
+                res.status(500).json({ message: 'Something went wrong, try again' })
+            } else {
+                res.status(400).json({ message: e.message })
+            }
+        }
+    }
+
 
     /**
     * validates the passed fields.
