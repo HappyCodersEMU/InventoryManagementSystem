@@ -2,25 +2,27 @@ const Member = require('../models/member')
 const User = require('../models/user')
 
 
-module.exports = class MemeberService {
+module.exports = class MemberService {
 
     static async addMember(data) {
-        const { email, companyID, roleID } = data
-        let userID = data.userID;
+        const { email, companyId, roleId } = data
+        let userId = data.userId;
 
-        if (typeof (userID) == 'undefined' || userID == null) {
-            const user = await User.findOne({ email }).select("userID").exec()
+        if (typeof (userId) == 'undefined' || userId == null) {
+            const user = await User.findOne({ email }).select("_id hasCompany").exec()
             if (!user) {
                 throw ({ status: 400, message: 'User with provided email not found' });
             }
-            userID = user._id
+            userId = user._id
+            user.hasCompany = true
+            await user.save()
         }
 
 
         const member = new Member({
-            userID,
-            companyID,
-            roleID,
+            user: userId,
+            company: companyId,
+            role: roleId,
         })
 
         return await member.save()
@@ -28,7 +30,7 @@ module.exports = class MemeberService {
 
     static async getById(id) {
         const data = await Member.findById(id)
-            .select("_id userID companyID roleID")
+            .select("_id user company role")
             .exec()
 
         return data
@@ -36,7 +38,10 @@ module.exports = class MemeberService {
 
     static async getByCompanyId(companyId) {
         const data = await Member.find({ companyId })
-            .select("_id userID companyID  roleID")
+            .select("_id user company  role")
+            .populate('user', '-password -__v')
+            .populate('role', '-__v')
+            .populate('company', '-__v')
             .exec()
 
         return data
@@ -44,7 +49,7 @@ module.exports = class MemeberService {
 
     static async getAll() {
         const data = await Member.find()
-            .select("_id userID companyID  roleID")
+            .select("_id user company  role")
             .exec()
 
         return data
@@ -52,10 +57,10 @@ module.exports = class MemeberService {
 
     static async search(searchQuery, limit) {
         const data = await Member.find(searchQuery)
-            .select("_id userID companyID  roleID")
-            .populate('userID', '-password -__v')
-            .populate('roleID', '-__v')
-            .populate('companyID', '-__v')
+            .select("_id user company  role")
+            .populate('user', '-password -__v')
+            .populate('role', '-__v')
+            .populate('company', '-__v')
             .limit(limit)
             .exec()
 

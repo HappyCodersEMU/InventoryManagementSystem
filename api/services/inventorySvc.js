@@ -1,16 +1,10 @@
 const Inventory = require("../models/inventoryProduct");
 const Product = require("../models/product");
 const Company = require("../models/company");
+const Category = require("../models/category");
+const Subcategory = require("../models/subcategory");
 
 module.exports = class InventoryService {
-    static async getAll() {
-        const data = await Inventory.find()
-            .select("_id product company quantity")
-            .populate("product company")
-            .exec()
-
-        return data
-    }
 
     static async getById(id) {
         const data = await Inventory.findById(id)
@@ -20,34 +14,6 @@ module.exports = class InventoryService {
 
         return data
     }
-
-
-    static async getByCompany(companyId) {
-        const data = await Inventory.find({ company: companyId })
-            .select("_id product company quantity")
-            .populate("product company")
-            .exec()
-
-        const result = {
-            count: data.length,
-            products: data.map((d) => {
-                return {
-                    inventoryId: d._id,
-                    productId: d.product._id,
-                    productCode: d.product.productCode,
-                    productName: d.product.name,
-                    categoryId: d.product.categoryId,
-                    subcategoryId: d.product.subcategoryId,
-                    quantity: d.quantity,
-                    // price: d.price,
-                    // description: d.description,
-                };
-            }),
-        };
-
-        return result
-    }
-
 
     // addProduct creates adds a new product to the inventory if it has not beed created before.
     // if the product exist the company inventory, then it will increase its quantity.
@@ -117,7 +83,44 @@ module.exports = class InventoryService {
             .limit(limit)
             .exec()
 
-        return data
+        const subcategories = await Subcategory.find().select("_id name").exec()
+        const categories = await Category.find().select("_id name").exec()
+        const result = {
+            count: data.length,
+            products: data.map((d) => {
+
+                let category = categories.find(cat => cat._id.equals(d.product.category))
+                let subcategory = subcategories.find(sub => sub._id.equals(d.product.subcategory))
+
+                console.log(category)
+
+                return {
+                    inventoryId: d._id,
+                    productId: d.product._id,
+                    productCode: d.product.productCode,
+                    productName: d.product.name,
+                    category: {
+                        id: category._id,
+                        name: category.name,
+                    },
+                    subcategory: {
+                        id: subcategory._id,
+                        name: subcategory.name
+                    },
+                    quantity: d.quantity,
+                    company: {
+                        id: d.company._id,
+                        name: d.company.name
+                    },
+
+                    // price: d.price,
+                    // description: d.description,
+                };
+            }),
+        }
+
+
+        return result
     }
 
     static toSearch(args) {

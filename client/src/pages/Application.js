@@ -26,7 +26,6 @@ export const Application = () => {
     const { request } = useHttp()
 
     const validateRole = (roles, userRoles) => (
-        // userRoles && roles.map(role => userRoles.indexOf(role) !== -1).includes(true)
         roles.includes(userRoles)
     )
 
@@ -56,7 +55,7 @@ export const Application = () => {
             if (req[0]) {
                 setBlocked(false)
             }
-            setUserRoles(req[0].roleID.roleCode)
+            setUserRoles(req[0].role.roleCode)
             setDataState(true)
         } catch (e) {}
     }

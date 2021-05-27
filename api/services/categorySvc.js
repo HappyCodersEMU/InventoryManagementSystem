@@ -50,8 +50,8 @@ module.exports = class CategoryService {
 
     static async getAllSubcategories() {
         const data = await Subcategory.find()
-            .select("name _id subcategoryImage description categoryId")
-            .populate("categoryId")
+            .select("name _id subcategoryImage description category")
+            .populate("category")
             .exec()
 
         const result = {
@@ -62,7 +62,7 @@ module.exports = class CategoryService {
                     name: d.name,
                     subcategoryImage: d.subcategoryImage,
                     description: d.description,
-                    categoryId: d.categoryId,
+                    category: d.category,
                 };
             }),
         };
@@ -73,7 +73,7 @@ module.exports = class CategoryService {
     static async getSubcategoryById(id) {
         const data = await Subcategory.findById(id)
             .select("name _id categoryImage description")
-            .populate("categoryId")
+            .populate("category")
             .exec()
 
         return data
@@ -92,7 +92,7 @@ module.exports = class CategoryService {
         const subcategory = new Subcategory({
             name,
             description,
-            categoryId,
+            category: categoryId,
         })
 
         await subcategory.save()

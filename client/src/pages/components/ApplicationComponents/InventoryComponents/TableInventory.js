@@ -37,7 +37,7 @@ function TableInventory ({ companyId, setModalActive, setModalData }) {
         setCategories(categories.categories)
         const subcategories = await request('/api/subcategories', 'GET')
         setSubcategories(subcategories.subcategories)
-        const inventory = await request(`/api/inventories/companies/${companyId}`)
+        const inventory = await request(`/api/inventories?companyId=${companyId}`, 'GET')
 
         inventory.products.forEach((item) => {
             categories.categories.find((category) => {
@@ -53,7 +53,6 @@ function TableInventory ({ companyId, setModalActive, setModalData }) {
         })
 
         setInventory(inventory.products)
-
         setDataToDisplay(inventory.products)
     }
 
@@ -157,11 +156,9 @@ function TableInventory ({ companyId, setModalActive, setModalData }) {
 
     return (
         <>
-            <button onClick={test}>
-                test
-            </button>
-
-
+            {/*<button onClick={test}>*/}
+            {/*    test*/}
+            {/*</button>*/}
 
             <h1>Products</h1>
             <div className="input-group mb-3 mt-3">

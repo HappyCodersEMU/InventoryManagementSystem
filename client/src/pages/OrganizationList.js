@@ -1,12 +1,12 @@
-import React, {useContext, useEffect, useState} from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Header from "./components/GeneralComponents/Header";
-import {useHttp} from "../hooks/http.hook";
-import {Loader} from "./components/GeneralComponents/Loader";
+import { useHttp } from "../hooks/http.hook";
+import { Loader } from "./components/GeneralComponents/Loader";
 import CompanyItem from "./components/CompanyItem";
 import PlanInfo from "./components/PlanInfo";
-import {AuthContext} from "../context/auth.context";
+import { AuthContext } from "../context/auth.context";
 import './OrganizationList.css'
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export const OrganizationList = () => {
 
@@ -51,22 +51,18 @@ export const OrganizationList = () => {
     }
 
     const getData = async () => {
-        const userID = auth.userId
-        const data = await request(`/api/members?userId=${userID}`, 'GET')
-        const companies = await request(`/api/companies`, 'GET')
+        const userId = auth.userId
+        const members = await request(`/api/members?userId=${userId}`, 'GET')
         const plans = await request('/api/subscriptions', 'GET')
-        const arr = []
+        const companies = []
 
-        data.map((item) => {
-            companies.map((company) => {
-                if (company._id === item.companyID._id) {
-                    arr.push(company)
-                }
-            })
+        members.map((member) => {
+            member.company.subscriptionName = plans.find(plan => plan._id === member.company.subscription).name
+            companies.push(member.company)
         })
 
         setSubscriptionPlans(plans)
-        setCompaniesToDisplay(arr)
+        setCompaniesToDisplay(companies)
     }
 
     useEffect(async () => {
@@ -80,12 +76,10 @@ export const OrganizationList = () => {
         try {
             if (!companyName || companyName.length < 3) {
                 setErrorMsg('Length of company name should be more then 3 symbols')
-                // console.log("Length of company name should be more then 3 symbols")
                 return
             }
             if (!planName || planName === '*Subscription Plan*') {
                 setErrorMsg('Choose the subscription plan')
-                // console.log("Choose the subscription plan")
                 return
             }
             const userId = auth.userId
@@ -132,13 +126,13 @@ export const OrganizationList = () => {
                                 <label className="orglist-company-select-label" htmlFor="planSelector" data-placeholder="">Select your plan</label>
                                 <select onChange={selectHandler} name="planSelector" className="orglist-company-select-field" >
                                     <option defaultChecked>*Subscription Plan*</option>
-                                    { subscriptionPlans && subscriptionPlans.map((item) => (
+                                    {subscriptionPlans && subscriptionPlans.map((item) => (
                                         <option key={item._id}>{item.name}</option>
                                     ))}
                                 </select>
                             </div>
-                            { !planName && <div className="orglist-company-plan-info"></div>}
-                            { planName && planName !== '*Subscription Plan*' && <PlanInfo data={planInfoData}/>}
+                            {!planName && <div className="orglist-company-plan-info"></div>}
+                            {planName && planName !== '*Subscription Plan*' && <PlanInfo data={planInfoData} />}
                             <button onClick={createCompanyHandler} className="orglist-company-create-btn">
                                 Create company
                             </button>
