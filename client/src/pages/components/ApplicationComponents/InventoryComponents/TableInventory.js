@@ -39,19 +39,6 @@ function TableInventory ({ companyId, setModalActive, setModalData }) {
         setSubcategories(subcategories.subcategories)
         const inventory = await request(`/api/inventories?companyId=${companyId}`, 'GET')
 
-        inventory.products.forEach((item) => {
-            categories.categories.find((category) => {
-                if (category._id === item.categoryId) {
-                    item.categoryName = category.name
-                    subcategories.subcategories.find((subcategory) => {
-                        if (subcategory._id === item.subcategoryId) {
-                            return item.subcategoryName = subcategory.name
-                        }
-                    })
-                }
-            })
-        })
-
         setInventory(inventory.products)
         setDataToDisplay(inventory.products)
     }
@@ -124,7 +111,7 @@ function TableInventory ({ companyId, setModalActive, setModalData }) {
             setCategorySelector(category)
             const arr = []
             subcategories.map((item) => {
-                if (item.categoryId.name === category) {
+                if (item.category.name === category) {
                     arr.push(item)
                 }
             })
@@ -151,7 +138,7 @@ function TableInventory ({ companyId, setModalActive, setModalData }) {
     }
 
     const test = () => {
-        console.log(inventory)
+        console.log(dataToDisplay)
     }
 
     return (
@@ -160,7 +147,7 @@ function TableInventory ({ companyId, setModalActive, setModalData }) {
             {/*    test*/}
             {/*</button>*/}
 
-            <h1>Products</h1>
+            <h1>Inventory</h1>
             <div className="input-group mb-3 mt-3">
                 <div className="input-group-prepend">
                     <button
@@ -223,8 +210,8 @@ function TableInventory ({ companyId, setModalActive, setModalData }) {
                         <tr key={item.inventoryId}>
                             <td>{item.productCode}</td>
                             <td>{item.productName}</td>
-                            <td>{item.categoryName}</td>
-                            <td>{item.subcategoryName}</td>
+                            <td>{item.category.name}</td>
+                            <td>{item.subcategory.name}</td>
                             <td>{item.quantity}</td>
 
                             <td>

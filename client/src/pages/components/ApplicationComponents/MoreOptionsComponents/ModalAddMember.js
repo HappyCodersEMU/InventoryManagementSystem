@@ -3,7 +3,7 @@ import '../Modal.css'
 import { useHttp } from "../../../../hooks/http.hook";
 import { Loader } from "../../GeneralComponents/Loader";
 
-const ModalAddMember = ({ companyId, active, setActive }) => {
+const ModalAddMember = ({ companyId, active, setActive, setAddMemberTempData }) => {
 
     const { request } = useHttp()
 
@@ -46,6 +46,7 @@ const ModalAddMember = ({ companyId, active, setActive }) => {
     const addHandler = async () => {
         try {
             const req = await request('/api/members', 'POST', { email: emailToAdd, companyId, roleId: selectedRole })
+            setAddMemberTempData(req)
             setActive(false)
         } catch (e) {
             console.log("add member: ", e)
@@ -56,12 +57,17 @@ const ModalAddMember = ({ companyId, active, setActive }) => {
         setActive(false)
     }
 
+    const test = () => {
+
+    }
+
     if (!dataState) {
         return <Loader />
     }
 
     return (
         <>
+
             <div className="modal">
                 <div className="modal-dialog">
                     <div className="modal-content">

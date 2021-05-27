@@ -4,7 +4,7 @@ import {Loader} from "../../GeneralComponents/Loader";
 import './TableMembers.css'
 import {useHttp} from "../../../../hooks/http.hook";
 
-function TableMembers({ companyId, setModalActive }) {
+function TableMembers({ companyId, setModalActive, addMemberTempData, setAddMemberTempData }) {
 
     const { request } = useHttp()
 
@@ -45,6 +45,18 @@ function TableMembers({ companyId, setModalActive }) {
         setDataState(true)
     }, [])
 
+
+    // TEMPORAL SOLUTION
+    useEffect(async () => {
+        if (addMemberTempData !== null) {
+            await getData()
+            console.log(data)
+            console.log(dataToDisplay)
+            console.log(addMemberTempData)
+            setAddMemberTempData(null)
+        }
+    }, [addMemberTempData])
+
     const onReset = () => {
         setDataToDisplay(data)
         setSortState({ sort: '', sortKey: ''})
@@ -73,7 +85,7 @@ function TableMembers({ companyId, setModalActive }) {
             return item.user.email.toLowerCase().includes(search.toLowerCase())
                 || item.user.name.toLowerCase().includes(search.toLowerCase())
                 || item.user.surname.toLowerCase().includes(search.toLowerCase())
-                || item.rolr.roleName.toLowerCase().includes(search.toLowerCase())
+                || item.role.roleName.toLowerCase().includes(search.toLowerCase())
         })
         setDataToDisplay(filteredData)
     }

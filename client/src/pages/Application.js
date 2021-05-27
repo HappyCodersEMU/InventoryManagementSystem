@@ -32,6 +32,8 @@ export const Application = () => {
 
     // Modal States
     const [modalAddMemberActive, setModalAddMemberActive] = useState(false)
+    const [addMemberTempData, setAddMemberTempData] = useState(null)
+
 
     const [modalAddToInventoryActive, setModalAddToInventoryActive] = useState(false)
     const [modalAddToInventoryData, setModalAddToInventoryData] = useState(false)
@@ -45,6 +47,7 @@ export const Application = () => {
     const [blocked, setBlocked] = useState(true)
 
     const [userRoles, setUserRoles] = useState(null)
+
 
     const companyId = useParams().id
     const link = useParams().link
@@ -92,6 +95,7 @@ export const Application = () => {
                 companyId={companyId}
                 active={modalAddMemberActive}
                 setActive={setModalAddMemberActive}
+                setAddMemberTempData={setAddMemberTempData}
             /> }
 
             { modalAddToInventoryActive === true && <ModalAddToInventory
@@ -108,7 +112,7 @@ export const Application = () => {
                 {/*<button onClick={test}>Test</button>*/}
                 <div className="container">
                     <div className="navbar-wrap">
-                        <Navbar companyId={companyId} />
+                        <Navbar companyId={companyId} validateRole={validateRole} userRoles={userRoles} />
                     </div>
                     <div className="content-wrap">
                         { link === 'home' && <HomePage /> }
@@ -119,8 +123,13 @@ export const Application = () => {
                         { validateRole([1, 3],userRoles) && link === 'sell' && <SellList /> }
                         { link === 'more' && <MoreList companyId={companyId} /> }
                         <>
-                            { validateRole([1],userRoles) && link === 'list-members' && <TableMembers companyId={ companyId } setModalActive={setModalAddMemberActive}/> }
-                            {/*{ validateRole([1, 3],userRoles) && link === 'transactions' && <TableMembers companyId={ companyId } setModalActive={setModalAddMemberActive}/> }*/}
+                            { validateRole([1, 2],userRoles) && link === 'list-members' &&
+                            <TableMembers companyId={ companyId } setModalActive={setModalAddMemberActive}
+                                          addMemberTempData={addMemberTempData} setAddMemberTempData={setAddMemberTempData} />
+                            }
+
+
+                            { validateRole([1, 3],userRoles) && link === 'transactions' && <TableMembers companyId={ companyId } setModalActive={setModalAddMemberActive}/> }
                         </>
                     </div>
                 </div>
