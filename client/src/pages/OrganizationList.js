@@ -57,6 +57,7 @@ export const OrganizationList = () => {
         const companies = []
 
         members.map((member) => {
+            member.company.subscriptionName = plans.find(plan => plan._id === member.company.subscription).name
             companies.push(member.company)
         })
 
@@ -75,12 +76,10 @@ export const OrganizationList = () => {
         try {
             if (!companyName || companyName.length < 3) {
                 setErrorMsg('Length of company name should be more then 3 symbols')
-                // console.log("Length of company name should be more then 3 symbols")
                 return
             }
             if (!planName || planName === '*Subscription Plan*') {
                 setErrorMsg('Choose the subscription plan')
-                // console.log("Choose the subscription plan")
                 return
             }
             const userId = auth.userId

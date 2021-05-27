@@ -1,7 +1,6 @@
 import React from "react";
 
 function PlanInfo({ data }) {
-    console.log(data)
     return (
         <div className="orglist-company-plan-info">
             <h2>{data.name.toUpperCase()}</h2>
