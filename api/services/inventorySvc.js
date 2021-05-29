@@ -77,28 +77,50 @@ module.exports = class InventoryService {
 
 
     // TODO: handle many products
-    static async sellProducts(data) {
+    static async sellProducts(data, companyId) {
         const TRANSACTION_TYPE = 'SELL'
         // data should be an array of transactions objects:
         // [
-        //     { inventoryProductId, companyId, memberId, quantity, price },
-        //     { inventoryProductId, companyId, memberId, quantity, price }
+        //     { inventoryProductId, memberId, quantity, price },
+        //     { inventoryProductId, memberId, quantity, price }
         // ]
 
         try {
             // check if company exist
-            // const company = await Company.findById(companyId)
-            // if (!company) {
-            //     throw ({ status: 400, message: 'Provided company does exist' });
-            // }
+            const company = await Company.findById(companyId)
+            if (!company) {
+                throw ({ status: 400, message: 'Provided company does not exist' });
+            }
+
+            // get all inventory products by company and update their qty
+            const inventoryProducts = await Inventory
+                .find({ company: companyId })
+                .select('_id product company quantity')
+                .exec()
+
+
+
+
+            inventoryProducts.map(async (product) => {
+                let currProduct = data.find(d => product._id.equals(d.inventoryProductId))
+                if (currProduct) {
+                    product.quantity -= currProduct.quantity
+                    // TODO: validate updated quantity  
+
+                    await Inventory.updateOne(
+                        { _id: currProduct.inventoryProductId },
+                        { $set: { quantity: product.quantity } }
+                    )
+                }
+            })
+
 
             let transactions = []
-
             data.map((d) => {
                 let transaction = new Transaction({
                     inventoryProduct: d.inventoryProductId,
                     // member: d.memberId,
-                    company: d.companyId,
+                    company: companyId,
                     quantity: d.quantity,
                     price: d.price,
                     transactionType: TRANSACTION_TYPE,
@@ -106,10 +128,7 @@ module.exports = class InventoryService {
                 transactions.push(transaction)
             })
 
-            // TODO: update the inventory after transaction
-
             await Transaction.insertMany(transactions)
-
         } catch (e) {
             console.log('sell product error: ', e)
         }

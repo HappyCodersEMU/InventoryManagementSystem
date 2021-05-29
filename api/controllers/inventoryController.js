@@ -111,7 +111,7 @@ module.exports = class Inventory {
     // if the product exist the company inventory, then it will increase its quantity. 
     static async sellProducts(req, res, next) {
         try {
-            await InventoryService.sellProducts(req.body);
+            await InventoryService.sellProducts(req.body, req.params.companyId);
             res.status(201).json({
                 message: 'Successful transaction', status: 'success'
             })
@@ -148,6 +148,11 @@ module.exports = class Inventory {
                 return [
                     check('productId', 'productId is empty or invalid').notEmpty().isMongoId(),
                     check('companyId', 'companyId is empty or invalid').notEmpty().isMongoId(),
+                ]
+            }
+            case 'sellProducts': {
+                return [
+                    param('companyId', 'companyId query parameter is empty or invalid').notEmpty().isMongoId(),
                 ]
             }
         }
