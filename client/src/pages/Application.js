@@ -118,9 +118,9 @@ export const Application = () => {
                         { link === 'home' && <HomePage /> }
                         { validateRole([1, 2, 3],userRoles) && link === 'products' && <TableProducts companyId={companyId} setModalActive={setModalAddToInventoryActive} setModalData={setModalAddToInventoryData}/> }
                         { validateRole([1, 2, 3],userRoles) && link === 'inventory' && <TableInventory companyId={companyId} /> }
-                        { validateRole([1, 3, 4],userRoles) && link === 'billing' && <Billing companyId={companyId} setModalActive={setModalAddToInventoryActive} setModalData={setModalAddToInventoryData}/> }
-                        { validateRole([1, 3],userRoles) && link === 'buy' && <TableBuy companyId={ companyId } setModalActive={setModalActive} setModalData={setModalData}/> }
-                        { validateRole([1, 3],userRoles) && link === 'sell' && <SellList /> }
+                        { validateRole([1, 2, 4],userRoles) && link === 'billing' && <Billing companyId={companyId} setModalActive={setModalAddToInventoryActive} setModalData={setModalAddToInventoryData}/> }
+                        { validateRole([1, 2],userRoles) && link === 'buy' && <TableBuy companyId={ companyId } setModalActive={setModalActive} setModalData={setModalData}/> }
+                        { validateRole([1, 2],userRoles) && link === 'sell' && <SellList /> }
                         { link === 'more' && <MoreList companyId={companyId} /> }
                         <>
                             { validateRole([1, 2],userRoles) && link === 'list-members' &&
