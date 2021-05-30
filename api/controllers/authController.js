@@ -80,7 +80,7 @@ module.exports = class Auth {
     static async verifyUser(req, res, next) {
         try {
             AuthService.verifyUser(req.params.code);
-            res.status(200).json({ status: 'success' })
+            res.status(301).redirect(req.query.redirect)
 
         } catch (e) {
             console.log(e)

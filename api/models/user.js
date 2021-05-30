@@ -12,7 +12,7 @@ const userSchema = mongoose.Schema({
     enum: ['pending', 'active'],
     default: 'pending'
   },
-  confirmationCode: { type: String }
+  confirmationCode: { type: String, unique: true }
 });
 
 module.exports = mongoose.model("User", userSchema);

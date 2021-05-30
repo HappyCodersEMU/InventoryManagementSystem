@@ -2,6 +2,7 @@ const User = require("../models/user");
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const mailSvc = require('./mailSvc')
+require("dotenv").config();
 
 module.exports = class AuthService {
 
@@ -13,13 +14,15 @@ module.exports = class AuthService {
         try {
 
             const { email, name, surname, password } = data
+            const redirectUrl = 'http://localhost:3000/login'
+
 
             const checkCandidate = await User.findOne({ email })
             if (checkCandidate) {
                 throw ({ status: 400, message: 'This e-mail already in use' });
             }
 
-            const token = jwt.sign({ email: email }, 'some-seKret-key');
+            const token = jwt.sign({ email: email }, process.env.JWT_SECRET);
 
             const hashedPassword = await bcrypt.hash(password, 12)
             const user = new User({
@@ -30,7 +33,7 @@ module.exports = class AuthService {
                 confirmationCode: token
             })
 
-            await mailSvc.sendConfirmationEmail(name, email, token)
+            await mailSvc.sendConfirmationEmail(name, email, token, redirectUrl)
 
             await user.save()
             return {
@@ -57,12 +60,12 @@ module.exports = class AuthService {
             throw ({ status: 400, message: 'Password or email is incorrect' });
         }
         const token = jwt.sign(
-            { userId: user.id },
-            'jwtSecret', // TODO: update by env constant
+            { userId: user._id },
+            process.env.JWT_SECRET,
             { expiresIn: '1h' }
         )
 
-        return { token, userId: user.id, hasCompany: user.hasCompany }
+        return { token, userId: user.id, hasCompany: user.hasCompany, status: user.status }
     }
 
 
