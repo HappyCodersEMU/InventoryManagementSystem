@@ -2,7 +2,7 @@ import React from "react";
 
 function PlanInfo({ data }) {
     return (
-        <div className="orglist-company-plan-info">
+        <div className="orglist-company-plan-info-data">
             <h2>{data.name.toUpperCase()}</h2>
             <h3>${data.price}</h3>
             <span>{data.transPerMonth} Transactions / Month</span><br />

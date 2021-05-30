@@ -142,8 +142,7 @@ function TableProducts({ companyId, setModalActive, setModalData }) {
 
     return (
         <>
-            <h1>Products</h1>
-            <div className="input-group mb-3 mt-3">
+            <div className="input-group mb-3 mt-3 search">
                 <div className="input-group-prepend">
                     <button
                         className="btn btn-outline-secondary"
@@ -178,6 +177,52 @@ function TableProducts({ companyId, setModalActive, setModalData }) {
                     </select>
                 </div>
             </div>
+
+            <div className="input-group mb-3 mt-3 search-mobile">
+                <div className="search-mobile-input">
+                    <input
+                        type="text"
+                        className="form-control"
+                        onChange={changeHandler}
+                    />
+                </div>
+
+                <div className="search-mobile-selects">
+                    <div className="input-group">
+                        <select id="categorySelector" className="btn btn-outline-secondary" onChange={categoryChangeHandler} >
+                            <option defaultValue>*Category*</option>
+                            { categories.map(item => (
+                                <option key={item._id}>{ item.name }</option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className="input-group">
+                        <select id="subcategorySelector" className="btn btn-outline-secondary" onChange={subcategoryChangeHandler} >
+                            <option defaultValue>*Subcategory*</option>
+                            { subcategorySelectOptionsArray !== null && subcategorySelectOptionsArray.map((item) => (
+                                <option key={item._id}>{item.name}</option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
+
+                <div className="search-mobile-buttons">
+                    <div className="input-group">
+                        <button
+                            className="btn btn-outline-secondary"
+                            onClick={onSearch} >Search
+                        </button>
+                    </div>
+                    <div className="input-group">
+                        <button
+                            className="btn btn-outline-secondary"
+                            onClick={onReset} >Reset
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
             <div className="table-wrap">
                 <table className="table table-products">
                     <thead>

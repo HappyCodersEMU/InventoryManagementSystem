@@ -1,4 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, {useCallback, useContext, useEffect, useState} from 'react'
+
+import clockIcon from "../public/icons/clock.png"
+
 import Header from "./components/GeneralComponents/Header";
 import { useHttp } from "../hooks/http.hook";
 import { Loader } from "./components/GeneralComponents/Loader";
@@ -28,6 +31,10 @@ export const OrganizationList = () => {
     const [planName, setPlanName] = useState(null)
     const [errorMsg, setErrorMsg] = useState(null)
 
+    const [clockState, setClockState] = useState(null)
+
+    const [userData, setUserData] = useState(null)
+
     const test = () => {
         console.log(subscriptionPlans)
     }
@@ -51,9 +58,11 @@ export const OrganizationList = () => {
     }
 
     const getData = async () => {
+        startClock()
         const userId = auth.userId
         const members = await request(`/api/members?userId=${userId}`, 'GET')
         const plans = await request('/api/subscriptions', 'GET')
+        const user = await request(`/api/users/${auth.userId}`, 'GET')
         const companies = []
 
         members.map((member) => {
@@ -61,8 +70,22 @@ export const OrganizationList = () => {
             companies.push(member.company)
         })
 
+        setUserData(user)
         setSubscriptionPlans(plans)
         setCompaniesToDisplay(companies)
+    }
+
+    const startClock = () => {
+        setInterval(() => {
+            const now = new Date
+            const monthNames = ["January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"
+            ];
+            const outputDate = now.getDate() + ' '
+                + monthNames[now.getMonth()] + ', '
+                + now.toLocaleTimeString()
+            setClockState(outputDate)
+        }, 1000)
     }
 
     useEffect(async () => {
@@ -94,49 +117,70 @@ export const OrganizationList = () => {
     return (
         <div>
             <div className="background">
-                <Header />
-                <div className="container">
-                    <div className="orglist-container">
-                        <div className="orglist-company-list">
-                            {companiesToDisplay.map((company) => (
-                                <div key={company['_id']}>
-                                    <CompanyItem
-                                        data={company}
-                                        loading={loading}
-                                    />
-                                </div>
-                            ))}
+                <div className="background-colored"></div>
+                <div className="background-gray"></div>
+                <div className="content">
+                    <Header userData={userData} />
+                    <div className="container">
+
+                        <div className="container-header"><span className="clock"><img src={clockIcon} alt="clock" />{clockState}</span></div>
+                        <div className="container-subheader"><span><i>Select your company</i></span></div>
+
+                        <div className="orglist-container">
+                            <div className="orglist-company-list">
+                                {companiesToDisplay.map((company) => (
+                                    <div key={company['_id']}>
+                                        <CompanyItem
+                                            data={company}
+                                            loading={loading}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                            <hr />
                         </div>
-                    </div>
-                    <div className="orglist-company-creation-wrap">
-                        <div className="orglist-company-creation-box">
-                            <h1>Create New Company</h1>
-                            <div className="orglist-company-input-wrap">
-                                <label className="orglist-company-input-label" htmlFor="companyName" data-placeholder="">Enter company name</label>
-                                <input
-                                    className="orglist-company-input-field"
-                                    placeholder="Company name"
-                                    name="companyName"
-                                    id="companyName"
-                                    onChange={changeHandler}
-                                />
-                                <hr className="input-line" />
+
+
+                        <div className="orglist-company-creation-wrap">
+                            <h3>Create New Company</h3>
+                            <div className="orglist-company-creation-box">
+                                <div className="orglist-company-inputselect-wrap">
+                                    <div className="orglist-company-input-wrap">
+                                        <label className="orglist-company-input-label" htmlFor="companyName" data-placeholder="">Enter company name</label>
+                                        <input
+                                            className="orglist-company-input-field"
+                                            placeholder="Company name"
+                                            name="companyName"
+                                            id="companyName"
+                                            onChange={changeHandler}
+                                        />
+                                        <hr className="input-line" />
+                                    </div>
+
+                                    <div className="orglist-company-select-wrap">
+                                        <label className="orglist-company-select-label" htmlFor="planSelector" data-placeholder="">Select your plan</label>
+                                        <select onChange={selectHandler} name="planSelector" className="orglist-company-select-field" >
+                                            <option defaultChecked>*Subscription Plan*</option>
+                                            {subscriptionPlans && subscriptionPlans.map((item) => (
+                                                <option key={item._id}>{item.name}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div className="orglist-company-plan-info">
+                                    {!planName && <div className="orglist-company-plan-info-data"></div>}
+                                    {planName && planName !== '*Subscription Plan*' && <PlanInfo data={planInfoData} />}
+                                </div>
+
+                                <div className="orglist-company-create-handler">
+                                    <button onClick={createCompanyHandler} className="orglist-company-create-btn">
+                                        Create company
+                                    </button>
+                                    <div className="error-handler">{errorMsg}</div>
+                                </div>
+
                             </div>
-                            <div className="orglist-company-select-wrap">
-                                <label className="orglist-company-select-label" htmlFor="planSelector" data-placeholder="">Select your plan</label>
-                                <select onChange={selectHandler} name="planSelector" className="orglist-company-select-field" >
-                                    <option defaultChecked>*Subscription Plan*</option>
-                                    {subscriptionPlans && subscriptionPlans.map((item) => (
-                                        <option key={item._id}>{item.name}</option>
-                                    ))}
-                                </select>
-                            </div>
-                            {!planName && <div className="orglist-company-plan-info"></div>}
-                            {planName && planName !== '*Subscription Plan*' && <PlanInfo data={planInfoData} />}
-                            <button onClick={createCompanyHandler} className="orglist-company-create-btn">
-                                Create company
-                            </button>
-                            <div className="error-handler">{errorMsg}</div>
                         </div>
                     </div>
                 </div>
