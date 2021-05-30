@@ -107,6 +107,25 @@ module.exports = class Inventory {
         }
     }
 
+    // addProduct creates adds a new product to the inventory if it has not beed created before.
+    // if the product exist the company inventory, then it will increase its quantity. 
+    static async sellProducts(req, res, next) {
+        try {
+            await InventoryService.sellProducts(req.body, req.params.companyId);
+            res.status(201).json({
+                message: 'Successful transaction', status: 'success'
+            })
+
+        } catch (e) {
+            console.log(e)
+            if (!e.status) {
+                res.status(500).json({ message: 'Something went wrong, try again' })
+            } else {
+                res.status(400).json({ message: e.message })
+            }
+        }
+    }
+
 
     /**
     * validates the passed fields.
@@ -129,6 +148,11 @@ module.exports = class Inventory {
                 return [
                     check('productId', 'productId is empty or invalid').notEmpty().isMongoId(),
                     check('companyId', 'companyId is empty or invalid').notEmpty().isMongoId(),
+                ]
+            }
+            case 'sellProducts': {
+                return [
+                    param('companyId', 'companyId query parameter is empty or invalid').notEmpty().isMongoId(),
                 ]
             }
         }
