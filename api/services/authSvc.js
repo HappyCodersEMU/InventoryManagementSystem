@@ -1,6 +1,7 @@
 const User = require("../models/user");
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const mailSvc = require('./mailSvc')
 
 module.exports = class AuthService {
 
@@ -9,23 +10,36 @@ module.exports = class AuthService {
       * Membership is not handled at this stage.
       */
     static async registerUser(data) {
-        const { email, name, surname, password } = data
+        try {
 
-        const checkCandidate = await User.findOne({ email })
-        if (checkCandidate) {
-            throw ({ status: 400, message: 'This e-mail already in use' });
+            const { email, name, surname, password } = data
+
+            const checkCandidate = await User.findOne({ email })
+            if (checkCandidate) {
+                throw ({ status: 400, message: 'This e-mail already in use' });
+            }
+
+            const token = jwt.sign({ email: email }, 'some-seKret-key');
+
+            const hashedPassword = await bcrypt.hash(password, 12)
+            const user = new User({
+                email,
+                name,
+                surname,
+                password: hashedPassword,
+                confirmationCode: token
+            })
+
+            await mailSvc.sendConfirmationEmail(name, email, token)
+
+            await user.save()
+            return {
+                userId: user._id,
+                message: "User was registered successfully! Please check your email",
+            }
+        } catch (e) {
+            throw e
         }
-
-        const hashedPassword = await bcrypt.hash(password, 12)
-        const user = new User({
-            email,
-            name,
-            surname,
-            password: hashedPassword
-        })
-
-        await user.save()
-        return user._id
     }
 
     // ----------------------------------------------------------------------
@@ -49,5 +63,19 @@ module.exports = class AuthService {
         )
 
         return { token, userId: user.id, hasCompany: user.hasCompany }
+    }
+
+
+
+    static async verifyUser(confirmationCode) {
+        const user = await User.findOne({ confirmationCode })
+        if (!user) {
+            throw ({ status: 400, message: 'invalid confirmation code' });
+        }
+
+        user.status = "active";
+        user.save()
+
+        return true
     }
 }

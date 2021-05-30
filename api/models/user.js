@@ -6,7 +6,13 @@ const userSchema = mongoose.Schema({
   name: { type: String, required: true },
   surname: { type: String, required: true },
   password: { type: String, required: true },
-  hasCompany: { type: Boolean, required: true, default: false}
+  hasCompany: { type: Boolean, required: true, default: false },
+  status: {
+    type: String,
+    enum: ['pending', 'active'],
+    default: 'pending'
+  },
+  confirmationCode: { type: String }
 });
 
 module.exports = mongoose.model("User", userSchema);

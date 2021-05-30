@@ -21,10 +21,18 @@ module.exports = class Auth {
                 return res.status(400).json({ message: 'Passwords do not match' })
             }
 
-            const createdUser = await AuthService.registerUser(req.body);
-            res.status(201).json({
-                message: 'User has been created', status: 'created', userId: createdUser
-            })
+            const user = await AuthService.registerUser(req.body);
+
+            res.status(201).send({
+                userId: user._id,
+                message: "User was registered successfully! Please check your email",
+            });
+
+            // res.redirect("/");
+
+            // res.status(201).json({
+            //     message: 'User has been created', status: 'created', userId: createdUser
+            // })
 
         } catch (e) {
             console.log(e)
@@ -57,6 +65,22 @@ module.exports = class Auth {
 
             const { token, userId, hasCompany } = await AuthService.login(req.body);
             res.status(200).json({ token, userId, hasCompany })
+
+        } catch (e) {
+            console.log(e)
+            if (!e.status) {
+                res.status(500).json({ message: 'Something went wrong, try again' })
+            } else {
+                res.status(400).json({ message: e.message })
+            }
+        }
+    }
+
+
+    static async verifyUser(req, res, next) {
+        try {
+            AuthService.verifyUser(req.params.code);
+            res.status(200).json({ status: 'success' })
 
         } catch (e) {
             console.log(e)
