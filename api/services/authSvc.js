@@ -35,11 +35,8 @@ module.exports = class AuthService {
 
             await mailSvc.sendConfirmationEmail(name, email, token, redirectUrl)
 
-            await user.save()
-            return {
-                userId: user._id,
-                message: "User was registered successfully! Please check your email",
-            }
+            return await user.save()
+
         } catch (e) {
             throw e
         }
@@ -53,6 +50,9 @@ module.exports = class AuthService {
         const user = await User.findOne({ email })
         if (!user) {
             throw ({ status: 400, message: 'User not found' });
+        }
+        if (user.status !== 'active') {
+            throw ({ status: 400, message: 'User is not active. Pending email confirmation' });
         }
 
         const isMatch = await bcrypt.compare(password, user.password)
