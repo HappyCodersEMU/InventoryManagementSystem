@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, { useContext } from "react";
 
 import logo from "../../../public/images/temp-logo.png"
 import notificationBell from "../../../public/icons/bell.png"
@@ -7,37 +7,17 @@ import chatIcon from "../../../public/icons/chat.png"
 
 import {AuthContext} from "../../../context/auth.context";
 import './Header.css'
-import {useHttp} from "../../../hooks/http.hook";
-import {Loader} from "./Loader";
-import {Link, NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 function Header({ companyId, userRoleName, userData, link }) {
 
     const auth = useContext(AuthContext)
-    const { request } = useHttp()
-    // const [userData, setUserData] = useState(null)
-    const [companyData, setCompanyData] = useState('')
-    const [dataState, setDataState] = useState(false)
 
     const logoutHandler = async () => {
         try {
             auth.logout()
         } catch (e) {}
     }
-
-    // const getData = async () => {
-    //     const user = await request(`/api/users/${auth.userId}`, 'GET')
-    //     setUserData(user)
-    // }
-    //
-    // useEffect(async () => {
-    //     await getData()
-    //     setDataState(true)
-    // }, [])
-
-    // if (!dataState) {
-    //     return (<Loader />)
-    // }
 
     return (
         <>

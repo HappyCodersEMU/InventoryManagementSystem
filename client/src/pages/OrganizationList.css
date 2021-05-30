@@ -267,6 +267,24 @@
 }
 
 
+.orglist-user-block {
+    display: none;
+    text-align: center;
+    margin-right: 5px;
+    font-size: 14pt;
+}
+
+.orglist-logout-btn {
+    text-decoration: underline;
+    color: #007bff;
+}
+
+@media (max-width: 991px) {
+    .orglist-user-block {
+        display: block;
+    }
+}
+
 @media (max-width: 550px) {
     .orglist-item-company-info h1 {
         width: auto;

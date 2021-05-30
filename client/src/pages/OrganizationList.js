@@ -1,4 +1,4 @@
-import React, {useCallback, useContext, useEffect, useState} from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 import clockIcon from "../public/icons/clock.png"
 
@@ -9,7 +9,6 @@ import CompanyItem from "./components/CompanyItem";
 import PlanInfo from "./components/PlanInfo";
 import { AuthContext } from "../context/auth.context";
 import './OrganizationList.css'
-import { Link } from "react-router-dom";
 
 export const OrganizationList = () => {
 
@@ -37,6 +36,12 @@ export const OrganizationList = () => {
 
     const test = () => {
         console.log(subscriptionPlans)
+    }
+
+    const logoutHandler = async () => {
+        try {
+            auth.logout()
+        } catch (e) {}
     }
 
     const changeHandler = event => {
@@ -123,7 +128,17 @@ export const OrganizationList = () => {
                     <Header userData={userData} />
                     <div className="container">
 
-                        <div className="container-header"><span className="clock"><img src={clockIcon} alt="clock" />{clockState}</span></div>
+                        <div className="container-header">
+                            <span className="clock"><img src={clockIcon} alt="clock" />{clockState}</span>
+                            <div className="orglist-user-block">
+                                <span>{userData.name} {userData.surname}</span><br />
+                                {/*<span>Benedict ALDSAJOdhsad</span><br />*/}
+
+                                <span onClick={logoutHandler} className="orglist-logout-btn">
+                                    Log out
+                                </span>
+                            </div>
+                        </div>
                         <div className="container-subheader"><span><i>Select your company</i></span></div>
 
                         <div className="orglist-container">
