@@ -38,6 +38,9 @@ export const RegisterPage = () => {
     const registerHandler = async () => {
         try {
             const data = await request('/api/auth/register', 'POST', { ...form })
+            if (data.message) {
+                alert(data.message)
+            }
         } catch (e) { }
     }
 

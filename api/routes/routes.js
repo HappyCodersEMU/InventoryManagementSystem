@@ -11,9 +11,12 @@ const RoleController = require("../controllers/roleController");
 const SubscriptionController = require("../controllers/subscriptionController");
 const CategoryController = require("../controllers/categoryController");
 
+const mailSvc = require("../services/mailSvc");
+
 // Auth
 router.post("/api/auth/register", AuthController.validate("register"), AuthController.register);
 router.post('/api/auth/login', AuthController.validate("login"), AuthController.login);
+router.get('/api/auth/confirm/:code', AuthController.verifyUser);
 
 // Member
 router.post('/api/members', MemberController.validate("addMember"), MemberController.addMemeber);
@@ -63,5 +66,28 @@ router.get('/api/categories', CategoryController.getAllCategories)
 router.post('/api/subcategories', CategoryController.validate('createSubcategory'), CategoryController.createSubcategory);
 router.get('/api/subcategories/:id', CategoryController.validate('getSubcategoryById'), CategoryController.getSubcategoryById);
 router.get('/api/subcategories', CategoryController.getAllSubcategories)
+
+
+// test
+router.post('/api/mail/test', async (req, res) => {
+    try {
+        await mailSvc.sendConfirmationEmail(req.body.name, req.body.email, '555')
+        res.status(200).send()
+    } catch (e) {
+        res.send(err)
+    }
+})
+
+router.get('/api/mail/test/confirm/:code', (req, res) => {
+    try {
+        const code = req.params.code
+        const redirectUrl = 'http://localhost:3000/login'
+
+        console.log("Confirmed: ", code)
+        res.status(301).redirect(redirectUrl)
+    } catch (e) {
+        res.send(e)
+    }
+})
 
 module.exports = router;
