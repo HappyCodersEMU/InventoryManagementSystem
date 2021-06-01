@@ -26,7 +26,7 @@ function TableMembers({ companyId, setModalActive, addMemberTempData, setAddMemb
 
 
     const test = () => {
-
+        console.log(data)
     }
 
     const getData = async () => {
@@ -49,10 +49,7 @@ function TableMembers({ companyId, setModalActive, addMemberTempData, setAddMemb
     // TEMPORAL SOLUTION
     useEffect(async () => {
         if (addMemberTempData !== null) {
-            await getData()
-            console.log(data)
-            console.log(dataToDisplay)
-            console.log(addMemberTempData)
+            data.push(addMemberTempData)
             setAddMemberTempData(null)
         }
     }, [addMemberTempData])
@@ -107,12 +104,12 @@ function TableMembers({ companyId, setModalActive, addMemberTempData, setAddMemb
         )
     }
 
+
     return (
         <>
-            {/*<button className="btn btn-outline-secondary btn-add-member"*/}
-            {/*        onClick={test}>*/}
-            {/*    test*/}
-            {/*</button>*/}
+            <button className="btn btn-outline-secondary btn-add-member" onClick={test}>
+                test
+            </button>
 
             <div className="input-group mb-3 mt-3">
                 <div className="input-group-prepend">
