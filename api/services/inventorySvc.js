@@ -12,7 +12,7 @@ module.exports = class InventoryService {
 
     static async getById(id) {
         const data = await Inventory.findById(id)
-            .select("_id product company quantity")
+            .select("_id product company quantity price description")
             .populate("product company")
             .exec()
 
@@ -55,7 +55,7 @@ module.exports = class InventoryService {
     // if the product exist the company inventory, then it will increase its quantity.
     static async createProduct(data) {
         const {
-            companyId, quantity,
+            companyId, quantity, price,
             productCode, name, imageUrl, categoryId, subcategoryId, description
         } = data
 
@@ -87,7 +87,8 @@ module.exports = class InventoryService {
             inventoryProduct = new Inventory({
                 product: productId,
                 company: companyId,
-                quantity
+                quantity,
+                price
             })
         }
 
@@ -145,9 +146,6 @@ module.exports = class InventoryService {
                 .select('_id product company quantity')
                 .exec()
 
-
-
-
             inventoryProducts.map(async (product) => {
                 let currProduct = data.find(d => product._id.equals(d.inventoryProductId))
                 if (currProduct) {
@@ -160,7 +158,6 @@ module.exports = class InventoryService {
                     )
                 }
             })
-
 
             let transactions = []
             data.map((d) => {
@@ -185,7 +182,7 @@ module.exports = class InventoryService {
 
     static async search(searchQuery, limit) {
         const data = await Inventory.find(searchQuery)
-            .select("_id company product quantity")
+            .select("_id company product quantity price description")
             .populate('company', '-__v')
             .populate('product', '-__v')
             .limit(limit)
@@ -219,8 +216,8 @@ module.exports = class InventoryService {
                         name: d.company.name
                     },
 
-                    // price: d.price,
-                    // description: d.description,
+                    price: d.price,
+                    description: d.product.description,
                 };
             }),
         }

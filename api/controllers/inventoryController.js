@@ -178,6 +178,7 @@ module.exports = class Inventory {
                     check('name', 'name is empty or invalid').notEmpty(),
                     check('categoryId', 'categoryId is empty or invalid').notEmpty().isMongoId(),
                     check('subcategoryId', 'subcategoryId is empty or invalid').notEmpty().isMongoId(),
+                    check('price', 'price is empty or invalid').notEmpty().isNumeric(),
                 ]
             }
             case 'deleteProduct': {
