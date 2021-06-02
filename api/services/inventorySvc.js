@@ -4,6 +4,9 @@ const Company = require("../models/company");
 const Category = require("../models/category");
 const Subcategory = require("../models/subcategory");
 
+const productSvc = require("../services/productSvc");
+
+
 module.exports = class InventoryService {
 
     static async getById(id) {
@@ -15,7 +18,7 @@ module.exports = class InventoryService {
         return data
     }
 
-    // addProduct creates adds a new product to the inventory if it has not beed created before.
+    // addProduct adds a new product to the inventory if it has not beed added before.
     // if the product exist the company inventory, then it will increase its quantity.
     static async addProduct(data) {
         const { productId, companyId, quantity } = data
@@ -31,6 +34,50 @@ module.exports = class InventoryService {
             throw ({ status: 400, message: 'Provided product does exist' });
         }
 
+        // if company already has the product, then increase the quantity
+        let inventoryProduct = await Inventory.findOne({ company: companyId, product: productId })
+        if (inventoryProduct != null) {
+            inventoryProduct.quantity += quantity
+        } else {
+            inventoryProduct = new Inventory({
+                product: productId,
+                company: companyId,
+                quantity
+            })
+        }
+
+        await inventoryProduct.save()
+        return inventoryProduct._id
+    }
+
+    // addProduct adds a new product to the inventory if it has not beed added before.
+    // if the product exist the company inventory, then it will increase its quantity.
+    static async createProduct(data) {
+        const {
+            companyId, quantity,
+            productCode, name, imageUrl, categoryId, subcategoryId, description
+        } = data
+
+        const createProductPayload = { productCode, name, imageUrl, categoryId, subcategoryId, description }
+
+        // check if company exist
+        const company = await Company.findById(companyId)
+        if (!company) {
+            throw ({ status: 400, message: 'Provided company does exist' });
+        }
+
+        let productId
+        // check if the product with passed product code already exists
+        const existProduct = await Product.findOne({ productCode })
+        if (existProduct) {
+            productId = existProduct._id
+        } else {
+            // create the product
+            const product = await productSvc.createProduct(createProductPayload)
+            productId = product._id
+        }
+
+        // add the created product to the inventory
         // if company already has the product, then increase the quantity
         let inventoryProduct = await Inventory.findOne({ company: companyId, product: productId })
         if (inventoryProduct != null) {
