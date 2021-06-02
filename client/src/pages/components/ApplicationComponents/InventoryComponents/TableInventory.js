@@ -88,10 +88,10 @@ function TableInventory ({ companyId, setModalActive, setModalData }) {
         const categorisedData = inventory.filter(item => {
             if (search.categorySelector === null) { return item }
             if (search.subcategorySelector === null) {
-                return item.categoryName.toLowerCase().includes(search.categorySelector.toLowerCase())
+                return item.category.name.toLowerCase().includes(search.categorySelector.toLowerCase())
             }
-            return item.categoryName.toLowerCase().includes(search.categorySelector.toLowerCase())
-                && item.subcategoryName.toLowerCase().includes(search.subcategorySelector.toLowerCase())
+            return item.category.name.toLowerCase().includes(search.categorySelector.toLowerCase())
+                && item.subcategory.name.toLowerCase().includes(search.subcategorySelector.toLowerCase())
         })
 
         const filteredData = categorisedData.filter(item => {
