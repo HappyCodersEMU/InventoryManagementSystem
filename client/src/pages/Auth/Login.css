@@ -21,8 +21,11 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    background: #e8519e;
-    background: -webkit-linear-gradient(bottom,#e8519e,#c77ff2);
+    background: rgb(93,197,203);
+    background: -moz-linear-gradient(0deg, rgba(93,197,203,1) 0%, rgba(169,169,185,1) 100%);
+    background: -webkit-linear-gradient(0deg, rgba(93,197,203,1) 0%, rgba(169,169,185,1) 100%);
+    background: linear-gradient(0deg, rgba(93,197,203,1) 0%, rgba(169,169,185,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#5dc5cb",endColorstr="#a9a9b9",GradientType=1);
     opacity: 0.8;
 }
 
@@ -35,7 +38,6 @@
 
 .login-content-wrap {
     margin: 20px 40px;
-    /*background: red;*/
 }
 
 .login-logo-box {
@@ -48,8 +50,6 @@
 
 .login-input-group {
     width: 100%;
-    /*height: 80px;*/
-    /*background: lightgray;*/
     margin: 20px 0;
 }
 
@@ -58,7 +58,6 @@
     height: 35px;
     font-size: 24px;
     border: none;
-    /*border-bottom: 2px solid gray;*/
 }
 
 .login-input-label {
@@ -69,10 +68,9 @@
 
 .input-line {
     border: none;
-    /*height: 2px;*/
-    height: 1px;
+    height: 2px;
     width: 100%;
-    background: gray;
+    background: lightgrey;
     position: relative;
 }
 
@@ -83,8 +81,11 @@
     height: 100%;
     width: 0;
     transition: 0.4s;
-    background: #d5007d;
-    background: linear-gradient(45deg, #d5007d, #e53935);
+    background: rgb(93,197,203);
+    background: -moz-linear-gradient(0deg, rgba(93,197,203,1) 0%, rgba(169,169,185,1) 100%);
+    background: -webkit-linear-gradient(0deg, rgba(93,197,203,1) 0%, rgba(169,169,185,1) 100%);
+    background: linear-gradient(0deg, rgba(93,197,203,1) 0%, rgba(169,169,185,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#5dc5cb",endColorstr="#a9a9b9",GradientType=1);
 }
 
 .login-input-field:focus + .input-line:after {
@@ -110,10 +111,7 @@
 }
 
 .login-button:hover {
-    /*background: -webkit-linear-gradient(45deg,#e8519e,#c77ff2);*/
-    /*background: darkcyan;*/
-    background: palevioletred;
-    /*background: gray;*/
+    background: rgb(93,197,203);
     color: white;
 }
 

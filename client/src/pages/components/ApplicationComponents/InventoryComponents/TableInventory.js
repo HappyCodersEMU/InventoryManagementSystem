@@ -3,7 +3,7 @@ import orderBy from "lodash";
 import { Loader } from "../../GeneralComponents/Loader";
 import { Link} from "react-router-dom";
 import { useHttp } from "../../../../hooks/http.hook";
-// import './TableProducts.css'
+import './TableInventory.css'
 import {NoResultDisplay} from "../../GeneralComponents/NoResultDisplay";
 
 function TableInventory ({ companyId, setModalActive, setModalData }) {
@@ -21,7 +21,7 @@ function TableInventory ({ companyId, setModalActive, setModalData }) {
     // Data that will be displayed for user (can be sorted, filtered)
     const [dataToDisplay, setDataToDisplay] = useState(null)
 
-    // Variables that used to sort or filter dataToDisplay
+    // States that used to sort or filter dataToDisplay
     const [searchString, setSearchString] = useState(null)
     const [categorySelector, setCategorySelector] = useState(null)
     const [subcategorySelector, setSubcategorySelector] = useState(null)
@@ -30,6 +30,15 @@ function TableInventory ({ companyId, setModalActive, setModalData }) {
         sort: 'asc',
         sortKey: 'id',
     })
+    // States for product creation
+
+    const [productToAddName, setProductToAddName] = useState(null)
+    const [productToAddCode, setProductToAddCode] = useState(null)
+    const [productToAddQuantity, setProductToAddQuantity] = useState(0)
+    const [productToAddCategory, setProductToAddCategory] = useState(null)
+    const [productToAddSubcategory, setProductToAddSubcategory] = useState(null)
+    const [addProductSubcategorySelectOptionsArray, setAddProductSubcategorySelectOptionsArray] = useState(null)
+    const [errorMsg, setErrorMsg] = useState()
 
     const getData = async () => {
 
@@ -38,19 +47,6 @@ function TableInventory ({ companyId, setModalActive, setModalData }) {
         const subcategories = await request('/api/subcategories', 'GET')
         setSubcategories(subcategories.subcategories)
         const inventory = await request(`/api/inventories?companyId=${companyId}`, 'GET')
-
-        inventory.products.forEach((item) => {
-            categories.categories.find((category) => {
-                if (category._id === item.categoryId) {
-                    item.categoryName = category.name
-                    subcategories.subcategories.find((subcategory) => {
-                        if (subcategory._id === item.subcategoryId) {
-                            return item.subcategoryName = subcategory.name
-                        }
-                    })
-                }
-            })
-        })
 
         setInventory(inventory.products)
         setDataToDisplay(inventory.products)
@@ -116,6 +112,7 @@ function TableInventory ({ companyId, setModalActive, setModalData }) {
     const categoryChangeHandler = event => {
         setSubcategorySelectOptionsArray(null)
         const category = event.target.value
+        setProductToAddSubcategory(null)
         if (category === null || category === '*Category*')
         {
             setCategorySelector(null)
@@ -124,7 +121,7 @@ function TableInventory ({ companyId, setModalActive, setModalData }) {
             setCategorySelector(category)
             const arr = []
             subcategories.map((item) => {
-                if (item.categoryId.name === category) {
+                if (item.category.name === category) {
                     arr.push(item)
                 }
             })
@@ -140,6 +137,63 @@ function TableInventory ({ companyId, setModalActive, setModalData }) {
         }
     }
 
+    const addProductCategoryChangeHandler = event => {
+        setAddProductSubcategorySelectOptionsArray(null)
+        const category = event.target.value
+        setProductToAddSubcategory(null)
+        if (category === null || category === '*Category*')
+        {
+            setProductToAddCategory(null)
+            setProductToAddSubcategory(null)
+        } else {
+            setProductToAddCategory(category)
+            const arr = []
+            subcategories.map((item) => {
+                if (item.category.name === category) {
+                    arr.push(item)
+                }
+            })
+            setAddProductSubcategorySelectOptionsArray(arr)
+        }
+    }
+
+    const addProductSubcategoryChangeHandler = event => {
+        if (event.target.value === '*Subcategory*') {
+            setProductToAddSubcategory(null)
+        } else {
+            setProductToAddSubcategory(event.target.value)
+        }
+    }
+
+    const addProductHandler = () => {
+
+        const temp = Number(productToAddQuantity)
+
+        if (productToAddCode === null || productToAddCode.length === 0
+            || productToAddName === null || productToAddName.length === 0
+            || productToAddCategory === null
+            || productToAddSubcategory === null)
+        {
+            setErrorMsg("Please, fill the fields")
+            return
+        }
+
+        if (temp < 0) {
+            setErrorMsg("Quantity can't be less then 0")
+            return
+        }
+
+        const productToAddJSON = {
+            companyId: companyId,
+            productCode: productToAddCode,
+            productName: productToAddName,
+            quantity: temp,
+            category: productToAddCategory,
+            subcategory: productToAddSubcategory,
+        }
+
+    }
+
     if (!dataState) {
         return <Loader />
     }
@@ -151,7 +205,7 @@ function TableInventory ({ companyId, setModalActive, setModalData }) {
     }
 
     const test = () => {
-        console.log(inventory)
+
     }
 
     return (
@@ -160,8 +214,7 @@ function TableInventory ({ companyId, setModalActive, setModalData }) {
             {/*    test*/}
             {/*</button>*/}
 
-            <h1>Products</h1>
-            <div className="input-group mb-3 mt-3">
+            <div className="input-group mb-3 mt-3 search">
                 <div className="input-group-prepend">
                     <button
                         className="btn btn-outline-secondary"
@@ -196,8 +249,52 @@ function TableInventory ({ companyId, setModalActive, setModalData }) {
                     </select>
                 </div>
             </div>
+            <div className="input-group mb-3 mt-3 search-mobile">
+                <div className="search-mobile-input">
+                    <input
+                        type="text"
+                        className="form-control"
+                        onChange={changeHandler}
+                    />
+                </div>
+
+                <div className="search-mobile-selects">
+                    <div className="input-group">
+                        <select id="categorySelector" className="btn btn-outline-secondary" onChange={categoryChangeHandler} >
+                            <option defaultValue>*Category*</option>
+                            { categories.map(item => (
+                                <option key={item._id}>{ item.name }</option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className="input-group">
+                        <select id="subcategorySelector" className="btn btn-outline-secondary" onChange={subcategoryChangeHandler} >
+                            <option defaultValue>*Subcategory*</option>
+                            { subcategorySelectOptionsArray !== null && subcategorySelectOptionsArray.map((item) => (
+                                <option key={item._id}>{item.name}</option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
+
+                <div className="search-mobile-buttons">
+                    <div className="input-group">
+                        <button
+                            className="btn btn-outline-secondary"
+                            onClick={onSearch} >Search
+                        </button>
+                    </div>
+                    <div className="input-group">
+                        <button
+                            className="btn btn-outline-secondary"
+                            onClick={onReset} >Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+
             <div className="table-wrap">
-                <table className="table table-products">
+                <table className="table table-inventory">
                     <thead>
                     <tr>
                         <th onClick={e => onSort(e, 'productCode')}>
@@ -215,7 +312,6 @@ function TableInventory ({ companyId, setModalActive, setModalData }) {
                         <th onClick={e => onSort(e, 'quantity')}>
                             Quantity {sortState.sortKey === 'quantity' ? <small>{sortState.sort}</small> : null}
                         </th>
-                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -223,17 +319,76 @@ function TableInventory ({ companyId, setModalActive, setModalData }) {
                         <tr key={item.inventoryId}>
                             <td>{item.productCode}</td>
                             <td>{item.productName}</td>
-                            <td>{item.categoryName}</td>
-                            <td>{item.subcategoryName}</td>
+                            <td>{item.category.name}</td>
+                            <td>{item.subcategory.name}</td>
                             <td>{item.quantity}</td>
-
-                            <td>
-
-                            </td>
                         </tr>
                     ))}
                     </tbody>
                 </table>
+            </div>
+            <div className="add-product-wrap">
+
+                <div className="add-product-inputs-wrap">
+                    <div className="add-product-input-wrap">
+                        <input
+                            className="add-product-input-field"
+                            placeholder="Product code"
+                            name="companyName"
+                            id="companyName"
+                            onChange={e => setProductToAddCode(e.target.value)}
+                        />
+                        <hr className="input-line" />
+                    </div>
+                    <div className="add-product-input-wrap">
+                        <input
+                            className="add-product-input-field"
+                            placeholder="Product name"
+                            name="companyName"
+                            id="companyName"
+                            onChange={e => setProductToAddName(e.target.value)}
+                        />
+                        <hr className="input-line" />
+                    </div>
+                    <div className="add-product-input-wrap">
+                        <input
+                            className="add-product-input-field"
+                            placeholder="Quantity"
+                            name="companyName"
+                            id="companyName"
+                            onChange={e => setProductToAddQuantity(e.target.value)}
+                        />
+                        <hr className="input-line" />
+                    </div>
+                </div>
+
+                <div className="add-product-selectors-wrap">
+                    <div className="input-group">
+                        <select id="categorySelector"
+                                className="btn btn-outline-secondary"
+                                onChange={addProductCategoryChangeHandler} >
+                            <option defaultValue>*Category*</option>
+                            { categories.map(item => (
+                                <option key={item._id}>{ item.name }</option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className="input-group">
+                        <select id="subcategorySelector" className="btn btn-outline-secondary" onChange={addProductSubcategoryChangeHandler} >
+                            <option defaultValue>*Subcategory*</option>
+                            { addProductSubcategorySelectOptionsArray !== null && addProductSubcategorySelectOptionsArray.map((item) => (
+                                <option key={item._id}>{item.name}</option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
+
+                <div className="add-product-handler">
+                    <button onClick={addProductHandler} className="add-product-btn">
+                        Add Product
+                    </button>
+                    <div className="error-handler">{errorMsg}</div>
+                </div>
             </div>
             <hr />
         </>

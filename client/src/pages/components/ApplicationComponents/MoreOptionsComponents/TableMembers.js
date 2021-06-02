@@ -4,7 +4,7 @@ import {Loader} from "../../GeneralComponents/Loader";
 import './TableMembers.css'
 import {useHttp} from "../../../../hooks/http.hook";
 
-function TableMembers({ companyId, setModalActive }) {
+function TableMembers({ companyId, setModalActive, addMemberTempData, setAddMemberTempData }) {
 
     const { request } = useHttp()
 
@@ -26,7 +26,7 @@ function TableMembers({ companyId, setModalActive }) {
 
 
     const test = () => {
-
+        console.log(data)
     }
 
     const getData = async () => {
@@ -44,6 +44,15 @@ function TableMembers({ companyId, setModalActive }) {
         await getData()
         setDataState(true)
     }, [])
+
+
+    // TEMPORAL SOLUTION
+    useEffect(async () => {
+        if (addMemberTempData !== null) {
+            data.push(addMemberTempData)
+            setAddMemberTempData(null)
+        }
+    }, [addMemberTempData])
 
     const onReset = () => {
         setDataToDisplay(data)
@@ -73,7 +82,7 @@ function TableMembers({ companyId, setModalActive }) {
             return item.user.email.toLowerCase().includes(search.toLowerCase())
                 || item.user.name.toLowerCase().includes(search.toLowerCase())
                 || item.user.surname.toLowerCase().includes(search.toLowerCase())
-                || item.rolr.roleName.toLowerCase().includes(search.toLowerCase())
+                || item.role.roleName.toLowerCase().includes(search.toLowerCase())
         })
         setDataToDisplay(filteredData)
     }
@@ -95,12 +104,12 @@ function TableMembers({ companyId, setModalActive }) {
         )
     }
 
+
     return (
         <>
-            {/*<button className="btn btn-outline-secondary btn-add-member"*/}
-            {/*        onClick={test}>*/}
-            {/*    test*/}
-            {/*</button>*/}
+            <button className="btn btn-outline-secondary btn-add-member" onClick={test}>
+                test
+            </button>
 
             <div className="input-group mb-3 mt-3">
                 <div className="input-group-prepend">
