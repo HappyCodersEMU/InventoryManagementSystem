@@ -5,18 +5,21 @@ const Category = require("../models/category");
 const Subcategory = require("../models/subcategory");
 const Transaction = require("../models/transaction");
 
+const productSvc = require("../services/productSvc");
+
+
 module.exports = class InventoryService {
 
     static async getById(id) {
         const data = await Inventory.findById(id)
-            .select("_id product company quantity")
+            .select("_id product company quantity price description")
             .populate("product company")
             .exec()
 
         return data
     }
 
-    // addProduct creates adds a new product to the inventory if it has not beed created before.
+    // addProduct adds a new product to the inventory if it has not beed added before.
     // if the product exist the company inventory, then it will increase its quantity.
     static async addProduct(data) {
         const { productId, companyId, quantity } = data
@@ -41,6 +44,51 @@ module.exports = class InventoryService {
                 product: productId,
                 company: companyId,
                 quantity
+            })
+        }
+
+        await inventoryProduct.save()
+        return inventoryProduct._id
+    }
+
+    // addProduct adds a new product to the inventory if it has not beed added before.
+    // if the product exist the company inventory, then it will increase its quantity.
+    static async createProduct(data) {
+        const {
+            companyId, quantity, price,
+            productCode, name, imageUrl, categoryId, subcategoryId, description
+        } = data
+
+        const createProductPayload = { productCode, name, imageUrl, categoryId, subcategoryId, description }
+
+        // check if company exist
+        const company = await Company.findById(companyId)
+        if (!company) {
+            throw ({ status: 400, message: 'Provided company does exist' });
+        }
+
+        let productId
+        // check if the product with passed product code already exists
+        const existProduct = await Product.findOne({ productCode })
+        if (existProduct) {
+            productId = existProduct._id
+        } else {
+            // create the product
+            const product = await productSvc.createProduct(createProductPayload)
+            productId = product._id
+        }
+
+        // add the created product to the inventory
+        // if company already has the product, then increase the quantity
+        let inventoryProduct = await Inventory.findOne({ company: companyId, product: productId })
+        if (inventoryProduct != null) {
+            inventoryProduct.quantity += quantity
+        } else {
+            inventoryProduct = new Inventory({
+                product: productId,
+                company: companyId,
+                quantity,
+                price
             })
         }
 
@@ -98,9 +146,6 @@ module.exports = class InventoryService {
                 .select('_id product company quantity')
                 .exec()
 
-
-
-
             inventoryProducts.map(async (product) => {
                 let currProduct = data.find(d => product._id.equals(d.inventoryProductId))
                 if (currProduct) {
@@ -113,7 +158,6 @@ module.exports = class InventoryService {
                     )
                 }
             })
-
 
             let transactions = []
             data.map((d) => {
@@ -138,7 +182,7 @@ module.exports = class InventoryService {
 
     static async search(searchQuery, limit) {
         const data = await Inventory.find(searchQuery)
-            .select("_id company product quantity")
+            .select("_id company product quantity price description")
             .populate('company', '-__v')
             .populate('product', '-__v')
             .limit(limit)
@@ -172,8 +216,8 @@ module.exports = class InventoryService {
                         name: d.company.name
                     },
 
-                    // price: d.price,
-                    // description: d.description,
+                    price: d.price,
+                    description: d.product.description,
                 };
             }),
         }

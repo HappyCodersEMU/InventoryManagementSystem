@@ -33,7 +33,15 @@ module.exports = class ProductService {
 
     static async getById(id) {
         const data = await Product.findById(id)
-            .select("name _id productImage category description") // Select only listed fields
+            .select("name _id productCode productImage category description")
+            .exec()
+
+        return data
+    }
+
+    static async getByCode(productCode) {
+        const data = await Product.findOne({ productCode })
+            .select("name _id productCode productImage category description")
             .exec()
 
         return data
@@ -49,12 +57,19 @@ module.exports = class ProductService {
             throw ({ status: 400, message: 'Provided subcategory does not match category' });
         }
 
+        // check if the product with passed product code already exist
+        const existProduct = await Product.findOne({ productCode })
+        if (existProduct) {
+            throw ({ status: 400, message: `Product with productCode "${productCode}" already exist` });
+        }
+
         const product = new Product({
             productCode,
             name,
             imageUrl,
             category: categoryId,
-            subcategory: subcategoryId
+            subcategory: subcategoryId,
+            description
         })
 
         await product.save()
