@@ -252,7 +252,7 @@ function TableProducts({ companyId, setModalActive, setModalData }) {
                             <td>{item.category.name}</td>
                             <td>{item.subcategory.name}</td>
                             <td>
-                                <Link to={`/${companyId}/buy?${item.productCode}`} className="btn btn-outline-dark" >Buy</Link>
+                                {/*<Link to={`/${companyId}/buy?${item.productCode}`} className="btn btn-outline-dark" >Buy</Link>*/}
                                 <button onClick={e => addToInventoryHandler(item)} className="btn btn-outline-dark" >Add</button>
                             </td>
                         </tr>

@@ -93,7 +93,7 @@
 }
 
 .error-handler {
-    height: 30px;
+    min-height: 30px;
     font-size: 18pt;
     color: red;
 }

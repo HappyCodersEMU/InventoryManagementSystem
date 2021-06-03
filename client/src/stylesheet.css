@@ -274,7 +274,8 @@ header {
 }
 
 .table-wrap {
-    overflow: auto;
+    overflow: hidden;
+    overflow-y: auto;
     max-height: 70vh;
     width: 100%;
 }

@@ -3,12 +3,10 @@ import {Link, useParams} from 'react-router-dom'
 import Header from "./components/GeneralComponents/Header";
 import Navbar from "./components/GeneralComponents/Navbar";
 import NavbarMobile from "./components/GeneralComponents/NavbarMobile";
-import MoreList from "./components/ApplicationComponents/MoreOptionsComponents/MoreList";
 import SellList from "./components/ApplicationComponents/SellList";
 import HomePage from "./components/ApplicationComponents/HomePage";
 import TableMembers from "./components/ApplicationComponents/MoreOptionsComponents/TableMembers";
 import TableProducts from "./components/ApplicationComponents/ProductComponents/TableProducts";
-import Modal from "./components/ApplicationComponents/BuyComponents/Modal";
 import ModalAddMember from "./components/ApplicationComponents/MoreOptionsComponents/ModalAddMember";
 import {useAuth} from "../hooks/auth.hook";
 import {AuthContext} from "../context/auth.context";
@@ -17,7 +15,7 @@ import {Blocked} from "./components/GeneralComponents/Blocked";
 import ModalAddToInventory from "./components/ApplicationComponents/ProductComponents/ModalAddToInventory";
 import TableInventory from "./components/ApplicationComponents/InventoryComponents/TableInventory";
 import {Loader} from "./components/GeneralComponents/Loader";
-import Billing from "./components/ApplicationComponents/Billing";
+import BillingPage from "./components/ApplicationComponents/BillingComponents/BillingPage";
 
 import clockIcon from "../public/icons/clock.png";
 import menuIcon from "../public/icons/menu.png";
@@ -182,7 +180,7 @@ export const Application = () => {
                                 { link === 'home' && <HomePage /> }
                                 { validateRole([1, 2, 3],userRoles) && link === 'products' && <TableProducts companyId={companyId} setModalActive={setModalAddToInventoryActive} setModalData={setModalAddToInventoryData}/> }
                                 { validateRole([1, 2, 3],userRoles) && link === 'inventory' && <TableInventory companyId={companyId} /> }
-                                { validateRole([1, 2, 4],userRoles) && link === 'billing' && <Billing companyId={companyId} setModalActive={setModalAddToInventoryActive} setModalData={setModalAddToInventoryData}/> }
+                                { validateRole([1, 2, 4],userRoles) && link === 'billing' && <BillingPage companyId={companyId} setModalActive={setModalAddToInventoryActive} setModalData={setModalAddToInventoryData}/> }
                                 { validateRole([1, 2],userRoles) && link === 'transactions' && <SellList /> }
                                 { validateRole([1, 2],userRoles) && link === 'members' &&
                                 <TableMembers companyId={ companyId } setModalActive={setModalAddMemberActive}
