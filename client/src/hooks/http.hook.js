@@ -13,14 +13,13 @@ export const useHttp = () => {
                 body = JSON.stringify(body)
                 headers['content-type'] = 'application/json'
             }
-
             const response = await fetch(url, { method, body, headers })
             const data = await response.json()
 
             setMessage(data)
-            if (data.status === 'created') {
-                window.location.href = '/login'
-            }
+            // if (data.status === 'created') {
+            //     window.location.href = '/login'
+            // }
             setLoading(false)
             return data
 

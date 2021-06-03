@@ -22,7 +22,7 @@ module.exports = class InventoryService {
     // addProduct adds a new product to the inventory if it has not beed added before.
     // if the product exist the company inventory, then it will increase its quantity.
     static async addProduct(data) {
-        const { productId, companyId, quantity } = data
+        const { productId, companyId, quantity, price } = data
 
         // check if company exist
         const company = await Company.findById(companyId)
@@ -43,7 +43,8 @@ module.exports = class InventoryService {
             inventoryProduct = new Inventory({
                 product: productId,
                 company: companyId,
-                quantity
+                quantity,
+                price,
             })
         }
 
@@ -150,7 +151,7 @@ module.exports = class InventoryService {
                 let currProduct = data.find(d => product._id.equals(d.inventoryProductId))
                 if (currProduct) {
                     product.quantity -= currProduct.quantity
-                    // TODO: validate updated quantity  
+                    // TODO: validate updated quantity
 
                     await Inventory.updateOne(
                         { _id: currProduct.inventoryProductId },

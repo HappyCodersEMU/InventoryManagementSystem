@@ -84,7 +84,6 @@ function BillingPage ({ companyId, setModalActive, setModalData }) {
         }
 
         const categorisedData = inventory.filter(item => {
-            console.log(item)
             if (search.categorySelector === null) { return item }
             if (search.subcategorySelector === null) {
                 return item.category.name.toLowerCase().includes(search.categorySelector.toLowerCase())
@@ -141,7 +140,7 @@ function BillingPage ({ companyId, setModalActive, setModalData }) {
         setCartErrorMsg('')
         if (item.quantity !== 0) {
             if (!cartData.find((cartItem) => (cartItem.productCode === item.productCode))) {
-                const itemToAdd = {...item, cartQuantity: 1, price: 15.00}
+                const itemToAdd = {...item, cartQuantity: 1}
                 cartData.push(itemToAdd)
                 setTotalPriceToDisplay(totalPriceToDisplay + itemToAdd.price)
             } else {
@@ -171,18 +170,18 @@ function BillingPage ({ companyId, setModalActive, setModalData }) {
         }
     }
 
-    const finishCheckOut = () => {
-        const arrToSend = []
+    const finishCheckOut = async () => {
+        const data = []
         cartData.map((item) => {
             const obj = {
                 inventoryProductId: item.inventoryId,
                 quantity: item.cartQuantity,
                 price: item.price * item.cartQuantity,
             }
-            arrToSend.push(obj)
+            data.push(obj)
         })
-        if (arrToSend.length > 0) {
-            console.log(arrToSend)
+        if (data.length > 0) {
+            const req = await request(`/api/inventories/sell/company/${companyId}`, 'POST', data)
         } else {
             setFinalErrMsg("Nothing to checkout")
         }
@@ -261,17 +260,22 @@ function BillingPage ({ companyId, setModalActive, setModalData }) {
                                 {/*<th onClick={e => onSort(e, 'productCode')}>*/}
                                 {/*    Code {sortState.sortKey === 'productCode' ? <small>{sortState.sort}</small> : null}*/}
                                 {/*</th>*/}
+                                <th onClick={e => onSort(e, 'productCode')}>
+                                    Code {sortState.sortKey === 'productCode' ? <small>{sortState.sort}</small> : null}
+                                </th>
                                 <th onClick={e => onSort(e, 'productName')}>
                                     Name {sortState.sortKey === 'productName' ? <small>{sortState.sort}</small> : null}
                                 </th>
-                                <th onClick={e => onSort(e, 'categoryName')}>
-                                    Category {sortState.sortKey === 'categoryName' ? <small>{sortState.sort}</small> : null}
-                                </th>
-                                <th onClick={e => onSort(e, 'subcategoryName')}>
-                                    Subcategory {sortState.sortKey === 'subcategoryName' ? <small>{sortState.sort}</small> : null}
+                                {/*<th onClick={e => onSort(e, 'category.name')}>*/}
+                                {/*    Category {sortState.sortKey === 'category.name' ? <small>{sortState.sort}</small> : null}*/}
+                                {/*</th>*/}
+                                {/*<th onClick={e => onSort(e, 'subcategory.name')}>*/}
+                                {/*    Subcategory {sortState.sortKey === 'subcategory.name' ? <small>{sortState.sort}</small> : null}*/}
+                                {/*</th>*/}
+                                <th onClick={e => onSort(e, 'price')}>
+                                    Price {sortState.sortKey === 'price' ? <small>{sortState.sort}</small> : null}
                                 </th>
                                 <th>
-
                                 </th>
                                 {/*<th onClick={e => onSort(e, 'quantity')}>*/}
                                 {/*    Quantity {sortState.sortKey === 'quantity' ? <small>{sortState.sort}</small> : null}*/}
@@ -282,10 +286,11 @@ function BillingPage ({ companyId, setModalActive, setModalData }) {
                             {dataToDisplay.map((item) => (
                                 <tr key={item.inventoryId}>
                                     {/*<td>{item.productCode}</td>*/}
+                                    <td>{item.productCode}</td>
                                     <td>{item.productName}</td>
-                                    <td>{item.category.name}</td>
-                                    <td>{item.subcategory.name}</td>
-                                    {/*<td>{item.quantity}</td>*/}
+                                    {/*<td>{item.category.name}</td>*/}
+                                    {/*<td>{item.subcategory.name}</td>*/}
+                                    <td>${item.price}</td>
                                     <td className="billing-table-button">
                                         <button onClick={event => addToCart(item)}><img src={plusIcon} alt="add"/></button>
                                     </td>
@@ -302,27 +307,18 @@ function BillingPage ({ companyId, setModalActive, setModalData }) {
                         <table className="table billing-cart-table">
                             <thead>
                             <tr>
-                                {/*<th onClick={e => onSort(e, 'productCode')}>*/}
-                                {/*    Code {sortState.sortKey === 'productCode' ? <small>{sortState.sort}</small> : null}*/}
-                                {/*</th>*/}
                                 <th>Name</th>
-                                {/*<th>Category</th>*/}
-                                {/*<th>Subcategory</th>*/}
                                 <th>Quantity</th>
+                                <th>TotalPrice</th>
                                 <th></th>
-                                {/*<th onClick={e => onSort(e, 'quantity')}>*/}
-                                {/*    Quantity {sortState.sortKey === 'quantity' ? <small>{sortState.sort}</small> : null}*/}
-                                {/*</th>*/}
                             </tr>
                             </thead>
                             <tbody>
                             {cartData.map((item) => (
                                 <tr key={item.inventoryId}>
-                                    {/*<td>{item.productCode}</td>*/}
                                     <td>{item.productName}</td>
-                                    {/*<td>{item.category.name}</td>*/}
-                                    {/*<td>{item.subcategory.name}</td>*/}
                                     <td>{item.cartQuantity}</td>
+                                    <td>${item.cartQuantity * item.price}</td>
                                     <td className="billing-table-button">
                                         <button onClick={e => removeOneFromItem(item)}><img src={minusIcon} alt="remove"/></button>
                                     </td>

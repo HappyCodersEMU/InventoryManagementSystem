@@ -10,8 +10,8 @@ const inventoryProductSchema = mongoose.Schema({
   // supplierId (FK)
   // supplier: { type: mongoose.Schema.Types.ObjectId, ref: "Supplier" },// TODO: required: true
   
-  quantity: { type: Number, default: 1 },
-  price: { type: Number }, // TODO: required: true
+  quantity: { type: Number, default: 0 },
+  price: { type: Number, required: true, default: 1 }, // TODO: required: true
 
 });
 
