@@ -31,8 +31,105 @@ function TableProducts({ companyId, setModalActive, setModalData }) {
         sortKey: 'id',
     })
 
-    const getData = async () => {
+    const [productToAddCode, setProductToAddCode] = useState(null)
+    const [productToAddName, setProductToAddName] = useState(null)
+    const [productToAddQuantity, setProductToAddQuantity] = useState(0)
+    const [productToAddPrice, setProductToAddPrice] = useState(1)
+    const [productToAddCategory, setProductToAddCategory] = useState(null)
+    const [productToAddSubcategory, setProductToAddSubcategory] = useState(null)
+    const [addProductSubcategorySelectOptionsArray, setAddProductSubcategorySelectOptionsArray] = useState(null)
+    const [errorMsg, setErrorMsg] = useState()
 
+    const addProductCategoryChangeHandler = event => {
+        setAddProductSubcategorySelectOptionsArray(null)
+        const category = event.target.value
+        setProductToAddSubcategory(null)
+        if (category === null || category === '*Category*')
+        {
+            setProductToAddCategory(null)
+            setProductToAddSubcategory(null)
+        } else {
+            setProductToAddCategory(category)
+            const arr = []
+            subcategories.map((item) => {
+                if (item.category.name === category) {
+                    arr.push(item)
+                }
+            })
+            setAddProductSubcategorySelectOptionsArray(arr)
+        }
+    }
+
+    const addProductSubcategoryChangeHandler = event => {
+        if (event.target.value === '*Subcategory*') {
+            setProductToAddSubcategory(null)
+        } else {
+            setProductToAddSubcategory(event.target.value)
+        }
+    }
+
+    const addProductHandler = async () => {
+
+        setErrorMsg('')
+
+        let tempQty = parseInt(productToAddQuantity)
+        let tempPrice = parseInt(productToAddPrice)
+
+        if (productToAddCode === null || productToAddCode.length === 0
+            || productToAddName === null || productToAddName.length === 0
+            || productToAddCategory === null
+            || productToAddSubcategory === null)
+        {
+            setErrorMsg("Please, fill the fields")
+            console.log("Please, fill the fields")
+            return
+        }
+
+        if ( isNaN(tempQty)) {
+            tempQty = 0
+        }
+
+        if ( isNaN(tempPrice)) {
+            tempPrice = 1
+        }
+
+        if (tempQty < 0) {
+            setErrorMsg("Quantity can't be less then 0")
+            return
+        }
+
+        if (tempPrice < 0) {
+            setErrorMsg("Price can't be less then 0")
+            return
+        }
+
+        const categoryId = categories.find((category) => {
+            return category.name === productToAddCategory
+        })._id
+
+        const subcategoryId = subcategories.find((subcategory) => {
+            return subcategory.name === productToAddSubcategory
+        })._id
+
+        if (!categoryId || !subcategoryId) {
+            setErrorMsg("Something wrong with categories or subcategories")
+            return
+        }
+
+        const productToAddJSON = {
+            productCode: productToAddCode,
+            name: productToAddName,
+            price: tempPrice,
+            categoryId: categoryId,
+            subcategoryId: subcategoryId,
+            companyId: companyId,
+            quantity: tempQty,
+        }
+        const req = await request('/api/inventories/create', 'POST', productToAddJSON)
+        await getData()
+    }
+
+    const getData = async () => {
         const categories = await request('/api/categories', 'GET')
         setCategories(categories.categories)
         const subcategories = await request('/api/subcategories', 'GET')
@@ -140,8 +237,17 @@ function TableProducts({ companyId, setModalActive, setModalData }) {
         )
     }
 
+    const test = () => {
+        console.log(products)
+    }
+
+
     return (
         <>
+            {/*<button onClick={test}>*/}
+            {/*    test*/}
+            {/*</button>*/}
+
             <div className="input-group mb-3 mt-3 search">
                 <div className="input-group-prepend">
                     <button
@@ -259,7 +365,82 @@ function TableProducts({ companyId, setModalActive, setModalData }) {
                     ))}
                 </tbody>
                 </table>
-        </div>
+            </div>
+            <div className="add-product-wrap">
+
+                <div className="add-product-inputs-wrap">
+                    <div className="add-product-input-wrap">
+                        <input
+                            className="add-product-input-field"
+                            placeholder="Product code"
+                            name="productCode"
+                            id="productCode"
+                            onChange={e => setProductToAddCode(e.target.value)}
+                        />
+                        <hr className="input-line" />
+                    </div>
+                    <div className="add-product-input-wrap">
+                        <input
+                            className="add-product-input-field"
+                            placeholder="Product name"
+                            name="productName"
+                            id="productName"
+                            onChange={e => setProductToAddName(e.target.value)}
+                        />
+                        <hr className="input-line" />
+                    </div>
+                    <div className="add-product-input-wrap">
+                        <input
+                            className="add-product-input-field"
+                            placeholder="Quantity"
+                            type="number"
+                            name="quantity"
+                            id="quantity"
+                            onChange={e => setProductToAddQuantity(e.target.value)}
+                        />
+                        <hr className="input-line" />
+                    </div>
+                    <div className="add-product-input-wrap">
+                        <input
+                            className="add-product-input-field"
+                            placeholder="Price"
+                            type="number"
+                            name="price"
+                            id="price"
+                            onChange={e => setProductToAddPrice(e.target.value)}
+                        />
+                        <hr className="input-line" />
+                    </div>
+                </div>
+
+                <div className="add-product-selectors-wrap">
+                    <div className="input-group">
+                        <select id="categorySelector"
+                                className="btn btn-outline-secondary"
+                                onChange={addProductCategoryChangeHandler} >
+                            <option defaultValue>*Category*</option>
+                            { categories.map(item => (
+                                <option key={item._id}>{ item.name }</option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className="input-group">
+                        <select id="subcategorySelector" className="btn btn-outline-secondary" onChange={addProductSubcategoryChangeHandler} >
+                            <option defaultValue>*Subcategory*</option>
+                            { addProductSubcategorySelectOptionsArray !== null && addProductSubcategorySelectOptionsArray.map((item) => (
+                                <option key={item._id}>{item.name}</option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
+
+                <div className="add-product-handler">
+                    <button onClick={addProductHandler} className="add-product-btn">
+                        Add Product
+                    </button>
+                    <div className="error-handler">{errorMsg}</div>
+                </div>
+            </div>
         <hr />
         </>
     );
