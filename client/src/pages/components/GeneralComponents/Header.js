@@ -1,13 +1,12 @@
 import React, { useContext } from "react";
+import { AuthContext } from "../../../context/auth.context";
+import { NavLink } from "react-router-dom";
 
 import logo from "../../../public/images/temp-logo.png"
 import notificationBell from "../../../public/icons/bell.png"
 import settingsIcon from "../../../public/icons/settings.png"
 import chatIcon from "../../../public/icons/chat.png"
-
-import {AuthContext} from "../../../context/auth.context";
 import './Header.css'
-import { NavLink } from "react-router-dom";
 
 function Header({ companyId, userRoleName, userData, link }) {
 

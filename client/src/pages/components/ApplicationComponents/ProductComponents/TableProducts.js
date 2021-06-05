@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import orderBy from "lodash";
-import { Loader } from "../../GeneralComponents/Loader";
-import { Link } from "react-router-dom";
 import { useHttp } from "../../../../hooks/http.hook";
-import './TableProducts.css'
+import { Loader } from "../../GeneralComponents/Loader";
 import { NoResultDisplay } from "../../GeneralComponents/NoResultDisplay";
+import orderBy from "lodash";
+import './TableProducts.css'
 
 function TableProducts({ companyId, setModalActive, setModalData }) {
 
@@ -39,6 +38,7 @@ function TableProducts({ companyId, setModalActive, setModalData }) {
     const [productToAddSubcategory, setProductToAddSubcategory] = useState(null)
     const [addProductSubcategorySelectOptionsArray, setAddProductSubcategorySelectOptionsArray] = useState(null)
     const [errorMsg, setErrorMsg] = useState()
+    const [successMsg, setSuccessMsg] = useState()
 
     const addProductCategoryChangeHandler = event => {
         setAddProductSubcategorySelectOptionsArray(null)
@@ -126,6 +126,7 @@ function TableProducts({ companyId, setModalActive, setModalData }) {
             quantity: tempQty,
         }
         const req = await request('/api/inventories/create', 'POST', productToAddJSON)
+        setSuccessMsg('Product has been added')
         await getData()
     }
 
@@ -237,10 +238,7 @@ function TableProducts({ companyId, setModalActive, setModalData }) {
         )
     }
 
-    const test = () => {
-        console.log(products)
-    }
-
+    // const test = () => { console.log(products) }
 
     return (
         <>
@@ -439,6 +437,7 @@ function TableProducts({ companyId, setModalActive, setModalData }) {
                         Add Product
                     </button>
                     <div className="error-handler">{errorMsg}</div>
+                    <div className="error-handler success-handler">{successMsg}</div>
                 </div>
             </div>
         <hr />

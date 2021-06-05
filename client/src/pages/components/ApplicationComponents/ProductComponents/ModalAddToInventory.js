@@ -1,8 +1,8 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
+import { useHttp } from "../../../../hooks/http.hook";
 import '../Modal.css'
-import {useHttp} from "../../../../hooks/http.hook";
 
-const ModalAddToInventory = ({companyId, active, setActive, modalData, setModalData }) => {
+const ModalAddToInventory = ({companyId, setActive, modalData, setModalData }) => {
 
     const [quantityToAdd, setQuantityToAdd] = useState(0)
     const [priceToAdd, setPriceToAdd] = useState(1)

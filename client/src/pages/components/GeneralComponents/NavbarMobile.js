@@ -1,6 +1,6 @@
-import React, {useContext} from "react";
-import {Link, NavLink} from "react-router-dom";
-import './NavbarMobile.css'
+import React, { useContext } from "react";
+import { AuthContext } from "../../../context/auth.context";
+import { Link, NavLink } from "react-router-dom";
 
 import productsIcon from '../../../public/icons/NavbarIcons/box.png'
 import inventoryIcon from '../../../public/icons/NavbarIcons/inventory.png'
@@ -8,7 +8,7 @@ import billingIcon from '../../../public/icons/NavbarIcons/purse.png'
 import transactionIcon from '../../../public/icons/NavbarIcons/receipt.png'
 import moreIcon from '../../../public/icons/NavbarIcons/more.png'
 import closeIcon from '../../../public/icons/NavbarIcons/cancel.png'
-import {AuthContext} from "../../../context/auth.context";
+import './NavbarMobile.css'
 
 function NavbarMobile ({ companyId, validateRole, userRoles, setNavbarMobileState, companyName, userData }) {
 

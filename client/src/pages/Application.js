@@ -1,21 +1,22 @@
-import React, {useEffect, useState} from 'react'
-import {Link, useParams} from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useAuth } from "../hooks/auth.hook";
+import { useHttp } from "../hooks/http.hook";
+import { AuthContext } from "../context/auth.context";
+import { Link, useParams } from 'react-router-dom'
+import { Blocked } from "./components/GeneralComponents/Blocked";
+import { Loader } from "./components/GeneralComponents/Loader";
+
 import Header from "./components/GeneralComponents/Header";
 import Navbar from "./components/GeneralComponents/Navbar";
 import NavbarMobile from "./components/GeneralComponents/NavbarMobile";
-import SellList from "./components/ApplicationComponents/SellList";
 import HomePage from "./components/ApplicationComponents/HomePage";
-import TableMembers from "./components/ApplicationComponents/MoreOptionsComponents/TableMembers";
 import TableProducts from "./components/ApplicationComponents/ProductComponents/TableProducts";
-import ModalAddMember from "./components/ApplicationComponents/MoreOptionsComponents/ModalAddMember";
-import {useAuth} from "../hooks/auth.hook";
-import {AuthContext} from "../context/auth.context";
-import {useHttp} from "../hooks/http.hook";
-import {Blocked} from "./components/GeneralComponents/Blocked";
 import ModalAddToInventory from "./components/ApplicationComponents/ProductComponents/ModalAddToInventory";
 import TableInventory from "./components/ApplicationComponents/InventoryComponents/TableInventory";
-import {Loader} from "./components/GeneralComponents/Loader";
+import TableMembers from "./components/ApplicationComponents/MoreOptionsComponents/TableMembers";
+import ModalAddMember from "./components/ApplicationComponents/MoreOptionsComponents/ModalAddMember";
 import BillingPage from "./components/ApplicationComponents/BillingComponents/BillingPage";
+import SellList from "./components/ApplicationComponents/SellList";
 
 import clockIcon from "../public/icons/clock.png";
 import menuIcon from "../public/icons/menu.png";
@@ -38,9 +39,6 @@ export const Application = () => {
     const [modalAddToInventoryActive, setModalAddToInventoryActive] = useState(false)
     const [modalAddToInventoryData, setModalAddToInventoryData] = useState(false)
 
-    const [modalActive, setModalActive] = useState(false)
-    const [modalData, setModalData] = useState(false)
-
     // Block States
     const [dataState, setDataState] = useState(false)
     const [authState, setAuthState] = useState(false)
@@ -61,16 +59,19 @@ export const Application = () => {
     const [navbarMobileState, setNavbarMobileState] = useState(false)
 
     const startClock = () => {
-        setInterval(() => {
-            const now = new Date
-            const monthNames = ["January", "February", "March", "April", "May", "June",
-                "July", "August", "September", "October", "November", "December"
-            ];
-            const outputDate = now.getDate() + ' '
-                + monthNames[now.getMonth()] + ', '
-                + now.toLocaleTimeString()
-            setClockState(outputDate)
-        }, 1000)
+
+        if (clockState === null) {
+            setInterval(() => {
+                const now = new Date
+                const monthNames = ["January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December"
+                ];
+                const outputDate = now.getDate() + ' '
+                    + monthNames[now.getMonth()] + ', '
+                    + now.toLocaleTimeString()
+                setClockState(outputDate)
+            }, 1000)
+        }
     }
 
     const companyId = useParams().id
@@ -113,9 +114,7 @@ export const Application = () => {
         )
     }
 
-    const test = () => {
-        console.log(companyName)
-    }
+    // const test = () => { console.log(companyName) }
 
     return (
         <div>

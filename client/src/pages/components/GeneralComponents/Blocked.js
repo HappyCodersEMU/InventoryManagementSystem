@@ -1,6 +1,6 @@
 import React from 'react'
+import { Link } from "react-router-dom";
 import './Blocked.css'
-import {Link} from "react-router-dom";
 
 export const Blocked = () => {
     return (

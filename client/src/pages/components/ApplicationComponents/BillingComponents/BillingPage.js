@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import orderBy from "lodash";
-import { Loader } from "../../GeneralComponents/Loader";
 import { useHttp } from "../../../../hooks/http.hook";
-import './BillingPage.css'
-import {NoResultDisplay} from "../../GeneralComponents/NoResultDisplay";
+import { Loader } from "../../GeneralComponents/Loader";
+import { NoResultDisplay } from "../../GeneralComponents/NoResultDisplay";
+import orderBy from "lodash";
 import plusIcon from "../../../../public/icons/plus.png"
 import minusIcon from "../../../../public/icons/minus.png"
+import './BillingPage.css'
 
-function BillingPage ({ companyId, setModalActive, setModalData }) {
+function BillingPage ({ companyId }) {
 
     const { request } = useHttp()
 
@@ -37,6 +37,7 @@ function BillingPage ({ companyId, setModalActive, setModalData }) {
     const [finalErrMsg, setFinalErrMsg] = useState('')
     const [cartErrorMsg, setCartErrorMsg] = useState('')
     const [totalPriceToDisplay, setTotalPriceToDisplay] = useState(0)
+    const [successMsg, setSuccessMsg] = useState('')
 
     const getData = async () => {
 
@@ -136,6 +137,7 @@ function BillingPage ({ companyId, setModalActive, setModalData }) {
     }
 
     const addToCart = item => {
+        setSuccessMsg('')
         if (finalErrMsg !== '') { setFinalErrMsg('') }
         setCartErrorMsg('')
         if (item.quantity !== 0) {
@@ -158,6 +160,8 @@ function BillingPage ({ companyId, setModalActive, setModalData }) {
     }
 
     const removeOneFromItem = item => {
+        setCartErrorMsg('')
+        setSuccessMsg('')
         if (item.cartQuantity === 1) {
             const itemToChangeIndex = cartData.findIndex((cartItem) => (cartItem.productCode === item.productCode))
             setTotalPriceToDisplay(totalPriceToDisplay - cartData[itemToChangeIndex].price)
@@ -171,17 +175,25 @@ function BillingPage ({ companyId, setModalActive, setModalData }) {
     }
 
     const finishCheckOut = async () => {
+        setCartErrorMsg('')
         const data = []
         cartData.map((item) => {
-            const obj = {
-                inventoryProductId: item.inventoryId,
-                quantity: item.cartQuantity,
-                price: item.price * item.cartQuantity,
+            if (item.quantity >= item.cartQuantity) {
+                const obj = {
+                    inventoryProductId: item.inventoryId,
+                    quantity: item.cartQuantity,
+                    price: item.price * item.cartQuantity,
+                }
+                data.push(obj)
+                setCartData([])
+                setTotalPriceToDisplay(0)
+                item.quantity -= item.cartQuantity
+                getData()
             }
-            data.push(obj)
         })
         if (data.length > 0) {
             const req = await request(`/api/inventories/sell/company/${companyId}`, 'POST', data)
+            setSuccessMsg('Checkout is done')
         } else {
             setFinalErrMsg("Nothing to checkout")
         }
@@ -197,9 +209,7 @@ function BillingPage ({ companyId, setModalActive, setModalData }) {
         )
     }
 
-    const test = () => {
-        console.log(cartData)
-    }
+    // const test = () => { console.log(cartData) }
 
     return (
         <>
@@ -257,39 +267,24 @@ function BillingPage ({ companyId, setModalActive, setModalData }) {
                         <table className="table table-inventory">
                             <thead>
                             <tr>
-                                {/*<th onClick={e => onSort(e, 'productCode')}>*/}
-                                {/*    Code {sortState.sortKey === 'productCode' ? <small>{sortState.sort}</small> : null}*/}
-                                {/*</th>*/}
                                 <th onClick={e => onSort(e, 'productCode')}>
                                     Code {sortState.sortKey === 'productCode' ? <small>{sortState.sort}</small> : null}
                                 </th>
                                 <th onClick={e => onSort(e, 'productName')}>
                                     Name {sortState.sortKey === 'productName' ? <small>{sortState.sort}</small> : null}
                                 </th>
-                                {/*<th onClick={e => onSort(e, 'category.name')}>*/}
-                                {/*    Category {sortState.sortKey === 'category.name' ? <small>{sortState.sort}</small> : null}*/}
-                                {/*</th>*/}
-                                {/*<th onClick={e => onSort(e, 'subcategory.name')}>*/}
-                                {/*    Subcategory {sortState.sortKey === 'subcategory.name' ? <small>{sortState.sort}</small> : null}*/}
-                                {/*</th>*/}
                                 <th onClick={e => onSort(e, 'price')}>
                                     Price {sortState.sortKey === 'price' ? <small>{sortState.sort}</small> : null}
                                 </th>
                                 <th>
                                 </th>
-                                {/*<th onClick={e => onSort(e, 'quantity')}>*/}
-                                {/*    Quantity {sortState.sortKey === 'quantity' ? <small>{sortState.sort}</small> : null}*/}
-                                {/*</th>*/}
                             </tr>
                             </thead>
                             <tbody>
                             {dataToDisplay.map((item) => (
                                 <tr key={item.inventoryId}>
-                                    {/*<td>{item.productCode}</td>*/}
                                     <td>{item.productCode}</td>
                                     <td>{item.productName}</td>
-                                    {/*<td>{item.category.name}</td>*/}
-                                    {/*<td>{item.subcategory.name}</td>*/}
                                     <td>${item.price}</td>
                                     <td className="billing-table-button">
                                         <button onClick={event => addToCart(item)}><img src={plusIcon} alt="add"/></button>
@@ -335,6 +330,7 @@ function BillingPage ({ companyId, setModalActive, setModalData }) {
                     Finish checkout
                 </button>
                 <div className="error-handler">{finalErrMsg}</div>
+                <div className="error-handler success-handler">{successMsg}</div>
             </div>
         </>
     );

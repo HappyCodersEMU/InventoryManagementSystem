@@ -1,7 +1,7 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
-function CompanyItem({ data, loading }) {
+function CompanyItem({ data }) {
     return (
         <div className="orglist-item">
             <Link to={`/${data._id}/home`}>
