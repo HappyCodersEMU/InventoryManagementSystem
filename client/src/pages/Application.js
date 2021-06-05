@@ -89,12 +89,11 @@ export const Application = () => {
             setCompanyName(req[0].company.name)
             setUserRoles(req[0].role.roleCode)
             setUserRoleName(req[0].role.roleName)
-        } catch (e) {}
+        } catch (e) { }
     }
 
     useEffect(async () => {
-        if (auth.userId)
-        {
+        if (auth.userId) {
             await checkAccess()
             setDataState(true)
         }
@@ -120,19 +119,19 @@ export const Application = () => {
         <div>
 
             { navbarMobileState === true && <NavbarMobile companyId={companyId}
-                                                          validateRole={validateRole}
-                                                          userRoles={userRoles}
-                                                          link={link}
-                                                          setNavbarMobileState={setNavbarMobileState}
-                                                          companyName={companyName}
-                                                          userData={userData}/>}
+                validateRole={validateRole}
+                userRoles={userRoles}
+                link={link}
+                setNavbarMobileState={setNavbarMobileState}
+                companyName={companyName}
+                userData={userData} />}
 
             { modalAddMemberActive === true && <ModalAddMember
                 companyId={companyId}
                 active={modalAddMemberActive}
                 setActive={setModalAddMemberActive}
                 setAddMemberTempData={setAddMemberTempData}
-            /> }
+            />}
 
             { modalAddToInventoryActive === true && <ModalAddToInventory
                 companyId={companyId}
@@ -140,14 +139,14 @@ export const Application = () => {
                 setActive={setModalAddToInventoryActive}
                 modalData={modalAddToInventoryData}
                 setModalData={setModalAddToInventoryData}
-            /> }
+            />}
 
 
             <div className="background">
                 <div className="background-colored"></div>
                 <div className="background-gray"></div>
                 <div className="content">
-                    <Header companyId={companyId} userRoleName={userRoleName} userData={userData} link={link}/>
+                    <Header companyId={companyId} userRoleName={userRoleName} userData={userData} link={link} />
                     {/*<button onClick={test}>Test</button>*/}
                     <div className="container">
                         <div className="navbar-wrap">
@@ -156,7 +155,7 @@ export const Application = () => {
                         <div className="container-header">
                             <span className="clock"><img src={clockIcon} alt="clock" />{clockState}</span>
                             <div className="navbar-mobile-wrap" onClick={event => setNavbarMobileState(true)}>
-                                <img src={menuIcon}  alt="menu" />
+                                <img src={menuIcon} alt="menu" />
                             </div>
                             <div className="company-name-wrap">
                                 <span>{companyName}</span>
@@ -164,28 +163,28 @@ export const Application = () => {
                             </div>
                         </div>
                         <div className="container-subheader"><span>
-                                { link === 'dashboard' && <i>Dashboard</i>}
-                                { link === 'products' && <i>Products</i>}
-                                { link === 'inventory' && <i>Inventory</i>}
-                                { link === 'billing' && <i>Billing</i>}
-                                { link === 'transactions' && <i>Transactions</i>}
-                                { link === 'more' && <i>More</i>}
-                                { link === 'settings' && <i>Settings</i>}
+                            {link === 'dashboard' && <i>Dashboard</i>}
+                            {link === 'products' && <i>Products</i>}
+                            {link === 'inventory' && <i>Inventory</i>}
+                            {link === 'billing' && <i>Billing</i>}
+                            {link === 'transactions' && <i>Transactions</i>}
+                            {link === 'more' && <i>More</i>}
+                            {link === 'settings' && <i>Settings</i>}
                         </span>
                         </div>
 
                         <div className="content-wrap">
                             <div className="content-box">
-                                { link === 'home' && <HomePage /> }
-                                { validateRole([1, 2, 3],userRoles) && link === 'products' && <TableProducts companyId={companyId} setModalActive={setModalAddToInventoryActive} setModalData={setModalAddToInventoryData}/> }
-                                { validateRole([1, 2, 3],userRoles) && link === 'inventory' && <TableInventory companyId={companyId} /> }
-                                { validateRole([1, 2, 4],userRoles) && link === 'billing' && <BillingPage companyId={companyId} setModalActive={setModalAddToInventoryActive} setModalData={setModalAddToInventoryData}/> }
-                                { validateRole([1, 2],userRoles) && link === 'transactions' && <SellList /> }
-                                { validateRole([1, 2],userRoles) && link === 'members' &&
-                                <TableMembers companyId={ companyId } setModalActive={setModalAddMemberActive}
-                                              addMemberTempData={addMemberTempData} setAddMemberTempData={setAddMemberTempData} />
+                                {link === 'home' && <HomePage />}
+                                {validateRole([1, 2, 3], userRoles) && link === 'products' && <TableProducts companyId={companyId} setModalActive={setModalAddToInventoryActive} setModalData={setModalAddToInventoryData} />}
+                                {validateRole([1, 2, 3], userRoles) && link === 'inventory' && <TableInventory companyId={companyId} />}
+                                {validateRole([1, 2, 4], userRoles) && link === 'billing' && <BillingPage companyId={companyId} setModalActive={setModalAddToInventoryActive} setModalData={setModalAddToInventoryData} />}
+                                {validateRole([1, 2], userRoles) && link === 'transactions' && <SellList companyId={companyId} />}
+                                {validateRole([1, 2], userRoles) && link === 'members' &&
+                                    <TableMembers companyId={companyId} setModalActive={setModalAddMemberActive}
+                                        addMemberTempData={addMemberTempData} setAddMemberTempData={setAddMemberTempData} />
                                 }
-                                { validateRole([1],userRoles) && link === 'settings' && <SellList /> }
+                                {validateRole([1], userRoles) && link === 'settings' && <SellList companyId={companyId} />}
                             </div>
                         </div>
                     </div>

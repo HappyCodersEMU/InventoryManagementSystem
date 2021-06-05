@@ -5,6 +5,7 @@ const typeId = mongoose.Schema.Types.ObjectId
 const transactionSchema = mongoose.Schema({
     // inventoryProductId (FK)
     inventoryProduct: { type: typeId, required: true, ref:"InventoryProduct" },
+  
     // memberId (FK)
     // member: { type: typeId, required: true, ref:"Member" },
     
