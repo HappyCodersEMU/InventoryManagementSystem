@@ -10,6 +10,9 @@ const InventoryController = require("../controllers/inventoryController");
 const RoleController = require("../controllers/roleController");
 const SubscriptionController = require("../controllers/subscriptionController");
 const CategoryController = require("../controllers/categoryController");
+const TransactionController = require("../controllers/transactionController");
+
+
 
 // Auth
 router.post("/api/auth/register", AuthController.validate("register"), AuthController.register);
@@ -42,6 +45,9 @@ router.post('/api/inventories', InventoryController.validate('addProduct'), Inve
 router.post('/api/inventories/create', InventoryController.validate('createProduct'), InventoryController.createProduct);
 router.post('/api/inventories/sell/company/:companyId', InventoryController.sellProducts);
 router.delete('/api/inventories', InventoryController.validate('deleteProduct'), InventoryController.deleteProduct);
+
+// Transactions
+router.get('/api/transactions', TransactionController.searchTransactions);
 
 
 // Roles
