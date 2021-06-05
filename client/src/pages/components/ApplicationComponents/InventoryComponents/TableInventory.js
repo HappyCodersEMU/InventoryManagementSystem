@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import orderBy from "lodash";
-import { Loader } from "../../GeneralComponents/Loader";
-import { Link} from "react-router-dom";
 import { useHttp } from "../../../../hooks/http.hook";
+import { Loader } from "../../GeneralComponents/Loader";
+import { NoResultDisplay } from "../../GeneralComponents/NoResultDisplay";
+import orderBy from "lodash";
 import './TableInventory.css'
-import {NoResultDisplay} from "../../GeneralComponents/NoResultDisplay";
 
-function TableInventory ({ companyId, setModalActive, setModalData }) {
+function TableInventory ({ companyId }) {
 
     const { request } = useHttp()
 
@@ -39,7 +38,8 @@ function TableInventory ({ companyId, setModalActive, setModalData }) {
     const [productToAddCategory, setProductToAddCategory] = useState(null)
     const [productToAddSubcategory, setProductToAddSubcategory] = useState(null)
     const [addProductSubcategorySelectOptionsArray, setAddProductSubcategorySelectOptionsArray] = useState(null)
-    const [errorMsg, setErrorMsg] = useState()
+    const [errorMsg, setErrorMsg] = useState('')
+    const [successMsg, setSuccessMsg] = useState('')
 
     const addProductCategoryChangeHandler = event => {
         setAddProductSubcategorySelectOptionsArray(null)
@@ -127,6 +127,7 @@ function TableInventory ({ companyId, setModalActive, setModalData }) {
             quantity: tempQty,
         }
         const req = await request('/api/inventories/create', 'POST', productToAddJSON)
+        setSuccessMsg('Product has been added')
         await getData()
     }
 
@@ -236,9 +237,7 @@ function TableInventory ({ companyId, setModalActive, setModalData }) {
         )
     }
 
-    const test = () => {
-        console.log(inventory)
-    }
+    // const test = () => { console.log(inventory) }
 
     return (
         <>
@@ -436,6 +435,7 @@ function TableInventory ({ companyId, setModalActive, setModalData }) {
                         Add Product
                     </button>
                     <div className="error-handler">{errorMsg}</div>
+                    <div className="error-handler success-handler">{successMsg}</div>
                 </div>
             </div>
         </>

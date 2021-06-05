@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import '../Modal.css'
 import { useHttp } from "../../../../hooks/http.hook";
 import { Loader } from "../../GeneralComponents/Loader";
+import '../Modal.css'
 
-const ModalAddMember = ({ companyId, active, setActive, setAddMemberTempData }) => {
+const ModalAddMember = ({ companyId, setActive, setAddMemberTempData }) => {
 
     const { request } = useHttp()
 
@@ -57,17 +57,12 @@ const ModalAddMember = ({ companyId, active, setActive, setAddMemberTempData }) 
         setActive(false)
     }
 
-    const test = () => {
-
-    }
-
     if (!dataState) {
         return <Loader />
     }
 
     return (
         <>
-
             <div className="modal">
                 <div className="modal-dialog">
                     <div className="modal-content">

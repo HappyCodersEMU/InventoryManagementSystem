@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
+import { useHttp } from "../../../../hooks/http.hook";
+import { Loader} from "../../GeneralComponents/Loader";
 import orderBy from "lodash";
-import {Loader} from "../../GeneralComponents/Loader";
 import './TableMembers.css'
-import {useHttp} from "../../../../hooks/http.hook";
 
 function TableMembers({ companyId, setModalActive, addMemberTempData, setAddMemberTempData }) {
 
@@ -23,11 +23,6 @@ function TableMembers({ companyId, setModalActive, addMemberTempData, setAddMemb
         sort: 'asc',
         sortKey: 'id',
     })
-
-
-    const test = () => {
-        console.log(data)
-    }
 
     const getData = async () => {
         const req = await request(`/api/members?companyId=${companyId}`, 'GET')
@@ -104,12 +99,13 @@ function TableMembers({ companyId, setModalActive, addMemberTempData, setAddMemb
         )
     }
 
+    // const test = () => { console.log(data) }
 
     return (
         <>
-            <button className="btn btn-outline-secondary btn-add-member" onClick={test}>
-                test
-            </button>
+            {/*<button className="btn btn-outline-secondary btn-add-member" onClick={test}>*/}
+            {/*    test*/}
+            {/*</button>*/}
 
             <div className="input-group mb-3 mt-3">
                 <div className="input-group-prepend">

@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react'
-
-import clockIcon from "../public/icons/clock.png"
+import { useHttp } from "../hooks/http.hook";
+import { AuthContext } from "../context/auth.context";
+import { Loader } from "./components/GeneralComponents/Loader";
 
 import Header from "./components/GeneralComponents/Header";
-import { useHttp } from "../hooks/http.hook";
-import { Loader } from "./components/GeneralComponents/Loader";
 import CompanyItem from "./components/CompanyItem";
 import PlanInfo from "./components/PlanInfo";
-import { AuthContext } from "../context/auth.context";
+
+import clockIcon from "../public/icons/clock.png"
 import './OrganizationList.css'
 
 export const OrganizationList = () => {
@@ -29,14 +29,11 @@ export const OrganizationList = () => {
     const [companyName, setCompanyName] = useState(null)
     const [planName, setPlanName] = useState(null)
     const [errorMsg, setErrorMsg] = useState(null)
+    const [successMsg, setSuccessMsg] = useState(null)
 
     const [clockState, setClockState] = useState(null)
 
     const [userData, setUserData] = useState(null)
-
-    const test = () => {
-        console.log(subscriptionPlans)
-    }
 
     const logoutHandler = async () => {
         try {
@@ -63,7 +60,6 @@ export const OrganizationList = () => {
     }
 
     const getData = async () => {
-        startClock()
         const userId = auth.userId
         const members = await request(`/api/members?userId=${userId}`, 'GET')
         const plans = await request('/api/subscriptions', 'GET')
@@ -81,21 +77,25 @@ export const OrganizationList = () => {
     }
 
     const startClock = () => {
-        setInterval(() => {
-            const now = new Date
-            const monthNames = ["January", "February", "March", "April", "May", "June",
-                "July", "August", "September", "October", "November", "December"
-            ];
-            const outputDate = now.getDate() + ' '
-                + monthNames[now.getMonth()] + ', '
-                + now.toLocaleTimeString()
-            setClockState(outputDate)
-        }, 1000)
+
+        if (clockState === null) {
+            setInterval(() => {
+                const now = new Date
+                const monthNames = ["January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December"
+                ];
+                const outputDate = now.getDate() + ' '
+                    + monthNames[now.getMonth()] + ', '
+                    + now.toLocaleTimeString()
+                setClockState(outputDate)
+            }, 1000)
+        }
     }
 
     useEffect(async () => {
         if (!dataState) {
             await getData()
+            startClock()
             setDataState(true)
         }
     }, [])
@@ -112,12 +112,16 @@ export const OrganizationList = () => {
             }
             const userId = auth.userId
             const req = await request('/api/companies', 'POST', { companyName, planName, userId })
+            setSuccessMsg('New company has been created')
+            getData()
         } catch (e) { }
     }
 
     if (!dataState) {
         return <Loader />
     }
+
+    // const test = () => { console.log(subscriptionPlans) }
 
     return (
         <div>
@@ -132,8 +136,6 @@ export const OrganizationList = () => {
                             <span className="clock"><img src={clockIcon} alt="clock" />{clockState}</span>
                             <div className="orglist-user-block">
                                 <span>{userData.name} {userData.surname}</span><br />
-                                {/*<span>Benedict ALDSAJOdhsad</span><br />*/}
-
                                 <span onClick={logoutHandler} className="orglist-logout-btn">
                                     Log out
                                 </span>
@@ -193,6 +195,7 @@ export const OrganizationList = () => {
                                         Create company
                                     </button>
                                     <div className="error-handler">{errorMsg}</div>
+                                    <div className="error-handler success-handler">{successMsg}</div>
                                 </div>
 
                             </div>

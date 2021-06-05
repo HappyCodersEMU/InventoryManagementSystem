@@ -1,6 +1,5 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import './Navbar.css'
 
 import productsIcon from '../../../public/icons/NavbarIcons/box.png'
 import inventoryIcon from '../../../public/icons/NavbarIcons/inventory.png'
@@ -8,6 +7,7 @@ import billingIcon from '../../../public/icons/NavbarIcons/purse.png'
 import transactionIcon from '../../../public/icons/NavbarIcons/receipt.png'
 import moreIcon from '../../../public/icons/NavbarIcons/more.png'
 import settingsIcon from '../../../public/icons/settings.png'
+import './Navbar.css'
 
 function Navbar({ companyId, validateRole, userRoles, link }) {
 
@@ -117,83 +117,6 @@ function Navbar({ companyId, validateRole, userRoles, link }) {
                 </div>
             </NavLink>
             }
-
-            {/*{ validateRole([1, 3, 4],userRoles) &&*/}
-            {/*<div className="navbar-link">*/}
-            {/*    <NavLink to={`/${companyId}/billing`} >*/}
-            {/*        <div className="navbar-link-content-wrap">*/}
-            {/*            <div className="navbar-link-content">*/}
-            {/*                <div className="navbar-link-content-icon-wrap" >*/}
-            {/*                    <div className="navbar-link-content-icon" >*/}
-
-            {/*                    </div>*/}
-            {/*                </div>*/}
-            {/*                <div className="navbar-link-content-text">*/}
-            {/*                    <span>Billing</span>*/}
-            {/*                </div>*/}
-            {/*            </div>*/}
-            {/*        </div>*/}
-            {/*    </NavLink>*/}
-            {/*</div>*/}
-            {/*}*/}
-
-            {/*{ validateRole([1, 3],userRoles) &&*/}
-            {/*<div className="navbar-link">*/}
-            {/*    <NavLink to={`/${companyId}/transactions`} >*/}
-            {/*        <div className="navbar-link-content-wrap">*/}
-            {/*            <div className="navbar-link-content">*/}
-            {/*                <div className="navbar-link-content-icon-wrap" >*/}
-            {/*                    <div className="navbar-link-content-icon" >*/}
-
-            {/*                    </div>*/}
-            {/*                </div>*/}
-            {/*                <div className="navbar-link-content-text">*/}
-            {/*                    <span>Transactions</span>*/}
-            {/*                </div>*/}
-            {/*            </div>*/}
-            {/*        </div>*/}
-            {/*    </NavLink>*/}
-            {/*</div>*/}
-            {/*}*/}
-
-
-            {/*{ validateRole([1, 3],userRoles) &&*/}
-            {/*<div className="navbar-link">*/}
-            {/*    <NavLink to={`/${companyId}/more`} >*/}
-            {/*        <div className="navbar-link-content-wrap">*/}
-            {/*            <div className="navbar-link-content">*/}
-            {/*                <div className="navbar-link-content-icon-wrap" >*/}
-            {/*                    <div className="navbar-link-content-icon" >*/}
-
-            {/*                    </div>*/}
-            {/*                </div>*/}
-            {/*                <div className="navbar-link-content-text">*/}
-            {/*                    <span>More</span>*/}
-            {/*                </div>*/}
-            {/*            </div>*/}
-            {/*        </div>*/}
-            {/*    </NavLink>*/}
-            {/*</div>*/}
-            {/*}*/}
-
-            {/*{ validateRole([1, 3],userRoles) &&*/}
-            {/*<div className="navbar-link">*/}
-            {/*    <NavLink to={`/${companyId}/settings`} >*/}
-            {/*        <div className="navbar-link-content-wrap">*/}
-            {/*            <div className="navbar-link-content">*/}
-            {/*                <div className="navbar-link-content-icon-wrap" >*/}
-            {/*                    <div className="navbar-link-content-icon" >*/}
-
-            {/*                    </div>*/}
-            {/*                </div>*/}
-            {/*                <div className="navbar-link-content-text">*/}
-            {/*                    <span>Settings</span>*/}
-            {/*                </div>*/}
-            {/*            </div>*/}
-            {/*        </div>*/}
-            {/*    </NavLink>*/}
-            {/*</div>*/}
-            {/*}*/}
 
         </>
     );

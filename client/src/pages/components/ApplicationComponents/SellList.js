@@ -4,7 +4,7 @@ const SellList = () => {
 
     return (
         <>
-            SellList
+            Not implemented
         </>
     );
 }

@@ -346,6 +346,10 @@ header {
     gap: 1%;
 }
 
+.success-handler {
+    color: black;
+}
+
 @media (max-width: 991px) {
     .navbar-wrap {
         display: none;
