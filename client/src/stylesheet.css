@@ -195,7 +195,7 @@ header {
 }
 
 .content-box {
-    height: 1000px;
+    /* height: 1000px; */
     display: flex;
     background: white;
     justify-content: center;
