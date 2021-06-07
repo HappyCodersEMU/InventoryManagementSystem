@@ -184,7 +184,7 @@ export const Application = () => {
                                     <TableMembers companyId={companyId} setModalActive={setModalAddMemberActive}
                                         addMemberTempData={addMemberTempData} setAddMemberTempData={setAddMemberTempData} />
                                 }
-                                {validateRole([1], userRoles) && link === 'settings' && <SellList companyId={companyId} />}
+                                {validateRole([1], userRoles) && link === 'settings' && <h1>Coming soon!</h1>}
                             </div>
                         </div>
                     </div>
