@@ -71,4 +71,8 @@ router.post('/api/subcategories', CategoryController.validate('createSubcategory
 router.get('/api/subcategories/:id', CategoryController.validate('getSubcategoryById'), CategoryController.getSubcategoryById);
 router.get('/api/subcategories', CategoryController.getAllSubcategories)
 
+router.get('/api/test', (req, res) => {
+    res.status(200).send("hello")
+})
+
 module.exports = router;
